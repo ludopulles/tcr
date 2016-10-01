@@ -1,0 +1,5 @@
+*.synctex.gz
+*.aux
+*.toc
+*.log
+psheader.txt
