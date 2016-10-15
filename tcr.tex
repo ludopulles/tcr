@@ -722,7 +722,7 @@ vector<int> z_function(const string &s) {
 \textsc{Substring}: \textit{consecutive characters}\,!!!
 
 \begin{lstlisting}
-int table[STR_SIZE][STR_SIZE];
+int table[STR_SIZE][STR_SIZE]; // DP problem
 
 int lcs(const string &w1, const string &w2) {
 	int n1 = w1.size(), n2 = w2.size();
@@ -756,7 +756,7 @@ string getLCS(const string &w1, const string &w2) {
 \subsection{Levenshtein Distance $\mathcal{O}(n^{2})$}
 
 \begin{lstlisting}
-int costs[MAX_SIZE][MAX_SIZE];
+int costs[MAX_SIZE][MAX_SIZE]; // DP problem
 
 int levDist(const string &w1, const string &w2) {
 	int n1 = w1.size(), n2 = w2.size();
@@ -801,6 +801,57 @@ int kmp_search(const string &word, const string &text) {
 	}
 	return matches;
 }
+\end{lstlisting}
+
+\subsection{Aho-Corasick Algorithm $\mathcal{O}(N + \sum_{i=1}^{m} |S_i|)$}
+
+\begin{lstlisting}
+
+const int MAXP = 100, MAXLEN = 200, SIGMA = 26, MAXTRIE = MAXP * MAXLEN;
+
+int npatterns;
+string patterns[MAXP], S;
+
+int wordIdx[MAXTRIE] = {}, to[MAXTRIE][SIGMA] = {}, sLink[MAXTRIE] = {}, dLink[MAXTRIE] = {}, nnodes = 1;
+
+void ahoCorasick()
+{
+    // 1. Make a tree, 2. create sLinks and dLinks, 3. Walk through S
+    fill_n(wordIdx, MAXTRIE, -1);
+    for(int i = 0; i < npatterns; i++) {
+        int cur = 0;
+        for (char c : patterns[i]) {
+            int idx = c - 'a';
+            if(to[cur][idx] == 0) to[cur][idx] = nnodes++;
+            cur = to[cur][idx];
+        }
+        wordIdx[cur] = i;
+    }
+
+    queue<int> q;
+    q.push(0);
+    while(!q.empty()) {
+        int cur = q.front(); q.pop();
+        for(int c = 0; c < SIGMA; c++) {
+            if(to[cur][c]) {
+                int sl = sLink[to[cur][c]] = cur == 0 ? 0 : to[sLink[cur]][c];
+                // if all strings have equal length, remove this:
+                dLink[to[cur][c]] = wordIdx[sl] >= 0 ? sl : dLink[sl];
+                q.push(to[cur][c]);
+            } else to[cur][c] = to[sLink[cur]][c];
+        }
+    }
+
+    for (int cur = 0, i = 0, n = S.size(); i < n; i++) {
+        int idx = S[i] - 'a';
+        cur = to[cur][idx];
+        // we have a match! (if g[i][j] >= 0)
+        for (int hit = wordIdx[cur] >= 0 ? cur : dLink[cur]; hit; hit = dLink[hit]) {
+            cerr << "Match for " << patterns[wordIdx[hit]] << " at " << (i + 1 - patterns[wordIdx[hit]].size()) << endl;
+        }
+    }
+}
+
 \end{lstlisting}
 
 \section{Geometry}
