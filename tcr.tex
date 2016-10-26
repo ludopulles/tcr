@@ -916,7 +916,7 @@ bool between(NUM a, NUM b, NUM n) {
 	return min(a, b) <= n && n <= max(a, b);
 }
 bool collinear(pt a, pt b, pt c) {
-	return ((a - b) ^ (a - c)) == 0;
+	return (a - b) ^ (a - c) == 0;
 }
 
 // point a on segment bc
@@ -924,6 +924,15 @@ bool pointOnSegment(pt a, pt b, pt c)
 {
 	return collinear(a, b, c) &&
 		between(b.x, c.x, a.x) && between(b.y, c.y, a.y);
+}
+
+pt lineLineIntersection(pt a, pt b, pt c, pt d, bool &cross)
+{
+	pt res = (c - d) * (a ^ b) - (a - b) * (c ^ d);
+	NUM det = (a.x - b.x) * (c.y - d.y) - (a.y - b.y) * (c.x - d.x);
+	cross = det != 0;
+	if (cross) res = res / det;
+	return res;
 }
 
 // Line segment a1 -- a2 intersects with b1 -- b2?
