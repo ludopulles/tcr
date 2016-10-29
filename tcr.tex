@@ -1,5 +1,6 @@
 \documentclass{article}
 
+% \usepackage[dutch]{babel}
 \usepackage{color,courier,fancyhdr,listings,parcolumns,verbatim}
 \usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
 
@@ -804,12 +805,18 @@ const int MAXP = 100, MAXLEN = 200, SIGMA = 26, MAXTRIE = MAXP * MAXLEN;
 int npatterns;
 string patterns[MAXP], S;
 
-int wordIdx[MAXTRIE] = {}, to[MAXTRIE][SIGMA] = {}, sLink[MAXTRIE] = {}, dLink[MAXTRIE] = {}, nnodes = 1;
+int wordIdx[MAXTRIE], to[MAXTRIE][SIGMA], sLink[MAXTRIE], dLink[MAXTRIE], nnodes;
 
 void ahoCorasick()
 {
     // 1. Make a tree, 2. create sLinks and dLinks, 3. Walk through S
+
     fill_n(wordIdx, MAXTRIE, -1);
+    for (int i = 0; i < MAXTRIE; i++) fill_n(to[i], SIGMA, 0);
+    fill_n(sLink, MAXTRIE, 0);
+    fill_n(dLink, MAXTRIE, 0);
+    nnodes = 1;
+
     for(int i = 0; i < npatterns; i++) {
         int cur = 0;
         for (char c : patterns[i]) {
