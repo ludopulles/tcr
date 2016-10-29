@@ -1,7 +1,7 @@
 \documentclass{article}
 
 \usepackage{color,courier,fancyhdr,listings,parcolumns,verbatim}
-\usepackage[top=2in, bottom=1.25in, left=1.25in, right=1.25in]{geometry}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
 
 \title{TCR}
 \author{git diff solution (Jens Heuseveldt, Ludo Pulles, Peter Ypma)}
@@ -33,13 +33,13 @@
 \begin{center}
 	\makeatletter
 	\textbf{\@title} \\
+	\today \\
 	\emph{\@author}
 	\makeatother
 \end{center}
 
-\tableofcontents
-
-\newpage
+% \tableofcontents
+% \newpage
 
 \begin{lstlisting}
 #include<bits/stdc++.h>
@@ -275,18 +275,10 @@ int uf_find(int v) {
 }
 
 void uf_union(int a, int b) {
-	int pa = uf_find(a), ra = rnk[pa];
-	int pb = uf_find(b), rb = rnk[pb];
-	if (pa == pb) return;
-
-	if (ra > rb) {
-		par[pb] = pa;
-	} else if (rb > ra) {
-		par[pa] = pb;
-	} else {
-		par[pa] = pb;
-		rnk[pb]++;
-	}
+	if ((a = uf_find(a)) == (b = uf_find(b))) return;
+	if (rnk[a] < rnk[b]) swap(a, b);
+	if (rnk[a] == rnk[b]) rnk[a]++;
+	par[b] = a;
 }
 \end{lstlisting}
 
