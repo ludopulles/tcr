@@ -17,7 +17,7 @@
 	numbers=left,
 	numbersep=5pt,
 	numberstyle=\tiny\color[rgb]{0.6,0.6,0.6},
-	otherkeywords={ios_base, cin, cout, cerr, pii, pll, pi, LLINF, INF, NUM},
+	otherkeywords={cin, cout, cerr, pii, pll, PI, INF, LLINF, NUM},
 	showstringspaces=false,
 	stringstyle=\color[rgb]{0.6,0.3,0},
 	tabsize=4,
@@ -70,8 +70,8 @@ typedef pair<ll, ll> pll;
 typedef vector<int> vi;
 
 const int INF = 2147483647; // (1 << 30) - 1 + (1 << 30)
-const ll LLINF = 9223372036854775807LL; // (1LL << 62) - 1 + (1LL << 62)
-const double pi = acos(-1.0);
+const ll LLINF = (1LL << 62) - 1 + (1LL << 62); // = 9.223.372.036.854.775.807
+const double PI = acos(-1.0);
 
 // lambda-expression: [] (args) -> retType { body }
 
@@ -84,13 +84,12 @@ void Log(T t, S... s) {
 
 template<class T1, class T2>
 ostream& operator<<(ostream& out, const pair<T1,T2> &p) {
-	return out << '(' << p.first << ", " << p.second << ')';
+	return out << '(' << p.x << ", " << p.y << ')';
 }
-
 
 template<typename T1, typename T2>
 ostream& operator<<(ostream &out, pair<T1, T2> p) {
-	return out << "(" << p.first << ", " << p.second << ")";
+	return out << "(" << p.x << ", " << p.y << ")";
 }
 
 template<class T>
@@ -206,7 +205,6 @@ A useful identity: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{
 \section{Mathematics}
 
 \begin{lstlisting}
-
 int abs(int x) { return x > 0 ? x : -x; }
 int sign(int x) { return (x > 0) - (x < 0); }
 
@@ -567,13 +565,13 @@ void dijkstra() {
 		pii v = q.top();
 		q.pop();
 
-		if (vis[v.second]) continue;
-		vis[v.second] = true;
+		if (vis[v.y]) continue;
+		vis[v.y] = true;
 
-		for (const pii e : edges[v.second]) {
-			q.push(pii(v.first + e.second, e.first));
+		for (const pii e : edges[v.y]) {
+			q.push(pii(v.x + e.y, e.x));
 		}
-		dist[v.second] = v.first;
+		dist[v.y] = v.x;
 	}
 }
 \end{lstlisting}
@@ -594,34 +592,29 @@ for (int i = 0; i < n; i++)
 
 \subsubsection{Bellman Ford $\mathcal{O}(V E)$}
 
-This is only useful if there are edges with weight $w_{i,j} < 0$ in the graph.
+This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
 
 \begin{lstlisting}
 vector< pair<pii,int> > edges; // ((from, to), weight)
 vector<int> dist(MAXN);
 
+// when undirected, add back edges
 bool bellman_ford(int source) {
-	for (int i = 0; i < MAXN; i++) dist[i] = INF / 3;
+	fill_n(dist, MAXN, INF / 3);
 	dist[source] = 0;
 	
-	bool updated;
+	bool updated = true;
 	int loops = 0;
-	do {
+	while (updated && loops < n) {
 		updated = false;
 		for (auto e : edges) {
-			int alt = dist[e.first.first] + e.second;
-			if (alt < dist[e.first.second]) {
-				dist[e.first.second] = alt;
-				updated = true;
-			}
-			// if undirected graph:
-			alt = dist[e.first.second] + e.second;
-			if (UNDIRECTED && alt < dist[e.first.first]) {
-				dist[e.first.first] = alt;
+			int alt = dist[e.x.x] + e.y;
+			if (alt < dist[e.x.y]) {
+				dist[e.x.y] = alt;
 				updated = true;
 			}
 		}
-	} while(updated && loops < n);
+	}
 	return loops < n; // loops >= n: negative cycles
 }
 
@@ -718,7 +711,7 @@ bool findPath(int s, int t)
 	q.push(pii(dist[s] = 0, s));
 
 	while (!q.empty()) {
-		int d = q.top().first, v = q.top().second;
+		int d = q.top().x, v = q.top().y;
 		q.pop();
 		if (d > dist[v]) continue;
 
@@ -791,10 +784,10 @@ ll prim(int n) {
 			q.erase(q.begin());
 			done[cur] = true;
 			for (pii pr : edges[cur]) {
-				if (!done[pr.first] && pr.second < dist[pr.first]) {
-					q.erase(pii(dist[pr.first], pr.first));
-					dist[pr.first] = pr.second;
-					q.insert(pii(dist[pr.first], pr.first));
+				if (!done[pr.x] && pr.y < dist[pr.x]) {
+					q.erase(pii(dist[pr.x], pr.x));
+					dist[pr.x] = pr.y;
+					q.insert(pii(dist[pr.x], pr.x));
 				}
 			}
 		}
@@ -808,23 +801,17 @@ ll prim(int n) {
 \subsubsection{Kruskal $\mathcal{O}(E \log V)$}
 
 \begin{lstlisting}
-struct edge {
-	int x, y, s;
-	void read() { cin >> x >> y >> s; }
-};
-
+struct edge { int x, y, w; };
 edge edges[MAXM];
 
-int kruskal(int n, int m) {
+ll kruskal(int n, int m) { // n: #vertices, m: #edges
 	uf_init(n);
-	sort(edges, edges + m, [] (const edge &a, const edge &b)
-		-> bool { return a.s > b.s; });
+	sort(edges, edges + m, [] (edge a, edge b) -> bool { return a.w < b.w; });
 	ll ret = 0;
 	while (m--) {
-		if (uf_find(edges[m].x) != uf_find(edges[m].y)) {
-			ret += edges[m].s;
-			uf_union(edges[m].x, edges[m].y);
-		}
+		if (uf_find(edges[m].x) == uf_find(edges[m].y)) continue;
+		ret += edges[m].w;
+		uf_union(edges[m].x, edges[m].y);
 	}
 	return ret;
 }
@@ -835,8 +822,7 @@ int kruskal(int n, int m) {
 \subsection{Z-algorithm $\mathcal{O}(n)$}
 
 \begin{lstlisting}
-// z[i] = length of longest substring starting from s[i],
-// which is also a prefix of s.
+// z[i] = length of longest substring starting from s[i] which is also a prefix of s.
 vector<int> z_function(const string &s) {
 	int n = (int) s.length();
 	vector<int> z(n);
@@ -857,10 +843,6 @@ vector<int> z_function(const string &s) {
 This creates an array $P[0], P[1], \dots, P[n-1]$ such that the suffix $S[i \dots n]$ is the $P[i]^\textit{th}$ suffix of $S$ when lexicographically sorted.
 
 \begin{lstlisting}
-#define fst first.first
-#define snd first.second
-
-typedef pair<int, int> pii;
 typedef pair<pii, int> tii;
 
 const int maxlogn = 17, int maxn = 1 << maxlogn;
@@ -870,21 +852,20 @@ tii make_triple(int a, int b, int c) { return tii(pii(a, b), c); }
 int p[maxlogn + 1][maxn];
 tii L[maxn];
 
-void suffixArray(string S)
+int suffixArray(string S)
 {
     int N = S.size(), stp = 1, cnt = 1;
     for (int i = 0; i < N; i++) p[0][i] = S[i];
     for (; cnt < N; stp++, cnt <<= 1) {
         for (int i = 0; i < N; i++) {
-            L[i] = make_triple(p[stp-1][i], i + cnt < N ? p[stp-1][i + cnt] : -1, i);
+            L[i] = tii(pii(p[stp-1][i], i + cnt < N ? p[stp-1][i + cnt] : -1), i);
         }
         sort(L, L + N);
         for (int i = 0; i < N; i++) {
-            p[stp][L[i].second] = i > 0 && L[i].first == L[i-1].first
-		            ? p[stp][L[i-1].second] : i;
+            p[stp][L[i].y] = i > 0 && L[i].x == L[i-1].x ? p[stp][L[i-1].y] : i;
         }
     }
-    // result is in p[stp - 1][0 .. (N - 1)]
+	return stp - 1; // result is in p[stp - 1][0 .. (N - 1)]
 }
 \end{lstlisting}
 
@@ -918,7 +899,7 @@ string getLCS(const string &w1, const string &w2) {
 		else if (table[i][j - 1] > table[i - 1][j]) j--;
 		else i--;
 	}
-	reverse(ret.begin(),ret.end());
+	reverse(ret.begin(), ret.end());
 	return ret;
 }
 \end{lstlisting}
@@ -932,7 +913,7 @@ int levDist(const string &w1, const string &w2) {
 	int n1 = w1.size(), n2 = w2.size();
 	for (int i = 0; i <= n1; i++) costs[i][0] = i; // removal
 	for (int j = 0; j <= n2; j++) costs[0][j] = j; // insertion
-	for (int i = 1;i <= n1; i++) {
+	for (int i = 1; i <= n1; i++) {
 		for (int j = 1; j <= n2; j++) {
 			costs[i][j] = min(
 				min(costs[i - 1][j] + 1, costs[i][j - 1] + 1),
@@ -951,19 +932,16 @@ int kmp_search(const string &word, const string &text) {
 	int n = word.size();
 	vector<int> table(n + 1, 0);
 	for (int i = 1, j = 0; i < n; ) {
-		if (word[i] == word[j]) {
-			table[++i] = ++j;
-		} else if (j > 0) {
-			j = table[j];
-		} else i++;
+		if (word[i] == word[j]) table[++i] = ++j; // match
+		else if (j > 0) j = table[j]; // fallback
+		else i++; // no match, keep zero
 	}
 	int matches = 0;
 	for (int i = 0, j = 0; i < text.size(); ) {
 		if (text[i] == word[j]) {
 			i++;
-			if (++j == n) {
+			if (++j == n) { // match at interval [i - n, i)
 				matches++;
-				// match at interval [i - j, i)
 				j = table[j];
 			}
 		} else if (j > 0) j = table[j];
@@ -996,11 +974,11 @@ void ahoCorasick()
     fill_n(dLink, MAXTRIE, 0);
     nnodes = 1;
 
-    for(int i = 0; i < npatterns; i++) {
+    for (int i = 0; i < npatterns; i++) {
         int cur = 0;
         for (char c : patterns[i]) {
             int idx = c - 'a';
-            if(to[cur][idx] == 0) to[cur][idx] = nnodes++;
+            if (to[cur][idx] == 0) to[cur][idx] = nnodes++;
             cur = to[cur][idx];
         }
         wordIdx[cur] = i;
@@ -1008,10 +986,10 @@ void ahoCorasick()
 
     queue<int> q;
     q.push(0);
-    while(!q.empty()) {
+    while (!q.empty()) {
         int cur = q.front(); q.pop();
-        for(int c = 0; c < SIGMA; c++) {
-            if(to[cur][c]) {
+        for (int c = 0; c < SIGMA; c++) {
+            if (to[cur][c]) {
                 int sl = sLink[to[cur][c]] = cur == 0 ? 0 : to[sLink[cur]][c];
                 // if all strings have equal length, remove this:
                 dLink[to[cur][c]] = wordIdx[sl] >= 0 ? sl : dLink[sl];
@@ -1023,7 +1001,6 @@ void ahoCorasick()
     for (int cur = 0, i = 0, n = S.size(); i < n; i++) {
         int idx = S[i] - 'a';
         cur = to[cur][idx];
-        // we have a match! (if g[i][j] >= 0)
         for (int hit = wordIdx[cur] >= 0 ? cur : dLink[cur]; hit; hit = dLink[hit]) {
             cerr << "Match for " << patterns[wordIdx[hit]] << " at " << (i + 1 - patterns[wordIdx[hit]].size()) << endl;
         }
@@ -1035,84 +1012,67 @@ void ahoCorasick()
 \section{Geometry}
 
 \begin{lstlisting}
-typedef double NUM; // either double or long long
+const double EPS = 1e-7;
 
-struct pt {
-	NUM x, y;
-	
-	pt() : x(0), y(0) {}
-	pt(NUM _x, NUM _y) : x(_x), y(_y) {}
-	pt(const pt &p) : x(p.x), y(p.y) {}
-	
-	pt operator*(NUM scalar) const {
-		return pt(scalar * x, scalar * y); // scalar
-	}
-	NUM operator*(const pt &rhs) const {
-		return x * rhs.x + y * rhs.y; // dot product
-	}
-	NUM operator^(const pt &rhs) const {
-		return x * rhs.y - y * rhs.x; // cross product
-	}
-	pt operator+(const pt &rhs) const {
-		return pt(x + rhs.x, y + rhs.y); // addition
-	}
-	pt operator-(const pt &rhs) const {
-		return pt(x - rhs.x, y - rhs.y); // subtraction
-	}
-	bool operator==(const pt &rhs) const {
-		return x == rhs.x && y == rhs.y;
-	}
-	bool operator!=(const pt &rhs) const {
-		return x != rhs.x || y != rhs.y;
-	}
-};
+#define x first
+#define y second
 
-// distance SQUARED from pt a to pt b
-NUM sqDist(const pt &a, const pt &b) {
-	return (a - b) * (a - b);
-}
+typedef double NUM; // EITHER double OR long long
+typedef pair<NUM, NUM> pt;
 
-// distance SQUARED from pt a to line bc
-double sqDistPointLine(pt a, pt b, pt c) {
-	a = a - b;
-	c = c - b;
+pt operator+(pt p, pt q) { return pt(p.x + q.x, p.y + q.y); }
+pt operator-(pt p, pt q) { return pt(p.x - q.x, p.y - q.y); }
+
+pt& operator+=(pt &p, pt q) { return p = p + q; }
+pt& operator-=(pt &p, pt q) { return p = p - q; }
+
+pt operator*(pt p, NUM l) { return pt(p.x * l, p.y * l); }
+pt operator/(pt p, NUM l) { return pt(p.x / l, p.y / l); }
+
+NUM operator*(pt p, pt q) { return p.x * q.x + p.y * q.y; }
+NUM operator^(pt p, pt q) { return p.x * q.y - p.y * q.x; }
+
+istream& operator>>(istream &in, pt &p) { return in >> p.x >> p.y; }
+ostream& operator<<(ostream &out, pt p) { return out << '(' << p.x << ", " << p.y << ')'; }
+
+NUM lenSq(pt p) { return p * p; }
+NUM lenSq(pt p, pt q) { return lenSq(p - q); }
+double len(pt p) { return hypot(p.x, p.y); } // more overflow safe
+double len(pt p, pt q) { return len(p - q); }
+
+// square distance from pt a to line bc
+double distPtLineSq(pt a, pt b, pt c) {
+	a -= b, c -= b;
 	return (a ^ c) * (a ^ c) / (double)(c * c);
 }
 
-// distance SQUARED from pt a to line segment c
-double sqDistPointSegment(pt a, pt b, pt c) {
-	a = a - b;
-	c = c - b;
+// square distance from pt a to segment bc
+double distPtSegmentSq(pt a, pt b, pt c) {
+	a -= b; c -= b;
 	NUM dot = a * c, len = c * c;
 	if (dot <= 0) return a * a;
 	if (dot >= len) return (a - c) * (a - c);
 	return a * a - dot * dot / ((double) len);
-	// pt proj = c * dot / ((double) len);
+	// pt proj = b + c * dot / ((double) len);
 }
 
-bool between(NUM a, NUM b, NUM n) {
-	return min(a, b) <= n && n <= max(a, b);
-}
-bool collinear(pt a, pt b, pt c) {
-	return (a - b) ^ (a - c) == 0;
-}
+bool between(NUM x, NUM a, NUM b) { return min(a, b) <= x && x <= max(a, b); }
+bool collinear(pt a, pt b, pt c) { return ((a - b) ^ (a - c)) == 0; }
 
 // point a on segment bc
-bool pointOnSegment(pt a, pt b, pt c)
-{
-	return collinear(a, b, c) &&
-		between(b.x, c.x, a.x) && between(b.y, c.y, a.y);
+bool pointOnSegment(pt a, pt b, pt c) {
+	return collinear(a, b, c) && between(a.x, b.x, c.x) && between(a.y, b.y, c.y);
 }
 
+// REQUIRES DOUBLES
 pt lineLineIntersection(pt a, pt b, pt c, pt d, bool &cross)
 {
-	pt res = (c - d) * (a ^ b) - (a - b) * (c ^ d);
-	NUM det = (a.x - b.x) * (c.y - d.y) - (a.y - b.y) * (c.x - d.x);
-	cross = det != 0;
-	if (cross) res = res / det;
-	return res;
+	NUM det = (a - b) ^ (c - d);
+	pt ret = (c - d) * (a ^ b) - (a - b) * (c ^ d);
+	return (cross = det != 0) ? (ret / det) : ret;
 }
 
+// REQUIRES DOUBLES
 // Line segment a1 -- a2 intersects with b1 -- b2?
 // returns 0: no, 1: yes at i1, 2: yes at i1 -- i2
 int segmentsIntersect(pt a1, pt a2, pt b1, pt b2, pt &i1, pt &i2) {
@@ -1137,6 +1097,8 @@ int segmentsIntersect(pt a1, pt a2, pt b1, pt b2, pt &i1, pt &i2) {
 	}
 }
 
+// REQUIRES DOUBLES
+// TODO: Needs shortening
 // complete intersection check
 int segmentsIntersect2(pt a1, pt a2, pt b1, pt b2, pt &i1, pt &i2) {
 	if (a1 == a2 && b1 == b2) {
@@ -1152,92 +1114,96 @@ int segmentsIntersect2(pt a1, pt a2, pt b1, pt b2, pt &i1, pt &i2) {
 }
 
 // Returns TWICE the area of a polygon to keep it an integer
-NUM polygonTwiceArea(const vector<pt> &polygon) {
+NUM polygonTwiceArea(const vector<pt> &pts) {
 	NUM area = 0;
-	for (int i = 0, N = polygon.size(), j = N - 1; i < N; j = i++)
-		area += polygon[i] ^ polygon[j];
-	return abs(area);
+	for (int N = pts.size(), i = 0, j = N - 1; i < N; j = i++)
+		area += pts[i] ^ pts[j];
+	return abs(area); // area < 0 <=> pts ccw
 }
 
-// returns 0 outside, 1 inside, 2 on boundary
-int pointInPolygon(pt p, const vector<pt> &polygon) {
-	// Check corssings with horizontal semi-line through p to +x
-	int crosscount = 0, N = polygon.size();
-	for (int i = 0, j = N - 1; i < N; j = i++) {
-		if (pointOnSegment(p, polygon[i], polygon[j])) return 2;
-
-		// check if it crosses the vertical y = p.y line
-		NUM l = (p.x - polygon[i].x)*(polygon[j].y - polygon[i].y);
-		NUM r = (p.y - polygon[i].y)*(polygon[j].x - polygon[i].x);
-		if (polygon[j].y > p.y) {
-			if (polygon[i].y <= p.y && l < r) crosscount++;
-		} else {
-			if (polygon[i].y <= p.y && l > r) crosscount++;
-		}
-	}
-	return crosscount & 1;
-}
-
-// Assumption: polygon has unique points
-int pointInConvex(pt p, const vector<pt> &polygon) {
-	// the cross product should always have the same sign,
-	// when the point is inside the convex
-	int N = polygon.size(), sgn = 0;
-	bool onBoundary = false;
-	for (int i = 0, j = N - 1; i < N; j = i++) {
-		NUM cross = (polygon[j] - p) ^ (polygon[i] - p);
-		if (cross == 0) onBoundary = true;
-		else if (sgn == 0) sgn = sign(cross);
-		else if (sgn != sign(cross)) return 0;
-	}
-	return onBoundary ? 2 : 1;
+bool pointInPolygon(pt p, const vector<pt> &pts)
+{
+    double sum = 0;
+    for (int N = pts.size(), i = 0, j = N - 1; i < N; j = i++) {
+		if (pointOnSegment(p, pts[i], pts[j])) return true; // boundary
+		double angle = acos((pts[i] - p) * (pts[j] - p) / len(pts[i], p) / len(pts[j], p));
+        sum += ((pts[i] - p) ^ (pts[j] - p)) < 0 ? angle : -angle;
+    }
+    return abs(abs(sum) - 2 * PI) < EPS;
 }
 
 \end{lstlisting}
 
+\begin{comment}
+// Assumption: polygon has unique points
+// 0: no, 1: yes, 2: on boundary
+int pointInConvex(pt p, const vector<pt> &pts) {
+bool onBoundary = false;
+for (int N = pts.size(), sgn = 0, i = 0, j = N - 1; i < N; j = i++) {
+NUM cross = (pts[i] - p) ^ (pts[j] - p);
+int s = (cross > 0) - (cross < 0);
+if (cross == 0) onBoundary = true;
+else if (sgn == 0) sgn = s;
+else if (sgn != s) return 0;
+}
+return onBoundary ? 2 : 1;
+}
+\end{comment}
+
 \subsection{Convex Hull $\mathcal{O}(n \log n)$}
 
 \begin{lstlisting}
-// output contains indices of the points on the hull
-void convex_hull(const vector<pt> &pts, vector<int> &output) {
-	output.clear();
-	if (pts.size() < 3) {
-		if (pts.size() >= 1) output.push_back(0);
-		if (pts.size() >= 2) output.push_back(1);
-		return;
-	}
-
-	unsigned int bestIndex = 0;
-	NUM minX = pts[0].x, minY = pts[0].y;
-	for(unsigned int i = 1; i < pts.size(); ++i) {
-		if (pts[i].x < minX || (pts[i].x == minX && pts[i].y < minY)) {
-			bestIndex = i;
-			minX = pts[i].x;
-			minY = pts[i].y;
+// points are given by: pts[ret[0]], pts[ret[1]], ... pts[ret[ret.size()-1]]
+vector<int> convexHull(const vector<pt> &pts) {
+	if (pts.empty()) return vector<int>();
+	vector<int> ret;
+	int bestIndex = 0, n = pts.size();
+	pt best = pts[0];
+	for(int i = n; i--; ) {
+		if (pts[i] < best) {
+			best = pts[bestIndex = i];
 		}
 	}
-	vector<int> ordered; //index into pts
-	for(unsigned int i = 0; i < pts.size(); ++i) {
-		if (i != bestIndex) ordered.push_back(i);
-	}
-
+	ret.push_back(bestIndex);
 	pt refr = pts[bestIndex];
-	sort(ordered.begin(), ordered.end(), [&pts,&refr] (int a, int b) -> bool {
-		NUM cross = (pts[a] - refr) ^ (pts[b] - refr);
-		return cross != 0 ? cross > 0 : sqDist(refr, pts[a]) < sqDist(refr, pts[b]);
-	});
-	
-	output.push_back(bestIndex);
-	output.push_back(ordered[0]);
-	output.push_back(ordered[1]);
-	for(unsigned int i = 2; i < ordered.size(); ++i) {
-		//NOTE: > INCLUDES and >= EXCLUDES points on the hull-line
-		while (output.size() > 1 && ((pts[output[output.size() - 2]] - pts[output.back()]) ^ (pts[ordered[i]] - pts[output.back()])) > 0) {
-			output.pop_back();
-		}
-		output.push_back(ordered[i]);
+
+	vector<int> ordered; //index into pts
+	for (int i = n; i--; ) {
+		if (pts[i] != refr) ordered.push_back(i);
 	}
-	return;
+	sort(ordered.begin(), ordered.end(), [&pts, &refr] (int a, int b) -> bool {
+		NUM cross = (pts[a] - refr) ^ (pts[b] - refr);
+		return cross != 0 ? cross > 0 : lenSq(refr, pts[a]) < lenSq(refr, pts[b]);
+	});
+	for (int i : ordered) {
+		// NOTE: > INCLUDES points on the hull-line, >= EXCLUDES
+		while (ret.size() > 1 && ((pts[ret[ret.size() - 2]] - pts[ret.back()]) ^ (pts[i] - pts[ret.back()])) >= 0) {
+			ret.pop_back();
+		}
+		ret.push_back(i);
+	}
+	return ret;
+}
+
+\end{lstlisting}
+
+\subsection{Rotating Calipers $\mathcal{O}(n)$}
+
+Finds the longest distance between two points in a convex hull.
+
+\begin{lstlisting}
+NUM rotatingCalipers(vector<pt> &hull) {
+    int n = hull.size(), a = 0, b = 1;
+    if (n <= 1) return 0.0;
+    while (((hull[1] - hull[0]) ^ (hull[(b + 1) % n] - hull[b])) > 0) b++;
+    cerr << a << " " << b << endl;
+    NUM ret = 0.0;
+    while (a < n) {
+        ret = max(ret, lenSq(hull[a], hull[b]));
+        if (((hull[(a + 1) % n] - hull[a % n]) ^ (hull[(b + 1) % n] - hull[b])) <= 0) a++;
+        else if (++b == n) b = 0;
+    }
+    return ret;
 }
 
 \end{lstlisting}
@@ -1282,7 +1248,7 @@ return lo;
 
 \subsection{Fast Fourier Transform $\mathcal{O}(n \log n)$}
 
-Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) = b_0 + b_1 x + \dots + b_{n/2} x^{n/2}$, FFT calculates all coefficients of $C(x) = A(x) \cdot B(x) = c_0 + c_1 x + \dots c_{n} x^{n}$.
+Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) = b_0 + b_1 x + \dots + b_{n/2} x^{n/2}$, FFT calculates all coefficients of $C(x) = A(x) \cdot B(x) = c_0 + c_1 x + \dots c_{n} x^{n}$, with $c_i = \sum_{j=0}^{i} a_j b_{i-j}$.
 
 \begin{lstlisting}
 
@@ -1298,7 +1264,7 @@ void fft(cpx *src, cpx *dest)
 		dest[rep] = src[i];
 	}
 	for (int s = 1, m = 1; m <= maxn; s++, m *= 2) {
-		cpx r = exp(cpx(0, 2.0 * pi / m));
+		cpx r = exp(cpx(0, 2.0 * PI / m));
 		for (int k = 0; k < maxn; k += m) {
 			cpx cr(1.0, 0.0);
 			for (int j = 0; j < m / 2; j++) {
