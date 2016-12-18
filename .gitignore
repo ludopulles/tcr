@@ -2,4 +2,5 @@
 *.aux
 *.toc
 *.log
+*.dvi
 psheader.txt
