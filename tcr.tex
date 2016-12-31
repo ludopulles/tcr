@@ -30,7 +30,7 @@
 
 \begin{document}
 
-% \maketitle
+\maketitle
 \begin{center}
 	\makeatletter
 	\textbf{\@title} \\
@@ -39,7 +39,7 @@
 	\makeatother
 \end{center}
 
-% \tableofcontents
+\tableofcontents
 % \newpage
 
 \begin{center}
@@ -114,7 +114,6 @@ int main() {
 	// TODO: code
 	return 0;
 }
-
 \end{lstlisting}
 
 Prime numbers: $\mathit{982451653}$, $\mathit{81253449}$, $10^3 + \{-9,-3,9,13\}$, $10^6 + \{-17, 3, 33\}$, $10^9 + \{7,9,21,33,87\}$
@@ -282,7 +281,6 @@ ll lucas(ll n, ll k, ll p) {
 	}
 	return ans;
 }
-
 \end{lstlisting}
 
 \section{Datastructures}
@@ -318,7 +316,6 @@ S query(int l, int r) {
 	}
 	return combine(resL, resR);
 }
-
 \end{lstlisting}
 
 \subsection{Binary Indexed Tree $\mathcal{O}(\log n)$}
@@ -339,7 +336,6 @@ int query(int idx) {
 	while (idx) ret += bit[idx], idx -= idx & -idx;
 	return ret;
 }
-
 \end{lstlisting}
 
 \subsection{Trie}
@@ -438,52 +434,80 @@ int maxmatch() {
 \subsection{Strongly Connected Components $\mathcal{O}(V + E)$}
 
 \begin{lstlisting}
-vector<vi> adj; // adjacency matrix
-vi index, lowlink; // lowest index reachable
-stack<int> tarjanStack;
-vector<bool> inStack; // true iff in tarjanStack
-int newId; // ordering in DFS
-vector<vi> scc; // Output: collection of vertex sets
+vector<vi> adj, comps;
+vi tidx, lnk, st;
+vector<bool> vis;
+int age;
 
 void tarjan(int v) {
-	index[v] = lowlink[v] = newId++;
-	tarjanStack.push(v);
-	inStack[v] = true;
+	tidx[v] = lnk[v] = age++;
+	vis[v] = true;
+	st.push_back(v);
 	for (int w : adj[v]) {
-		if (index[w] == 0) {
-			tarjan(w);
-			lowlink[v] = min(lowlink[v], lowlink[w]);
-		} else if (inStack[w]) {
-			lowlink[v] = min(lowlink[v], index[w]);
-		}
+		if (!tidx[w]) tarjan(w);
+		if (vis[w]) lnk[v] = min(lnk[v], lnk[w]);
 	}
-	
-	if (lowlink[v] == index[v]) {
-		scc.push_back(vi());
+
+	if (lnk[v] == tidx[v]) {
+		comps.push_back(vi());
 		int w;
 		do {
-			w = tarjanStack.top();
-			scc.back().push_back(w);
-			inStack[w] = false;
-			tarjanStack.pop();
+			vis[w = st.back()] = false;
+			comps.back().push_back(w);
+			st.pop_back();
 		} while (w != v);
 	}
 }
 
-int findSCC() {
-	newId = 1;
-	index.clear(); index.resize(n + 1, 0);
-	lowlink.clear(); lowlink.resize(n + 1, 0);
-	inStack.clear(); inStack.resize(n + 1, false);
-	while (!tarjanStack.empty()) tarjanStack.pop();
-	scc.clear();
+void findComps(int N) {
+	age = 1;
+	tidx.assign(N, 0);
+	lnk.assign(N, 0);
+	vis.assign(N, false);
+	comps.clear();
 
-	for (int i = 0; i < n; i++) {
-		if (index[i] == 0) tarjan(i);
-	}
-	return scc.size();
+	for (int i = 0; i < N; i++)
+		if (tidx[i] == 0) tarjan(i);
+}
+\end{lstlisting}
+
+\subsubsection{2-SAT $\mathcal{O}(V+E)$}
+
+\begin{lstlisting}
+void init2sat(int n) { adj.assign(2 * n, vi()); }
+
+// vl, vr = true -> variable l, variable r should be negated.
+void imply(int xl, bool vl, int xr, bool vr) {
+	adj[2 * xl + vl].push_back(2 * xr + vr);
+	adj[2 * xr +!vr].push_back(2 * xl +!vl);
 }
 
+void satOr(int xl, bool vl, int xr, bool vr) {
+	imply(xl, !vl, xr, vr);
+}
+void satConst(int x, bool v) {
+	imply(x, !v, x, v);
+}
+void satIff(int xl, bool vl, int xr, bool vr) {
+	imply(xl, vl, xr, vr);
+	imply(xr, vr, xl, vl);
+}
+
+bool solve2sat(int n, vector<bool> &sol) {
+	findComps(2 * n);
+	for (int i = 0; i < n; i++)
+		if (lnk[2 * i] == lnk[2 * i + 1]) return false;
+	vector<bool> seen(n, false);
+	sol.assign(n, false);
+	for (vi &comp : comps) {
+		for (int v : comp) {
+			if (seen[v / 2]) continue;
+			seen[v / 2] = true;
+			sol[v / 2] = v & 1;
+		}
+	}
+	return true;
+}
 \end{lstlisting}
 
 \begin{comment}
@@ -510,7 +534,6 @@ bool cycle_detection() {
 	}
 	return false;
 } 
-
 \end{lstlisting}
 \end{comment}
 
@@ -543,7 +566,6 @@ int bfs(int from, int to) {
 	}
 	return -1;
 }
-
 \end{lstlisting}
 \end{comment}
 
@@ -587,7 +609,6 @@ for (int i = 0; i < n; i++)
 	for (int j = 0; j < n; j++)
 		for (int k = 0; k < n; k++)
 			d[j][k] = min(d[j][k], d[j][i] + d[i][k]);
-
 \end{lstlisting}
 
 \subsubsection{Bellman Ford $\mathcal{O}(V E)$}
@@ -617,7 +638,6 @@ bool bellman_ford(int source) {
 	}
 	return loops < n; // loops >= n: negative cycles
 }
-
 \end{lstlisting}
 
 \subsection{Max-flow min-cut}
@@ -815,7 +835,6 @@ ll kruskal(int n, int m) { // n: #vertices, m: #edges
 	}
 	return ret;
 }
-
 \end{lstlisting}
 
 \section{String algorithms}
@@ -1006,7 +1025,6 @@ void ahoCorasick()
         }
     }
 }
-
 \end{lstlisting}
 
 \section{Geometry}
@@ -1131,7 +1149,6 @@ bool pointInPolygon(pt p, const vector<pt> &pts)
     }
     return abs(abs(sum) - 2 * PI) < EPS;
 }
-
 \end{lstlisting}
 
 \begin{comment}
@@ -1167,7 +1184,7 @@ vector<int> convexHull(const vector<pt> &pts) {
 	ret.push_back(bestIndex);
 	pt refr = pts[bestIndex];
 
-	vector<int> ordered; //index into pts
+	vector<int> ordered; // index into pts
 	for (int i = n; i--; ) {
 		if (pts[i] != refr) ordered.push_back(i);
 	}
@@ -1184,7 +1201,6 @@ vector<int> convexHull(const vector<pt> &pts) {
 	}
 	return ret;
 }
-
 \end{lstlisting}
 
 \subsection{Rotating Calipers $\mathcal{O}(n)$}
@@ -1205,7 +1221,6 @@ NUM rotatingCalipers(vector<pt> &hull) {
     }
     return ret;
 }
-
 \end{lstlisting}
 
 \section{Miscellaneous}
@@ -1285,7 +1300,6 @@ void multiply()
 	fft(b, c);
 	for (int i = 0; i < maxn; i++) c[i] = conj(c[i]) / (1.0 * maxn);
 }
-
 \end{lstlisting}
 
 \subsection{Minimum Assignment (Hungarian Algorithm) $\mathcal{O}(n^{3})$}
