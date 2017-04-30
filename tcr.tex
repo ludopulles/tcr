@@ -8,6 +8,7 @@
 \author{git diff solution (Jens Heuseveldt, Ludo Pulles, Peter Ypma)}
 
 \lstset{
+	literate={~} {$\sim$}{1},
 	basicstyle=\footnotesize\ttfamily,
 	breaklines=true,
 	commentstyle=\color[rgb]{0.5,0.5,0.5},
@@ -46,7 +47,7 @@
 At the start of a contest, type this in a terminal:
 \end{center}
 
-\begin{lstlisting}[]
+\begin{lstlisting}
 printf "set nu sw=4 ts=4 noet ai hls shellcmdflag=-ic\nsyntax on\ncolor slate" > ~/.vimrc
 echo "alias g11='g++ -Wall -Wshadow -DDEBUG -std=c++11'" >> ~/.bashrc
 \end{lstlisting}
@@ -74,10 +75,14 @@ using order_set = order_tree<TV, null_type>;
 
 #define x first
 #define y second
+#define pb push_back
+#define mp make_pair
+#define eb emplace_back
 
 typedef long long ll;
 typedef pair<int, int> pii;
 typedef vector<int> vi;
+typedef vector<vi> vvi;
 
 const int INF = 2147483647; // (1 << 30) - 1 + (1 << 30)
 const ll LLINF = (1LL << 62) - 1 + (1LL << 62); // = 9.223.372.036.854.775.807
@@ -101,9 +106,9 @@ using min_queue = priority_queue<T, vector<T>, greater<T>>;
 
 int main() {
 	ios_base::sync_with_stdio(false); // faster IO
-	cin.tie(NULL);                    // faster IO
-	cerr << boolalpha;                // (print true/false)
-	(cout << fixed).precision(10);    // set floating point precision
+	cin.tie(NULL);					// faster IO
+	cerr << boolalpha;				// (print true/false)
+	(cout << fixed).precision(10);	// set floating point precision
 	// TODO: code
 	return 0;
 }
@@ -135,7 +140,7 @@ Prime numbers: $\mathit{982451653}$, $\mathit{81253449}$, $10^3 + \{-9,-3,9,13\}
 \subsection{Detecting overflow}
 These are GNU builtins, detect both over- and underflow. Returns a boolean upon failure, otherwise the result is present in \texttt{ref}. Follow the template: 
 
-\texttt{\_\_builtin\_[u|s][add|mul|sub](ll)?\_overflow(in, out, \&ref)} 
+\texttt{\_\_builtin\_[u|s][add|mul|sub](ll)?\_overflow(a, b, \&res)} 
 
 \subsection{Wrong Answer}
 
@@ -229,8 +234,7 @@ ll modpow(ll a, ll b, ll m) {
 }
 
 // returns x, y such that ax + by = gcd(a, b)
-ll egcd(ll a, ll b, ll &x, ll &y)
-{
+ll egcd(ll a, ll b, ll &x, ll &y) {
 	ll xx = y = 0, yy = x = 1;
 	while (b) {
 		x -= a / b * xx; swap(x, xx);
@@ -243,8 +247,7 @@ ll egcd(ll a, ll b, ll &x, ll &y)
 // Chinese remainder theorem
 const pll NO_SOLUTION(0, -1);
 // Returns (u, v) such that x = u % v <=> x = a % n and x = b % m
-pll crt(ll a, ll n, ll b, ll m)
-{
+pll crt(ll a, ll n, ll b, ll m) {
 	ll s, t, d = egcd(n, m, s, t), nm = n * m;
 	if (mod(a - b, d)) return NO_SOLUTION;
 	return pll(mod(s * b * n + t * a * m, nm) / d, nm / d);
@@ -277,27 +280,24 @@ ll lucas(ll n, ll k, ll p) {
 \end{lstlisting}
 
 \section{Datastructures}
-\subsection{Segment tree $\mathcal{O}(\log n)$}
+\subsection{Standard segment tree $\mathcal{O}(\log n)$}
 
 \begin{lstlisting}
 typedef /* Tree element */ S;
 const int n = 1 << 20;
 S t[2 * n];
 
-// sum segment tree
-S combine(S l, S r) { return l + r; }
-// max segment tree
-S combine(S l, S r) { return max(l, r); }
+// required axiom: associativity
+S combine(S l, S r) { return l + r; } // sum segment tree
+S combine(S l, S r) { return max(l, r); } // max segment tree
 
 void build() {
-	for (int i = n; --i > 0; )
-		t[i] = combine(t[2 * i], t[2 * i + 1]);
+	for (int i = n; --i; ) t[i] = combine(t[2 * i], t[2 * i + 1]);
 }
 
-// set value v on position p
-void update(int p, int v) {
-	for (t[p += n] = v; p /= 2; )
-		t[p] = combine(t[2 * p], t[2 * p + 1]);
+// set value v on position i
+void update(int i, S v) {
+	for (t[i += n] = v; i /= 2; ) t[i] = combine(t[2 * i], t[2 * i + 1]);
 }
 
 // sum on interval [l, r)
@@ -313,59 +313,20 @@ S query(int l, int r) {
 
 \subsection{Binary Indexed Tree $\mathcal{O}(\log n)$}
 
-Use one-based indices!
+Use one-based indices ($i > 0$)!
 
 \begin{lstlisting}
-int bit[MAXN];
+int bit[MAXN + 1];
 
-// arr[idx] += val
-void update(int idx, int val) {
-	while (idx < MAXN) bit[idx] += val, idx += idx & -idx;
+// arr[i] += v
+void update(int i, int v) {
+	while (i <= MAXN) bit[i] += v, i += i & -i;
 }
 
-// returns sum of arr[i], where i: [1, idx]
-int query(int idx) {
-	int ret = 0;
-	while (idx) ret += bit[idx], idx -= idx & -idx;
-	return ret;
+// returns sum of arr[i], where i: [1, i]
+int query(int i) {
+	int v = 0; while (i) v += bit[i], i -= i & -i; return v;
 }
-\end{lstlisting}
-
-\subsection{Trie}
-
-\begin{lstlisting}
-const int SIGMA = 26;
-
-struct trie {
-	bool word;
-	trie **child;
-
-	trie() : word(false), child(new trie*[SIGMA]) {
-		for (int i = 0; i < SIGMA; i++) child[i] = NULL;
-	}
-
-	void addWord(const string &str)
-	{
-		trie *cur = this;
-		for (char ch : str) {
-			int idx = ch - 'a';
-			if (!cur->child[idx]) cur->child[idx] = new trie();
-			cur = cur->child[idx];
-		}
-		cur->word = true;
-	}
-
-	bool isWord(const string &str)
-	{
-		trie *cur = this;
-		for (char ch : str) {
-			int idx = ch - 'a';
-			if (!cur->child[idx]) return false;
-			cur = cur->child[idx];
-		}
-		return cur->word;
-	}
-};
 \end{lstlisting}
 
 \subsection{Disjoint-Set / Union-Find $\mathcal{O}(\alpha (n))$}
@@ -391,43 +352,45 @@ void uf_union(int a, int b) {
 \end{lstlisting}
 
 \section{Graph Algorithms}
+% TODO: articulation points, and bridges!
 \subsection{Maximum matching $\mathcal{O}(n m)$}
 
 This problem could be solved with a flow algorithm like Dinic's algorithm which runs in $\mathcal{O} (\sqrt{V} E)$, too.
 
 \begin{lstlisting}
-const int nodesLeft = 1e4, nodesRight = 1e4;
-bool vis[nodesRight]; // vis[rightnodes]
-int par[nodesRight]; // par[rightnode] = leftnode
-vector<int> adj[nodesLeft]; // adj[leftnode][i] = rightnode
+const int sizeL = 1e4, sizeR = 1e4;
+bool vis[sizeR];
+int par[sizeR]; // par : R -> L
+vi adj[sizeL]; // adj : L -> (N -> R)
 
-bool match(int cur) {
-	for (int nxt : adj[cur]) {
-		if (vis[nxt]) continue;
-		vis[nxt] = true;
-		if (par[nxt] == -1 || match(par[nxt])) {
-			par[nxt] = cur;
+bool match(int u) {
+	for (int v : adj[u]) {
+		if (vis[v]) continue;
+		vis[v] = true;
+		if (par[v] == -1 || match(par[v])) {
+			par[v] = u;
 			return true;
 		}
 	}
 	return false;
 }
 
-// perfect matching iff matches == nodesLeft && matches == nodesRight
+// perfect matching iff ret == sizeL == sizeR
 int maxmatch() {
-	int matches = 0;
-	for (int i = 0; i < nodesLeft; i++) {
-		fill_n(vis, nodesRight, false);
-		if (match(i)) matches++;
+	fill_n(par, sizeR, -1);
+	int ret = 0;
+	for (int i = 0; i < sizeL; i++) {
+		fill_n(vis, sizeR, false);
+		ret += match(i);
 	}
-	return matches;
+	return ret;
 }
 \end{lstlisting}
 
 \subsection{Strongly Connected Components $\mathcal{O}(V + E)$}
 
 \begin{lstlisting}
-vector<vi> adj, comps;
+vvi adj, comps;
 vi tidx, lnk, cnr, st;
 vector<bool> vis;
 int age, ncomps;
@@ -435,7 +398,7 @@ int age, ncomps;
 void tarjan(int v) {
 	tidx[v] = lnk[v] = ++age;
 	vis[v] = true;
-	st.push_back(v);
+	st.pb(v);
 
 	for (int w : adj[v]) {
 		if (!tidx[w]) tarjan(w), lnk[v] = min(lnk[v], lnk[w]);
@@ -444,18 +407,18 @@ void tarjan(int v) {
 
 	if (lnk[v] != tidx[v]) return;
 
-	comps.push_back(vi());
+	comps.pb(vi());
 	int w;
 	do {
 		vis[w = st.back()] = false;
 		cnr[w] = ncomps;
-		comps.back().push_back(w);
+		comps.back().pb(w);
 		st.pop_back();
 	} while (w != v);
 	ncomps++;
 }
 
-void findComps(int n) {
+void findSCC(int n) {
 	age = ncomps = 0;
 	vis.assign(n, false);
 	tidx.assign(n, 0);
@@ -470,28 +433,26 @@ void findComps(int n) {
 
 \subsubsection{2-SAT $\mathcal{O}(V+E)$}
 
+Include \texttt{findSCC}.
+
 \begin{lstlisting}
 void init2sat(int n) { adj.assign(2 * n, vi()); }
 
 // vl, vr = true -> variable l, variable r should be negated.
 void imply(int xl, bool vl, int xr, bool vr) {
-	adj[2 * xl + vl].push_back(2 * xr + vr);
-	adj[2 * xr +!vr].push_back(2 * xl +!vl);
+	adj[2 * xl + vl].pb(2 * xr + vr);
+	adj[2 * xr +!vr].pb(2 * xl +!vl);
 }
 
-void satOr(int xl, bool vl, int xr, bool vr) {
-	imply(xl, !vl, xr, vr);
-}
-void satConst(int x, bool v) {
-	imply(x, !v, x, v);
-}
+void satOr(int xl, bool vl, int xr, bool vr) { imply(xl, !vl, xr, vr); }
+void satConst(int x, bool v) { imply(x, !v, x, v); }
 void satIff(int xl, bool vl, int xr, bool vr) {
 	imply(xl, vl, xr, vr);
 	imply(xr, vr, xl, vl);
 }
 
 bool solve2sat(int n, vector<bool> &sol) {
-	findComps(2 * n);
+	findSCC(2 * n);
 	for (int i = 0; i < n; i++)
 		if (cnr[2 * i] == cnr[2 * i + 1]) return false;
 	vector<bool> seen(n, false);
@@ -511,9 +472,9 @@ bool solve2sat(int n, vector<bool> &sol) {
 \subsection{Cycle Detection $\mathcal{O}(V + E)$}
 
 \begin{lstlisting}
-vector<vi> adj; // assumes bidirected graph, adjust accordingly
+vvi adj; // assumes bidirected graph, adjust accordingly
 vector<bool> vis(MAXN, false);
-vector<int> par(MAXN, -1);
+vi par(MAXN, -1);
 
 bool cycle_detection() {
 	stack<int> s;
@@ -541,7 +502,7 @@ bool cycle_detection() {
 
 \begin{lstlisting}
 int n, dist[MAXN];
-vector<int> edges[MAXN]; // (to, cost)
+vi edges[MAXN]; // (to, cost)
 
 // faster than dijkstra when all edge costs are the same
 int bfs(int from, int to) {
@@ -614,11 +575,11 @@ This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
 
 \begin{lstlisting}
 vector< pair<pii,int> > edges; // ((from, to), weight)
-vector<int> dist(MAXN);
+vi dist;
 
 // when undirected, add back edges
-bool bellman_ford(int source) {
-	fill_n(dist, MAXN, INF / 3);
+bool bellman_ford(int V, int source) {
+	dist.assign(V, INF / 3);
 	dist[source] = 0;
 	
 	bool updated = true;
@@ -652,6 +613,11 @@ struct edge {
 
 int s, t, level[MAXN]; // s = source, t = sink
 vector<edge> g[MAXN];
+
+void add_edge(int fr, int to, ll cap) {
+	g[fr].pb(edge(to, g[to].size(), cap));
+	g[to].pb(edge(fr, g[fr].size() - 1, 0));
+}
 
 bool dinic_bfs() {
 	fill_n(level, MAXN, 0);
@@ -696,11 +662,6 @@ ll dinic_maxflow() {
 	while (dinic_bfs()) f += dinic_dfs(s, LLINF);
 	return f;
 }
-
-void add_edge(int fr, int to, ll cap) {
-	g[fr].push_back(edge(to, g[to].size(), cap));
-	g[to].push_back(edge(fr, g[fr].size() - 1, 0));
-}
 \end{lstlisting}
 
 \subsection{Min-cost max-flow}
@@ -719,8 +680,7 @@ int n, par[MAXN];
 vector<edge> adj[MAXN];
 ll dist[MAXN];
 
-bool findPath(int s, int t)
-{
+bool findPath(int s, int t) {
 	fill_n(dist, n, LLINF);
 	fill_n(par, n, -1);
 
@@ -742,8 +702,7 @@ bool findPath(int s, int t)
 	return dist[t] < INF;
 }
 
-pair<ll, ll> minCostMaxFlow(int s, int t)
-{
+pair<ll, ll> minCostMaxFlow(int s, int t) {
 	ll cost = 0, flow = 0;
 	while (findPath(s, t)) {
 		ll f = INF, c = 0;
@@ -767,10 +726,9 @@ pair<ll, ll> minCostMaxFlow(int s, int t)
 	return pair<ll, ll>(cost, flow);
 }
 
-inline void addEdge(int from, int to, ll cap, ll weight)
-{
-	adj[from].push_back(edge(to, adj[to].size(), cap, weight));
-	adj[to].push_back(edge(from, adj[from].size() - 1, 0, -weight));
+inline void addEdge(int from, int to, ll cap, ll weight) {
+	adj[from].pb(edge(to, adj[to].size(), cap, weight));
+	adj[to].pb(edge(from, adj[from].size() - 1, 0, -weight));
 }
 \end{lstlisting}
 
@@ -835,20 +793,53 @@ ll kruskal(int n, int m) { // n: #vertices, m: #edges
 \end{lstlisting}
 
 \section{String algorithms}
+
+\subsection{Trie}
+
+\begin{lstlisting}
+const int SIGMA = 26;
+
+struct trie {
+	bool word;
+	trie **adj;
+
+	trie() : word(false), adj(new trie*[SIGMA]) {
+		for (int i = 0; i < SIGMA; i++) adj[i] = NULL;
+	}
+
+	void addWord(const string &str) {
+		trie *cur = this;
+		for (char ch : str) {
+			int i = ch - 'a';
+			if (!cur->adj[i]) cur->adj[i] = new trie();
+			cur = cur->adj[i];
+		}
+		cur->word = true;
+	}
+
+	bool isWord(const string &str) {
+		trie *cur = this;
+		for (char ch : str) {
+			int i = ch - 'a';
+			if (!cur->adj[i]) return false;
+			cur = cur->adj[i];
+		}
+		return cur->word;
+	}
+};
+\end{lstlisting}
+
 \subsection{Z-algorithm $\mathcal{O}(n)$}
 
 \begin{lstlisting}
 // z[i] = length of longest substring starting from s[i] which is also a prefix of s.
-vector<int> z_function(const string &s) {
+vi z_function(const string &s) {
 	int n = (int) s.length();
-	vector<int> z(n);
+	vi z(n);
 	for (int i = 1, l = 0, r = 0; i < n; ++i) {
-		if (i <= r)
-			z[i] = min (r - i + 1, z[i - l]);
-		while (i + z[i] < n && s[z[i]] == s[i + z[i]])
-			++z[i];
-		if (i + z[i] - 1 > r)
-			l = i, r = i + z[i] - 1;
+		if (i <= r) z[i] = min (r - i + 1, z[i - l]);
+		while (i + z[i] < n && s[z[i]] == s[i + z[i]]) ++z[i];
+		if (i + z[i] - 1 > r) l = i, r = i + z[i] - 1;
 	}
 	return z;
 }
@@ -868,19 +859,18 @@ tii make_triple(int a, int b, int c) { return tii(pii(a, b), c); }
 int p[maxlogn + 1][maxn];
 tii L[maxn];
 
-int suffixArray(string S)
-{
-    int N = S.size(), stp = 1, cnt = 1;
-    for (int i = 0; i < N; i++) p[0][i] = S[i];
-    for (; cnt < N; stp++, cnt <<= 1) {
-        for (int i = 0; i < N; i++) {
-            L[i] = tii(pii(p[stp-1][i], i + cnt < N ? p[stp-1][i + cnt] : -1), i);
-        }
-        sort(L, L + N);
-        for (int i = 0; i < N; i++) {
-            p[stp][L[i].y] = i > 0 && L[i].x == L[i-1].x ? p[stp][L[i-1].y] : i;
-        }
-    }
+int suffixArray(string S) {
+	int N = S.size(), stp = 1, cnt = 1;
+	for (int i = 0; i < N; i++) p[0][i] = S[i];
+	for (; cnt < N; stp++, cnt <<= 1) {
+		for (int i = 0; i < N; i++) {
+			L[i] = tii(pii(p[stp-1][i], i + cnt < N ? p[stp-1][i + cnt] : -1), i);
+		}
+		sort(L, L + N);
+		for (int i = 0; i < N; i++) {
+			p[stp][L[i].y] = i > 0 && L[i].x == L[i-1].x ? p[stp][L[i-1].y] : i;
+		}
+	}
 	return stp - 1; // result is in p[stp - 1][0 .. (N - 1)]
 }
 \end{lstlisting}
@@ -889,21 +879,18 @@ int suffixArray(string S)
 \textsc{Substring}: \textit{consecutive characters}\,!!!
 
 \begin{lstlisting}
-int table[STR_SIZE][STR_SIZE]; // DP problem
+int dp[STR_SIZE][STR_SIZE]; // DP problem
 
 int lcs(const string &w1, const string &w2) {
 	int n1 = w1.size(), n2 = w2.size();
-	for (int i = 0; i <= n1; i++) table[i][0] = 0;
-	for (int j = 0; j <= n2; j++) table[0][j] = 0;
-	
-	for (int i = 1; i < n1; i++) {
-		for (int j = 1; j < n2; j++) {
-			table[i][j] = w1[i - 1] == w2[j - 1] ? 
-				(table[i - 1][j - 1] + 1) :
-				max(table[i - 1][j], table[i][j - 1]);
+	for (int i = 0; i < n1; i++) {
+		for (int j = 0; j < n2; j++) {
+			if (i == 0 || j == 0) dp[i][j] = 0;
+			else if (w1[i - 1] == w2[j - 1]) dp[i][j] = dp[i - 1][j - 1] + 1;
+			else dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
 		}
 	}
-	return table[n1][n2];
+	return dp[n1][n2];
 }
 
 // backtrace
@@ -912,7 +899,7 @@ string getLCS(const string &w1, const string &w2) {
 	string ret = "";
 	while (i > 0 && j > 0) {
 		if (w1[i - 1] == w2[j - 1]) ret += w1[--i], j--;
-		else if (table[i][j - 1] > table[i - 1][j]) j--;
+		else if (dp[i][j - 1] > dp[i - 1][j]) j--;
 		else i--;
 	}
 	reverse(ret.begin(), ret.end());
@@ -922,22 +909,22 @@ string getLCS(const string &w1, const string &w2) {
 
 \subsection{Levenshtein Distance $\mathcal{O}(n^{2})$}
 
+Also known as the `Edit distance'.
+
 \begin{lstlisting}
-int costs[MAX_SIZE][MAX_SIZE]; // DP problem
+int dp[MAX_SIZE][MAX_SIZE]; // DP problem
 
 int levDist(const string &w1, const string &w2) {
 	int n1 = w1.size(), n2 = w2.size();
-	for (int i = 0; i <= n1; i++) costs[i][0] = i; // removal
-	for (int j = 0; j <= n2; j++) costs[0][j] = j; // insertion
-	for (int i = 1; i <= n1; i++) {
-		for (int j = 1; j <= n2; j++) {
-			costs[i][j] = min(
-				min(costs[i - 1][j] + 1, costs[i][j - 1] + 1),
-				costs[i - 1][j - 1] + (w1[i - 1] != w2[j - 1])
+	for (int i = 0; i <= n1; i++) dp[i][0] = i; // removal
+	for (int j = 0; j <= n2; j++) dp[0][j] = j; // insertion
+	for (int i = 1; i <= n1; i++)
+		for (int j = 1; j <= n2; j++)
+			dp[i][j] = min(
+				1 + min(dp[i - 1][j], dp[i][j - 1]),
+				dp[i - 1][j - 1] + (w1[i - 1] != w2[j - 1])
 			);
-		}
-	}
-	return costs[n1][n2];
+	return dp[n1][n2];
 }
 \end{lstlisting}
 
@@ -946,10 +933,10 @@ int levDist(const string &w1, const string &w2) {
 \begin{lstlisting}
 int kmp_search(const string &word, const string &text) {
 	int n = word.size();
-	vector<int> table(n + 1, 0);
+	vi T(n + 1, 0);
 	for (int i = 1, j = 0; i < n; ) {
-		if (word[i] == word[j]) table[++i] = ++j; // match
-		else if (j > 0) j = table[j]; // fallback
+		if (word[i] == word[j]) T[++i] = ++j; // match
+		else if (j > 0) j = T[j]; // fallback
 		else i++; // no match, keep zero
 	}
 	int matches = 0;
@@ -958,9 +945,9 @@ int kmp_search(const string &word, const string &text) {
 			i++;
 			if (++j == n) { // match at interval [i - n, i)
 				matches++;
-				j = table[j];
+				j = T[j];
 			}
-		} else if (j > 0) j = table[j];
+		} else if (j > 0) j = T[j];
 		else i++;
 	}
 	return matches;
@@ -969,58 +956,54 @@ int kmp_search(const string &word, const string &text) {
 
 \subsection{Aho-Corasick Algorithm $\mathcal{O}(N + \sum_{i=1}^{m} |S_i|)$}
 
-All given patterns must be unique!
+All given P must be unique!
 
 \begin{lstlisting}
-
 const int MAXP = 100, MAXLEN = 200, SIGMA = 26, MAXTRIE = MAXP * MAXLEN;
 
-int npatterns;
-string patterns[MAXP], S;
+int nP;
+string P[MAXP], S;
 
-int wordIdx[MAXTRIE], to[MAXTRIE][SIGMA], sLink[MAXTRIE], dLink[MAXTRIE], nnodes;
+int pnr[MAXTRIE], to[MAXTRIE][SIGMA], sLink[MAXTRIE], dLink[MAXTRIE], nnodes;
 
-void ahoCorasick()
-{
-    // 1. Make a tree, 2. create sLinks and dLinks, 3. Walk through S
-
-    fill_n(wordIdx, MAXTRIE, -1);
-    for (int i = 0; i < MAXTRIE; i++) fill_n(to[i], SIGMA, 0);
-    fill_n(sLink, MAXTRIE, 0);
-    fill_n(dLink, MAXTRIE, 0);
-    nnodes = 1;
-
-    for (int i = 0; i < npatterns; i++) {
-        int cur = 0;
-        for (char c : patterns[i]) {
-            int idx = c - 'a';
-            if (to[cur][idx] == 0) to[cur][idx] = nnodes++;
-            cur = to[cur][idx];
-        }
-        wordIdx[cur] = i;
-    }
-
-    queue<int> q;
-    q.push(0);
-    while (!q.empty()) {
-        int cur = q.front(); q.pop();
-        for (int c = 0; c < SIGMA; c++) {
-            if (to[cur][c]) {
-                int sl = sLink[to[cur][c]] = cur == 0 ? 0 : to[sLink[cur]][c];
-                // if all strings have equal length, remove this:
-                dLink[to[cur][c]] = wordIdx[sl] >= 0 ? sl : dLink[sl];
-                q.push(to[cur][c]);
-            } else to[cur][c] = to[sLink[cur]][c];
-        }
-    }
-
-    for (int cur = 0, i = 0, n = S.size(); i < n; i++) {
-        int idx = S[i] - 'a';
-        cur = to[cur][idx];
-        for (int hit = wordIdx[cur] >= 0 ? cur : dLink[cur]; hit; hit = dLink[hit]) {
-            cerr << "Match for " << patterns[wordIdx[hit]] << " at " << (i + 1 - patterns[wordIdx[hit]].size()) << endl;
-        }
-    }
+void ahoCorasick() {
+	fill_n(pnr, MAXTRIE, -1);
+	for (int i = 0; i < MAXTRIE; i++) fill_n(to[i], SIGMA, 0);
+	fill_n(sLink, MAXTRIE, 0);
+	fill_n(dLink, MAXTRIE, 0);
+	nnodes = 1;
+	// STEP 1: MAKE A TREE
+	for (int i = 0; i < nP; i++) {
+		int cur = 0;
+		for (char c : P[i]) {
+			int i = c - 'a';
+			if (to[cur][i] == 0) to[cur][i] = nnodes++;
+			cur = to[cur][i];
+		}
+		pnr[cur] = i;
+	}
+	// STEP 2: CREATE SUFFIX_LINKS AND DICT_LINKS
+	queue<int> q;
+	q.push(0);
+	while (!q.empty()) {
+		int cur = q.front();
+		q.pop();
+		for (int c = 0; c < SIGMA; c++) {
+			if (to[cur][c]) {
+				int sl = sLink[to[cur][c]] = cur == 0 ? 0 : to[sLink[cur]][c];
+				// if all strings have equal length, remove this:
+				dLink[to[cur][c]] = pnr[sl] >= 0 ? sl : dLink[sl];
+				q.push(to[cur][c]);
+			} else to[cur][c] = to[sLink[cur]][c];
+		}
+	}
+	// STEP 3: TRAVERSE S
+	for (int cur = 0, i = 0, n = S.size(); i < n; i++) {
+		cur = to[cur][S[i] - 'a'];
+		for (int hit = pnr[cur] >= 0 ? cur : dLink[cur]; hit; hit = dLink[hit]) {
+			cerr << P[pnr[hit]] << " found at [" << (i + 1 - P[pnr[hit]].size()) << ", " << i << "]" << endl;
+		}
+	}
 }
 \end{lstlisting}
 
@@ -1028,9 +1011,6 @@ void ahoCorasick()
 
 \begin{lstlisting}
 const double EPS = 1e-7;
-
-#define x first
-#define y second
 
 typedef double NUM; // EITHER double OR long long
 typedef pair<NUM, NUM> pt;
@@ -1080,8 +1060,7 @@ bool pointOnSegment(pt a, pt b, pt c) {
 }
 
 // REQUIRES DOUBLES
-pt lineLineIntersection(pt a, pt b, pt c, pt d, bool &cross)
-{
+pt lineLineIntersection(pt a, pt b, pt c, pt d, bool &cross) {
 	NUM det = (a - b) ^ (c - d);
 	pt ret = (c - d) * (a ^ b) - (a - b) * (c ^ d);
 	return (cross = det != 0) ? (ret / det) : ret;
@@ -1136,15 +1115,14 @@ NUM polygonTwiceArea(const vector<pt> &pts) {
 	return abs(area); // area < 0 <=> pts ccw
 }
 
-bool pointInPolygon(pt p, const vector<pt> &pts)
-{
-    double sum = 0;
-    for (int N = pts.size(), i = 0, j = N - 1; i < N; j = i++) {
+bool pointInPolygon(pt p, const vector<pt> &pts) {
+	double sum = 0;
+	for (int N = pts.size(), i = 0, j = N - 1; i < N; j = i++) {
 		if (pointOnSegment(p, pts[i], pts[j])) return true; // boundary
 		double angle = acos((pts[i] - p) * (pts[j] - p) / len(pts[i], p) / len(pts[j], p));
-        sum += ((pts[i] - p) ^ (pts[j] - p)) < 0 ? angle : -angle;
-    }
-    return abs(abs(sum) - 2 * PI) < EPS;
+		sum += ((pts[i] - p) ^ (pts[j] - p)) < 0 ? angle : -angle;
+	}
+	return abs(abs(sum) - 2 * PI) < EPS;
 }
 \end{lstlisting}
 
@@ -1168,33 +1146,32 @@ return onBoundary ? 2 : 1;
 
 \begin{lstlisting}
 // points are given by: pts[ret[0]], pts[ret[1]], ... pts[ret[ret.size()-1]]
-vector<int> convexHull(const vector<pt> &pts) {
-	if (pts.empty()) return vector<int>();
-	vector<int> ret;
-	int bestIndex = 0, n = pts.size();
-	pt best = pts[0];
+vi convexHull(const vector<pt> &pts) {
+	if (pts.empty()) return vi();
+	vi ret;
+	// find one outer point:
+	int fsti = 0, n = pts.size();
+	pt fstpt = pts[0];
 	for(int i = n; i--; ) {
-		if (pts[i] < best) {
-			best = pts[bestIndex = i];
-		}
+		if (pts[i] < fstpt) fstpt = pts[fsti = i];
 	}
-	ret.push_back(bestIndex);
-	pt refr = pts[bestIndex];
+	ret.pb(fsti);
+	pt refr = pts[fsti];
 
-	vector<int> ordered; // index into pts
+	vi ord; // index into pts
 	for (int i = n; i--; ) {
-		if (pts[i] != refr) ordered.push_back(i);
+		if (pts[i] != refr) ord.pb(i);
 	}
-	sort(ordered.begin(), ordered.end(), [&pts, &refr] (int a, int b) -> bool {
+	sort(ord.begin(), ord.end(), [&pts, &refr] (int a, int b) -> bool {
 		NUM cross = (pts[a] - refr) ^ (pts[b] - refr);
 		return cross != 0 ? cross > 0 : lenSq(refr, pts[a]) < lenSq(refr, pts[b]);
 	});
-	for (int i : ordered) {
+	for (int i : ord) {
 		// NOTE: > INCLUDES points on the hull-line, >= EXCLUDES
-		while (ret.size() > 1 && ((pts[ret[ret.size() - 2]] - pts[ret.back()]) ^ (pts[i] - pts[ret.back()])) >= 0) {
+		while (ret.size() > 1 && 
+				((pts[ret[ret.size()-2]]-pts[ret.back()]) ^ (pts[i]-pts[ret.back()])) >= 0)
 			ret.pop_back();
-		}
-		ret.push_back(i);
+		ret.pb(i);
 	}
 	return ret;
 }
@@ -1206,17 +1183,16 @@ Finds the longest distance between two points in a convex hull.
 
 \begin{lstlisting}
 NUM rotatingCalipers(vector<pt> &hull) {
-    int n = hull.size(), a = 0, b = 1;
-    if (n <= 1) return 0.0;
-    while (((hull[1] - hull[0]) ^ (hull[(b + 1) % n] - hull[b])) > 0) b++;
-    cerr << a << " " << b << endl;
-    NUM ret = 0.0;
-    while (a < n) {
-        ret = max(ret, lenSq(hull[a], hull[b]));
-        if (((hull[(a + 1) % n] - hull[a % n]) ^ (hull[(b + 1) % n] - hull[b])) <= 0) a++;
-        else if (++b == n) b = 0;
-    }
-    return ret;
+	int n = hull.size(), a = 0, b = 1;
+	if (n <= 1) return 0.0;
+	while (((hull[1] - hull[0]) ^ (hull[(b + 1) % n] - hull[b])) > 0) b++;
+	NUM ret = 0.0;
+	while (a < n) {
+		ret = max(ret, lenSq(hull[a], hull[b]));
+		if (((hull[(a + 1) % n] - hull[a % n]) ^ (hull[(b + 1) % n] - hull[b])) <= 0) a++;
+		else if (++b == n) b = 0;
+	}
+	return ret;
 }
 \end{lstlisting}
 
@@ -1226,16 +1202,12 @@ NUM rotatingCalipers(vector<pt> &hull) {
 int n;
 pt pts[maxn];
 
-class byY {
-public:
-	bool operator()(int a, int b) const {
-		return pts[a].y < pts[b].y;
-	}
+struct byY {
+	bool operator()(int a, int b) const { return pts[a].y < pts[b].y; }
 };
 
 inline NUM dist(pii p) {
-	return hypot(pts[p.x].x - pts[p.y].x,
-				 pts[p.x].y - pts[p.y].y);
+	return hypot(pts[p.x].x - pts[p.y].x, pts[p.x].y - pts[p.y].y);
 }
 
 pii minpt(pii p1, pii p2) {
@@ -1261,8 +1233,8 @@ pii closest(int l, int r, vi &ys) {
 	for (int i : ys) {
 		if (abs(pts[i].x - xm) <= ddelta) {
 			for (int j : q) delta = minpt(delta, pii(i, j));
-			q.push_back(i);
-			if (q.size() > 8) q.pop_front(); // magical constant, dictated by the Introduction to Algorithms.
+			q.pb(i);
+			if (q.size() > 8) q.pop_front(); // magic from Introduction to Algorithms.
 		}
 	}
 	return delta;
@@ -1280,9 +1252,8 @@ bool test(int n);
 int search(int lo, int hi) {
 	// assert(test(lo) && !test(hi));
 	while (hi - lo > 1) {
-		int c = (lo + hi) / 2;
-		if (test(c)) lo = c;
-		else         hi = c;
+		int m = (lo + hi) / 2;
+		(test(m) ? lo : hi) = m;
 	}
 	// assert(test(lo) && !test(hi));
 	return lo;
@@ -1312,14 +1283,12 @@ return lo;
 Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) = b_0 + b_1 x + \dots + b_{n/2} x^{n/2}$, FFT calculates all coefficients of $C(x) = A(x) \cdot B(x) = c_0 + c_1 x + \dots c_{n} x^{n}$, with $c_i = \sum_{j=0}^{i} a_j b_{i-j}$.
 
 \begin{lstlisting}
-
 typedef complex<double> cpx;
 const int logmaxn = 20, maxn = 1 << logmaxn;
 
 cpx a[maxn] = {}, b[maxn] = {}, c[maxn];
 
-void fft(cpx *src, cpx *dest)
-{
+void fft(cpx *src, cpx *dest) {
 	for (int i = 0, rep = 0; i < maxn; i++, rep = 0) {
 		for (int j = i, k = logmaxn; k--; j >>= 1) rep = (rep << 1) | (j & 1);
 		dest[rep] = src[i];
@@ -1338,8 +1307,7 @@ void fft(cpx *src, cpx *dest)
 	}
 }
 
-void multiply()
-{
+void multiply() {
 	fft(a, c);
 	fft(b, a);
 	for (int i = 0; i < maxn; i++) b[i] = conj(a[i] * c[i]);
@@ -1354,12 +1322,12 @@ void multiply()
 int a[MAXN + 1][MAXM + 1]; // matrix, 1-based
 
 int minimum_assignment(int n, int m) { // n rows, m columns
-	vector<int> u(n + 1), v(m + 1), p(m + 1), way(m + 1);
+	vi u(n + 1), v(m + 1), p(m + 1), way(m + 1);
 
 	for (int i = 1; i <= n; i++) {
 		p[0] = i;
 		int j0 = 0;
-		vector<int> minv(m + 1, INF);
+		vi minv(m + 1, INF);
 		vector<char> used(m + 1, false);
 		do {
 			used[j0] = true;
@@ -1386,6 +1354,64 @@ int minimum_assignment(int n, int m) { // n rows, m columns
 	// column j is assigned to row p[j]
 	// for (int j = 1; j <= m; ++ j) ans[p[j]] = j;
 	return -v[0];
+}
+\end{lstlisting}
+
+\subsection{Partial linear equation solver $\mathcal{O}(N^3)$}
+
+\begin{lstlisting}
+typedef double NUM;
+
+#define MAXN 110
+#define EPS 1e-5
+
+NUM mat[MAXN][MAXN + 1], vals[MAXN];
+bool hasval[MAXN];
+
+bool is_zero(NUM a) { return -EPS < a && a < EPS; }
+bool eq(NUM a, NUM b) { return is_zero(a - b); }
+
+int solvemat(int n)
+{
+	for(int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++) cin >> mat[i][j];
+	for (int i = 0; i < n; i++) cin >> mat[i][n];
+
+	int pivrow = 0, pivcol = 0;
+	while (pivcol < n) {
+		int r = pivrow, c;
+		while (r < n && is_zero(mat[r][pivcol])) r++;
+		if (r == n) { pivcol++; continue; }
+
+		for (c = 0; c <= n; c++) swap(mat[pivrow][c], mat[r][c]);
+
+		r = pivrow++; c = pivcol++;
+		NUM div = mat[r][c];
+		for (int col = c; col <= n; col++) mat[r][col] /= div;
+		for (int row = 0; row < n; row++) {
+			if (row == r) continue;
+			NUM times = -mat[row][c];
+			for (int col = c; col <= n; col++) mat[row][col] += times * mat[r][col];
+		}
+	}
+	// now mat is in RREF
+	for (int r = pivrow; r < n; r++)
+		if (!is_zero(mat[r][n])) return 0;
+
+	fill_n(hasval, n, false);
+	for (int col = 0, row; col < n; col++) {
+		hasval[col] = !is_zero(mat[row][col]);
+		if (!hasval[col]) continue;
+		for (int c = col + 1; c < n; c++) {
+			if (!is_zero(mat[row][c])) hasval[col] = false;
+		}
+		if (hasval[col]) vals[col] = mat[row][n];
+		row++;
+	}
+
+	for (int i = 0; i < n; i++)
+		if (!hasval[i]) return 2;
+	return 1;
 }
 \end{lstlisting}
 
