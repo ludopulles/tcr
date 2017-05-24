@@ -93,23 +93,18 @@ const double PI = acos(-1.0);
 #define DBG(x) cerr << __LINE__ << ": " << #x << " = " << (x) << endl
 
 const bool LOG = false;
-void Log() {
-	if(LOG) cerr << "\n\n";
-}
+void Log() { if(LOG) cerr << "\n\n"; }
 template<class T, class... S>
-void Log(T t, S... s) {
-	if(LOG) cerr << t << "\t", Log(s...);
-}
+void Log(T t, S... s) { if(LOG) cerr << t << "\t", Log(s...); }
 
-template<class T>
-using min_queue = priority_queue<T, vector<T>, greater<T>>;
+template<class T> using min_queue = priority_queue<T, vector<T>, greater<T>>;
 
 int main() {
-	ios_base::sync_with_stdio(false); // faster IO
-	cin.tie(NULL);					// faster IO
-	cerr << boolalpha;				// (print true/false)
-	(cout << fixed).precision(10);	// set floating point precision
-	// TODO: code
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cerr << boolalpha;
+	(cout << fixed).precision(10);
+
 	return 0;
 }
 \end{lstlisting}
@@ -138,9 +133,9 @@ Prime numbers: $\mathit{982451653}$, $\mathit{81253449}$, $10^3 + \{-9,-3,9,13\}
 \end{itemize}
 
 \subsection{Detecting overflow}
-These are GNU builtins, detect both over- and underflow. Returns a boolean upon failure, otherwise the result is present in \texttt{ref}. Follow the template: 
+These are GNU builtins, detect both over- and underflow. Returns a boolean upon failure, otherwise the result is present in \texttt{ref}. Follow the template:
 
-\texttt{\_\_builtin\_[u|s][add|mul|sub](ll)?\_overflow(a, b, \&res)} 
+\texttt{\_\_builtin\_[u|s][add|mul|sub](ll)?\_overflow(a, b, \&res)}
 
 \subsection{Wrong Answer}
 
@@ -197,8 +192,6 @@ A game can be reduced to Nim if it is a finite impartial game. Nim and its varia
 
 A useful identity: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{mod} \, 4]$.
 
-
-
 \section{Mathematics}
 
 \begin{lstlisting}
@@ -206,28 +199,28 @@ int abs(int x) { return x > 0 ? x : -x; }
 int sign(int x) { return (x > 0) - (x < 0); }
 
 // greatest common divisor
-ll gcd(ll a, ll b) { while (b) { a %= b; swap(a, b); } return a };
+ll gcd(ll a, ll b) { while (b) a %= b, swap(a, b); return a; };
 // least common multiple
 ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
-ll mod(ll a, ll m) { return ((a % b) + b) % b; }
+ll mod(ll a, ll b) { return (a %= b) < 0 ? a + b : a; }
 
 // safe multiplication (ab % m) for m <= 4e18 in O(log b)
-ll modmul(ll a, ll b, ll m) {
+ll mulmod(ll a, ll b, ll m) {
 	ll r = 0;
 	while (b) {
-		if (b & 1) r = mod(r + a, m);
-		a = mod(a + a, m);
+		if (b & 1) r = (r + a) % m;
+		a = (a + a) % m;
 		b >>= 1;
 	}
 	return r;
 }
 
 // safe exponentation (a^b % m) for m <= 2e9 in O(log b)
-ll modpow(ll a, ll b, ll m) {
+ll powmod(ll a, ll b, ll m) {
 	ll r = 1;
 	while (b) {
-		if (b & 1) r = (r * a) % m;
-		a = (a * a) % m;
+		if (b & 1) r = (r * a) % m; // r = mulmod(r, a, m);
+		a = (a * a) % m; // a = mulmod(a, a, m);
 		b >>= 1;
 	}
 	return r;
@@ -252,18 +245,18 @@ pll crt(ll a, ll n, ll b, ll m) {
 	if (mod(a - b, d)) return NO_SOLUTION;
 	return pll(mod(s * b * n + t * a * m, nm) / d, nm / d);
 	/* when n, m > 10^6, avoid overflow:
-	return pll(mod(modmul(modmul(s, b, nm), n, nm) + 
-				   modmul(modmul(t, a, nm), m, nm), nm) / d, nm / d); */
+	return pll(mod(mulmod(mulmod(s, b, nm), n, nm)
+	             + mulmod(mulmod(t, a, nm), m, nm), nm) / d, nm / d); */
 }
 
-int phi[N]; // phi[i] = #{ j | gcd(i, j) = 1 }
-
-void sievePhi() {
+// phi[i] = #{ 0 < j <= i | gcd(i, j) = 1 }
+vi totient(int N) {
+	vi phi(N);
 	for (int i = 0; i < N; i++) phi[i] = i;
 	for (int i = 2; i < N; i++)
 		if (phi[i] == i)
-			for (int j = i; j < N; j += i)
-				phi[j] -= phi[j] / i * (i - 1);
+			for (int j = i; j < N; j += i) phi[j] -= phi[j] / i;
+	return phi;
 }
 
 // calculate nCk % p (p prime!)
@@ -276,6 +269,21 @@ ll lucas(ll n, ll k, ll p) {
 		n /= p; k /= p;
 	}
 	return ans;
+}
+
+// returns if n is prime (for n < 2^64)
+bool millerRabin(ll n) {
+	int s = 0, r;
+	ll d = n - 1, ad;
+	vi as = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41 };
+	if (n < 42LL) return binary_search(as.begin(), as.end(), n);
+	while (d % 2 == 0) d /= 2, s++;
+	for (int a : as) {
+		if ((ad = powmod(a, d, n)) == 1) continue;
+		for (r = 0; r < s && ad + 1 != n; r++) ad = mulmod(ad, ad, n);
+		if (r == s) return false;
+	}
+	return true;
 }
 \end{lstlisting}
 
@@ -491,7 +499,7 @@ bool cycle_detection() {
 		}
 	}
 	return false;
-} 
+}
 \end{lstlisting}
 \end{comment}
 
@@ -1168,7 +1176,7 @@ vi convexHull(const vector<pt> &pts) {
 	});
 	for (int i : ord) {
 		// NOTE: > INCLUDES points on the hull-line, >= EXCLUDES
-		while (ret.size() > 1 && 
+		while (ret.size() > 1 &&
 				((pts[ret[ret.size()-2]]-pts[ret.back()]) ^ (pts[i]-pts[ret.back()])) >= 0)
 			ret.pop_back();
 		ret.pb(i);
