@@ -5,7 +5,7 @@
 \usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
 
 \title{TCR}
-\author{git diff solution (Jens Heuseveldt, Ludo Pulles, Peter Ypma)}
+\author{*TEAMNAME* (Jens Heuseveldt, Ludo Pulles, Pim Spelier)}
 
 \lstset{
 	literate={~} {$\sim$}{1},
@@ -27,7 +27,7 @@
 
 \pagestyle{fancy}
 \lhead{Utrecht University}
-\rhead{git diff solution}
+\rhead{*TEAMNAME*}
 
 \begin{document}
 
@@ -35,7 +35,7 @@
 \begin{center}
 	\makeatletter
 	\textbf{\@title} \\
-	\today \\
+%	\today \\
 	\emph{\@author}
 	\makeatother
 \end{center}
@@ -49,7 +49,7 @@ At the start of a contest, type this in a terminal:
 
 \begin{lstlisting}
 printf "set nu sw=4 ts=4 noet ai hls shellcmdflag=-ic\nsyntax on\ncolor slate" > ~/.vimrc
-echo "alias g11='g++ -Wall -Wshadow -DDEBUG -std=c++11'" >> ~/.bashrc
+echo "alias g11='g++ -Wall -Wshadow -DLOG -std=c++11'" >> ~/.bashrc
 \end{lstlisting}
 
 \begin{center}
@@ -58,7 +58,6 @@ template.cpp
 
 \begin{lstlisting}
 #include<bits/stdc++.h>
-
 using namespace std;
 
 // Order statistics tree (if supported by judge!):
@@ -70,8 +69,7 @@ template<class TK, class TM>
 using order_tree = tree<TK, TM, less<TK>, rb_tree_tag, tree_order_statistics_node_update>;
 // iterator	find_by_order(int r) (zero based)
 // int		order_of_key(TK v)
-template<class TV>
-using order_set = order_tree<TV, null_type>;
+template<class TV> using order_set = order_tree<TV, null_type>;
 
 #define x first
 #define y second
@@ -83,27 +81,29 @@ typedef long long ll;
 typedef pair<int, int> pii;
 typedef vector<int> vi;
 typedef vector<vi> vvi;
+template<class T> using min_queue = priority_queue<T, vector<T>, greater<T>>;
 
 const int INF = 2147483647; // (1 << 30) - 1 + (1 << 30)
 const ll LLINF = (1LL << 62) - 1 + (1LL << 62); // = 9.223.372.036.854.775.807
 const double PI = acos(-1.0);
 
-// lambda-expression: [] (args) -> retType { body }
-
+#ifdef LOG
 #define DBG(x) cerr << __LINE__ << ": " << #x << " = " << (x) << endl
-
+#else
+#define DBG(x)
 const bool LOG = false;
+#endif
+
 void Log() { if(LOG) cerr << "\n\n"; }
 template<class T, class... S>
 void Log(T t, S... s) { if(LOG) cerr << t << "\t", Log(s...); }
 
-template<class T> using min_queue = priority_queue<T, vector<T>, greater<T>>;
-
+// lambda-expression: [] (args) -> retType { body }
 int main() {
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cerr << boolalpha;
-	(cout << fixed).precision(10);
+	ios_base::sync_with_stdio(false); // fast IO
+	cin.tie(NULL); // fast IO
+	cerr << boolalpha; // print true/false
+	(cout << fixed).precision(10); // adjust precision
 
 	return 0;
 }
@@ -118,40 +118,37 @@ Prime numbers: $\mathit{982451653}$, $\mathit{81253449}$, $10^3 + \{-9,-3,9,13\}
 	\item Goed slapen \& een vroeg ritme hebben
 	\item Genoeg drinken \& eten tijdens de wedstrijd
 	\item Een lijst van alle problemen met info waar het over gaat, en wie het goed kan oplossen
-	\item Ludo moet de opgave goed lezen
+	\item Ludo moet \textbf{ALLE} opgaves \textbf{goed} lezen
 	\item Test de kleine voorbeeldgevallen
 	\item Houd na 2 uur een pauze en overleg waar iedereen mee bezig is
 	\item Maak zelf wat test-cases
-	\item Na een WA, print het probleem, en probeer het ook weg te leggen
 	\item Typ de dingen uit de TCR, die je zeker nodig hebt, alvast in
-	\item Peter moet meer papier gebruiken om fouten te verkomen
 	\item Als iemand niks te doen heeft, kan hij nodige dingen uit de TCR typen.
 	\item We moeten ook een voorbeeld test-case voor TCR algoritmes hebben om te testen of het goed overgetypt is
 	\item Bij geometrie moeten we om kunnen gaan met meerdere input manieren (voor bv. lijnen)
 	\item Gebruik veel long long`s
-	\item Bij een verkeerd antwoord, kijk naar genoeg debug output
 \end{itemize}
+
+\subsection{Wrong Answer}
+
+\begin{enumerate}
+	\setlength\itemsep{-.25em}
+	\item Print de oplossing om te debuggen! Kijk ook naar andere (mogelijk makkelijkere) problemen.
+	\item Bedenk zelf test-cases met \textbf{randgevallen}!
+	\item Controleer op \textbf{overflow} (gebruik \textbf{OVERAL} long long, long double).
+		\\ \textit{Kijk naar overflows in tussenantwoorden bij modulo.}
+	\item Controleer de \textbf{precisie}.
+	\item Controleer op \textbf{typo\textquotesingle s}.
+	\item Loop de voorbeeldinput accuraat langs.
+	\item Controller op off-by-one-errors (in indices of lus-grenzen)?
+\end{enumerate}
 
 \subsection{Detecting overflow}
 These are GNU builtins, detect both over- and underflow. Returns a boolean upon failure, otherwise the result is present in \texttt{ref}. Follow the template:
 
-\texttt{\_\_builtin\_[u|s][add|mul|sub](ll)?\_overflow(a, b, \&res)}
-
-\subsection{Wrong Answer}
-
-\begin{itemize}
-	\setlength\itemsep{-.25em}
-	\item Edge cases: $n\in\{-1,0,1,2\}$. Empty list/graph?
-	\item Beware of typos
-	\item Test sample input; make custom testcases
-	\item Read carefully
-	\item Check bounds (use long long or long double)
-	\item Off by one error (in indices or loop bounds)
-	\item Not enough precision
-	\item Assertions
-	\item Missing modulo operators
-	\item Cases that need a (completely) different approach
-\end{itemize}
+\begin{lstlisting}
+bool isOverflown = __builtin_[add|mul|sub]_overflow(a, b, \&res);
+\end{lstlisting}
 
 \subsection{Covering problems}
 
