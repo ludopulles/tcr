@@ -1,0 +1,27 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{template} \PYG{o}{\PYGZlt{}}\PYG{k}{class} \PYG{n+nc}{T}\PYG{o}{\PYGZgt{}}
+\PYG{k}{struct} \PYG{n}{dancing\PYGZus{}links} \PYG{p}{\PYGZob{}}
+  \PYG{k}{struct} \PYG{n}{node} \PYG{p}{\PYGZob{}}
+    \PYG{n}{T} \PYG{n}{item}\PYG{p}{;}
+    \PYG{n}{node} \PYG{o}{*}\PYG{n}{l}\PYG{p}{,} \PYG{o}{*}\PYG{n}{r}\PYG{p}{;}
+    \PYG{n}{node}\PYG{p}{(}\PYG{k}{const} \PYG{n}{T} \PYG{o}{\PYGZam{}}\PYG{n}{\PYGZus{}item}\PYG{p}{,} \PYG{n}{node} \PYG{o}{*}\PYG{n}{\PYGZus{}l} \PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{,} \PYG{n}{node} \PYG{o}{*}\PYG{n}{\PYGZus{}r} \PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{)}
+      \PYG{o}{:} \PYG{n}{item}\PYG{p}{(}\PYG{n}{\PYGZus{}item}\PYG{p}{),} \PYG{n}{l}\PYG{p}{(}\PYG{n}{\PYGZus{}l}\PYG{p}{),} \PYG{n}{r}\PYG{p}{(}\PYG{n}{\PYGZus{}r}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{l}\PYG{p}{)} \PYG{n}{l}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{r} \PYG{o}{=} \PYG{k}{this}\PYG{p}{;}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{r}\PYG{p}{)} \PYG{n}{r}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{l} \PYG{o}{=} \PYG{k}{this}\PYG{p}{;} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{};}
+  \PYG{n}{node} \PYG{o}{*}\PYG{n}{front}\PYG{p}{,} \PYG{o}{*}\PYG{n}{back}\PYG{p}{;}
+  \PYG{n}{dancing\PYGZus{}links}\PYG{p}{()} \PYG{p}{\PYGZob{}} \PYG{n}{front} \PYG{o}{=} \PYG{n}{back} \PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+  \PYG{n}{node} \PYG{o}{*}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{k}{const} \PYG{n}{T} \PYG{o}{\PYGZam{}}\PYG{n}{item}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{back} \PYG{o}{=} \PYG{k}{new} \PYG{n}{node}\PYG{p}{(}\PYG{n}{item}\PYG{p}{,} \PYG{n}{back}\PYG{p}{,} \PYG{n+nb}{NULL}\PYG{p}{);}
+    \PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n}{front}\PYG{p}{)} \PYG{n}{front} \PYG{o}{=} \PYG{n}{back}\PYG{p}{;}
+    \PYG{k}{return} \PYG{n}{back}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+  \PYG{n}{node} \PYG{o}{*}\PYG{n}{push\PYGZus{}front}\PYG{p}{(}\PYG{k}{const} \PYG{n}{T} \PYG{o}{\PYGZam{}}\PYG{n}{item}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{front} \PYG{o}{=} \PYG{k}{new} \PYG{n}{node}\PYG{p}{(}\PYG{n}{item}\PYG{p}{,} \PYG{n+nb}{NULL}\PYG{p}{,} \PYG{n}{front}\PYG{p}{);}
+    \PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n}{back}\PYG{p}{)} \PYG{n}{back} \PYG{o}{=} \PYG{n}{front}\PYG{p}{;}
+    \PYG{k}{return} \PYG{n}{front}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{void} \PYG{n}{erase}\PYG{p}{(}\PYG{n}{node} \PYG{o}{*}\PYG{n}{n}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n}{n}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{l}\PYG{p}{)} \PYG{n}{front} \PYG{o}{=} \PYG{n}{n}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{r}\PYG{p}{;} \PYG{k}{else} \PYG{n}{n}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{l}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{r} \PYG{o}{=} \PYG{n}{n}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{r}\PYG{p}{;}
+    \PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n}{n}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{r}\PYG{p}{)} \PYG{n}{back} \PYG{o}{=} \PYG{n}{n}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{l}\PYG{p}{;} \PYG{k}{else} \PYG{n}{n}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{r}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{l} \PYG{o}{=} \PYG{n}{n}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{l}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{void} \PYG{n}{restore}\PYG{p}{(}\PYG{n}{node} \PYG{o}{*}\PYG{n}{n}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n}{n}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{l}\PYG{p}{)} \PYG{n}{front} \PYG{o}{=} \PYG{n}{n}\PYG{p}{;} \PYG{k}{else} \PYG{n}{n}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{l}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{r} \PYG{o}{=} \PYG{n}{n}\PYG{p}{;}
+    \PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n}{n}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{r}\PYG{p}{)} \PYG{n}{back} \PYG{o}{=} \PYG{n}{n}\PYG{p}{;} \PYG{k}{else} \PYG{n}{n}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{r}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{l} \PYG{o}{=} \PYG{n}{n}\PYG{p}{;} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{};}
+\end{Verbatim}

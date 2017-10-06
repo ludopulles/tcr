@@ -1,0 +1,24 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{struct} \PYG{n}{min\PYGZus{}stack} \PYG{p}{\PYGZob{}}
+  \PYG{n}{stack}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}} \PYG{n}{S}\PYG{p}{,} \PYG{n}{M}\PYG{p}{;}
+  \PYG{k+kt}{void} \PYG{n+nf}{push}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{x}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{S}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{x}\PYG{p}{);}
+    \PYG{n}{M}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{M}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{()} \PYG{o}{?} \PYG{n+nl}{x} \PYG{p}{:} \PYG{n}{min}\PYG{p}{(}\PYG{n}{M}\PYG{p}{.}\PYG{n}{top}\PYG{p}{(),} \PYG{n}{x}\PYG{p}{));} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{int} \PYG{n+nf}{top}\PYG{p}{()} \PYG{p}{\PYGZob{}} \PYG{k}{return} \PYG{n}{S}\PYG{p}{.}\PYG{n}{top}\PYG{p}{();} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{int} \PYG{n+nf}{mn}\PYG{p}{()} \PYG{p}{\PYGZob{}} \PYG{k}{return} \PYG{n}{M}\PYG{p}{.}\PYG{n}{top}\PYG{p}{();} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{void} \PYG{n+nf}{pop}\PYG{p}{()} \PYG{p}{\PYGZob{}} \PYG{n}{S}\PYG{p}{.}\PYG{n}{pop}\PYG{p}{();} \PYG{n}{M}\PYG{p}{.}\PYG{n}{pop}\PYG{p}{();} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{bool} \PYG{n+nf}{empty}\PYG{p}{()} \PYG{p}{\PYGZob{}} \PYG{k}{return} \PYG{n}{S}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{();} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{};}
+\PYG{k}{struct} \PYG{n}{min\PYGZus{}queue} \PYG{p}{\PYGZob{}}
+  \PYG{n}{min\PYGZus{}stack} \PYG{n}{inp}\PYG{p}{,} \PYG{n}{outp}\PYG{p}{;}
+  \PYG{k+kt}{void} \PYG{n+nf}{push}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{x}\PYG{p}{)} \PYG{p}{\PYGZob{}} \PYG{n}{inp}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{x}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{void} \PYG{n+nf}{fix}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{outp}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())} \PYG{k}{while} \PYG{p}{(}\PYG{o}{!}\PYG{n}{inp}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())}
+      \PYG{n}{outp}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{inp}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()),} \PYG{n}{inp}\PYG{p}{.}\PYG{n}{pop}\PYG{p}{();} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{int} \PYG{n+nf}{top}\PYG{p}{()} \PYG{p}{\PYGZob{}} \PYG{n}{fix}\PYG{p}{();} \PYG{k}{return} \PYG{n}{outp}\PYG{p}{.}\PYG{n}{top}\PYG{p}{();} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{int} \PYG{n+nf}{mn}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{inp}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())} \PYG{k}{return} \PYG{n}{outp}\PYG{p}{.}\PYG{n}{mn}\PYG{p}{();}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{outp}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())} \PYG{k}{return} \PYG{n}{inp}\PYG{p}{.}\PYG{n}{mn}\PYG{p}{();}
+    \PYG{k}{return} \PYG{n}{min}\PYG{p}{(}\PYG{n}{inp}\PYG{p}{.}\PYG{n}{mn}\PYG{p}{(),} \PYG{n}{outp}\PYG{p}{.}\PYG{n}{mn}\PYG{p}{());} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{void} \PYG{n+nf}{pop}\PYG{p}{()} \PYG{p}{\PYGZob{}} \PYG{n}{fix}\PYG{p}{();} \PYG{n}{outp}\PYG{p}{.}\PYG{n}{pop}\PYG{p}{();} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{bool} \PYG{n+nf}{empty}\PYG{p}{()} \PYG{p}{\PYGZob{}} \PYG{k}{return} \PYG{n}{inp}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{()} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{outp}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{();} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{};}
+\end{Verbatim}

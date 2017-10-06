@@ -8,7 +8,7 @@ ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
 ll mod(ll a, ll b) { return (a %= b) < 0 ? a + b : a; }
 
 // safe multiplication (ab % m) for m <= 4e18 in O(log b)
-ll mulmod(ll a, ll b, ll m) {
+ll mod_mul(ll a, ll b, ll m) {
 	ll r = 0;
 	while (b) {
 		if (b & 1) r = (r + a) % m; a = (a + a) % m; b >>= 1;
@@ -17,11 +17,11 @@ ll mulmod(ll a, ll b, ll m) {
 }
 
 // safe exponentation (a^b % m) for m <= 2e9 in O(log b)
-ll powmod(ll a, ll b, ll m) {
+ll mod_pow(ll a, ll b, ll m) {
 	ll r = 1;
 	while (b) {
-		if (b & 1) r = (r * a) % m; // r = mulmod(r, a, m);
-		a = (a * a) % m; // a = mulmod(a, a, m);
+		if (b & 1) r = (r * a) % m; // r = mod_mul(r, a, m);
+		a = (a * a) % m; // a = mod_mul(a, a, m);
 		b >>= 1;
 	}
 	return r;
@@ -46,8 +46,8 @@ pll crt(ll a, ll n, ll b, ll m) {
 	if (mod(a - b, d)) return NO_SOLUTION;
 	return pll(mod(s * b * n + t * a * m, nm) / d, nm / d);
 	/* when n, m > 10^6, avoid overflow:
-	return pll(mod(mulmod(mulmod(s, b, nm), n, nm)
-	             + mulmod(mulmod(t, a, nm), m, nm), nm) / d, nm / d); */
+	return pll(mod(mod_mul(mod_mul(s, b, nm), n, nm)
+	             + mod_mul(mod_mul(t, a, nm), m, nm), nm) / d, nm / d); */
 }
 
 // phi[i] = #{ 0 < j <= i | gcd(i, j) = 1 }
@@ -73,15 +73,16 @@ ll lucas(ll n, ll k, ll p) {
 }
 
 // returns if n is prime for n < 3e24 ( > 2^64)
+// but use mul_mod for n > 2e9!!!
 bool millerRabin(ll n){
 	if (n < 2 || n % 2 == 0) return n == 2;
 	ll d = n - 1, ad, s = 0, r;
 	for (; d % 2 == 0; d /= 2) s++;
 	for (int a : { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41 }) {
 		if (n == a) return true;
-		if ((ad = powmod(a, d, n)) == 1) continue;
+		if ((ad = mod_pow(a, d, n)) == 1) continue;
 		for (r = 0; r < s && ad + 1 != n; r++)
-			ad = mulmod(ad, ad, n);
+			ad = (ad * ad) % n;
 		if (r == s) return false;
 	}
 	return true;

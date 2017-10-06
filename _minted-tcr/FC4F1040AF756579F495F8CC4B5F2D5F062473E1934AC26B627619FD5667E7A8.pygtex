@@ -1,0 +1,26 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{void} \PYG{n+nf}{tsort\PYGZus{}dfs}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{cur}\PYG{p}{,} \PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{color}\PYG{p}{,} \PYG{k}{const} \PYG{n}{vvi}\PYG{o}{\PYGZam{}} \PYG{n}{adj}\PYG{p}{,}
+    \PYG{n}{stack}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZam{}} \PYG{n}{res}\PYG{p}{,} \PYG{k+kt}{bool}\PYG{o}{\PYGZam{}} \PYG{n}{cyc}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{color}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{n}{rep}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{size}\PYG{p}{(}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{]))} \PYG{p}{\PYGZob{}}
+    \PYG{k+kt}{int} \PYG{n}{nxt} \PYG{o}{=} \PYG{n}{adj}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{][}\PYG{n}{i}\PYG{p}{];}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{color}\PYG{p}{[}\PYG{n}{nxt}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)}
+      \PYG{n}{tsort\PYGZus{}dfs}\PYG{p}{(}\PYG{n}{nxt}\PYG{p}{,} \PYG{n}{color}\PYG{p}{,} \PYG{n}{adj}\PYG{p}{,} \PYG{n}{res}\PYG{p}{,} \PYG{n}{cyc}\PYG{p}{);}
+    \PYG{k}{else} \PYG{k}{if} \PYG{p}{(}\PYG{n}{color}\PYG{p}{[}\PYG{n}{nxt}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{)}
+      \PYG{n}{cyc} \PYG{o}{=} \PYG{n+nb}{true}\PYG{p}{;}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{cyc}\PYG{p}{)} \PYG{k}{return}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+  \PYG{n}{color}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{p}{;}
+  \PYG{n}{res}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{cur}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+\PYG{n}{vi} \PYG{n+nf}{tsort}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{n}\PYG{p}{,} \PYG{n}{vvi} \PYG{n}{adj}\PYG{p}{,} \PYG{k+kt}{bool}\PYG{o}{\PYGZam{}} \PYG{n}{cyc}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{cyc} \PYG{o}{=} \PYG{n+nb}{false}\PYG{p}{;}
+  \PYG{n}{stack}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}} \PYG{n}{S}\PYG{p}{;}
+  \PYG{n}{vi} \PYG{n}{res}\PYG{p}{;}
+  \PYG{k+kt}{char}\PYG{o}{*} \PYG{n}{color} \PYG{o}{=} \PYG{k}{new} \PYG{k+kt}{char}\PYG{p}{[}\PYG{n}{n}\PYG{p}{];}
+  \PYG{n}{memset}\PYG{p}{(}\PYG{n}{color}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{n}\PYG{p}{);}
+  \PYG{n}{rep}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{n}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n}{color}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])} \PYG{p}{\PYGZob{}}
+      \PYG{n}{tsort\PYGZus{}dfs}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,} \PYG{n}{color}\PYG{p}{,} \PYG{n}{adj}\PYG{p}{,} \PYG{n}{S}\PYG{p}{,} \PYG{n}{cyc}\PYG{p}{);}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{cyc}\PYG{p}{)} \PYG{k}{return} \PYG{n}{res}\PYG{p}{;} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{}}
+  \PYG{k}{while} \PYG{p}{(}\PYG{o}{!}\PYG{n}{S}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())} \PYG{n}{res}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{S}\PYG{p}{.}\PYG{n}{top}\PYG{p}{()),} \PYG{n}{S}\PYG{p}{.}\PYG{n}{pop}\PYG{p}{();}
+  \PYG{k}{return} \PYG{n}{res}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

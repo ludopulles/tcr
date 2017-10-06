@@ -1,4 +1,3 @@
-#include "mod_pow.cpp"
 ll legendre(ll a, ll p) {
   if (a % p == 0) return 0;
   if (p == 2) return 1;

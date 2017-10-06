@@ -1,0 +1,22 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{int} \PYG{o}{*}\PYG{n}{dist}\PYG{p}{,} \PYG{o}{*}\PYG{n}{dad}\PYG{p}{;}
+\PYG{k}{struct} \PYG{n}{cmp} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{bool} \PYG{k}{operator}\PYG{p}{()(}\PYG{k+kt}{int} \PYG{n}{a}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{b}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{return} \PYG{n}{dist}\PYG{p}{[}\PYG{n}{a}\PYG{p}{]} \PYG{o}{!=} \PYG{n}{dist}\PYG{p}{[}\PYG{n}{b}\PYG{p}{]} \PYG{o}{?} \PYG{n}{dist}\PYG{p}{[}\PYG{n}{a}\PYG{p}{]} \PYG{o}{\PYGZlt{}} \PYG{n}{dist}\PYG{p}{[}\PYG{n}{b}\PYG{p}{]} \PYG{o}{:} \PYG{n}{a} \PYG{o}{\PYGZlt{}} \PYG{n}{b}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{*}\PYG{p}{,} \PYG{k+kt}{int}\PYG{o}{*\PYGZgt{}} \PYG{n}{dijkstra}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{n}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{s}\PYG{p}{,} \PYG{n}{vii} \PYG{o}{*}\PYG{n}{adj}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{dist} \PYG{o}{=} \PYG{k}{new} \PYG{k+kt}{int}\PYG{p}{[}\PYG{n}{n}\PYG{p}{];}
+  \PYG{n}{dad} \PYG{o}{=} \PYG{k}{new} \PYG{k+kt}{int}\PYG{p}{[}\PYG{n}{n}\PYG{p}{];}
+  \PYG{n}{rep}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{n}\PYG{p}{)} \PYG{n}{dist}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{INF}\PYG{p}{,} \PYG{n}{dad}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{n}{set}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{p}{,} \PYG{n}{cmp}\PYG{o}{\PYGZgt{}} \PYG{n}{pq}\PYG{p}{;}
+  \PYG{n}{dist}\PYG{p}{[}\PYG{n}{s}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{pq}\PYG{p}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{n}{s}\PYG{p}{);}
+  \PYG{k}{while} \PYG{p}{(}\PYG{o}{!}\PYG{n}{pq}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())} \PYG{p}{\PYGZob{}}
+    \PYG{k+kt}{int} \PYG{n}{cur} \PYG{o}{=} \PYG{o}{*}\PYG{n}{pq}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{();} \PYG{n}{pq}\PYG{p}{.}\PYG{n}{erase}\PYG{p}{(}\PYG{n}{pq}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{());}
+    \PYG{n}{rep}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{size}\PYG{p}{(}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{]))} \PYG{p}{\PYGZob{}}
+      \PYG{k+kt}{int} \PYG{n}{nxt} \PYG{o}{=} \PYG{n}{adj}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{][}\PYG{n}{i}\PYG{p}{].}\PYG{n}{first}\PYG{p}{,}
+        \PYG{n}{ndist} \PYG{o}{=} \PYG{n}{dist}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{]} \PYG{o}{+} \PYG{n}{adj}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{][}\PYG{n}{i}\PYG{p}{].}\PYG{n}{second}\PYG{p}{;}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{ndist} \PYG{o}{\PYGZlt{}} \PYG{n}{dist}\PYG{p}{[}\PYG{n}{nxt}\PYG{p}{])} \PYG{n}{pq}\PYG{p}{.}\PYG{n}{erase}\PYG{p}{(}\PYG{n}{nxt}\PYG{p}{),}
+        \PYG{n}{dist}\PYG{p}{[}\PYG{n}{nxt}\PYG{p}{]} \PYG{o}{=} \PYG{n}{ndist}\PYG{p}{,} \PYG{n}{dad}\PYG{p}{[}\PYG{n}{nxt}\PYG{p}{]} \PYG{o}{=} \PYG{n}{cur}\PYG{p}{,} \PYG{n}{pq}\PYG{p}{.}\PYG{n}{insert}\PYG{p}{(}\PYG{n}{nxt}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{}}
+  \PYG{k}{return} \PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{*}\PYG{p}{,} \PYG{k+kt}{int}\PYG{o}{*\PYGZgt{}}\PYG{p}{(}\PYG{n}{dist}\PYG{p}{,} \PYG{n}{dad}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

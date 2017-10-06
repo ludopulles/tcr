@@ -1,21 +1,20 @@
-int n;
-ll dist[MAXN];
-vector<pii> edges[MAXN]; // (to, cost)
-
-void dijkstra(int s) {
-	fill_n(dist, MAXN, LLINF); vector<bool> vis(n, false);
-	min_queue< pair<ll, ll> > q; // (dist, vertex)
-	q.push(pair<ll, ll>(dist[s] = 0, s));
-
-	while (!q.empty()) {
-		pair<ll, ll> v = q.top(); q.pop();
-
-		if (vis[v.y]) continue; vis[v.y] = true;
-
-		for (const pii &e : edges[v.y]) {
-			ll alt = v.x + e.y;
-			if (alt >= dist[e.x]) continue;
-			q.emplace(dist[e.x] = alt, e.x);
-		}
-	}
-}
+int *dist, *dad;
+struct cmp {
+  bool operator()(int a, int b) {
+    return dist[a] != dist[b] ? dist[a] < dist[b] : a < b; }
+};
+pair<int*, int*> dijkstra(int n, int s, vii *adj) {
+  dist = new int[n];
+  dad = new int[n];
+  rep(i,0,n) dist[i] = INF, dad[i] = -1;
+  set<int, cmp> pq;
+  dist[s] = 0, pq.insert(s);
+  while (!pq.empty()) {
+    int cur = *pq.begin(); pq.erase(pq.begin());
+    rep(i,0,size(adj[cur])) {
+      int nxt = adj[cur][i].first,
+        ndist = dist[cur] + adj[cur][i].second;
+      if (ndist < dist[nxt]) pq.erase(nxt),
+        dist[nxt] = ndist, dad[nxt] = cur, pq.insert(nxt);
+    } }
+  return pair<int*, int*>(dist, dad); }

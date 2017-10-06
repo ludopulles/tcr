@@ -1,0 +1,44 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}define MAXV 100100}
+\PYG{c+cp}{\PYGZsh{}define LGMAXV 20}
+\PYG{k+kt}{int} \PYG{n}{jmp}\PYG{p}{[}\PYG{n}{MAXV}\PYG{p}{][}\PYG{n}{LGMAXV}\PYG{p}{],}
+  \PYG{n}{path}\PYG{p}{[}\PYG{n}{MAXV}\PYG{p}{][}\PYG{n}{LGMAXV}\PYG{p}{],}
+  \PYG{n}{sz}\PYG{p}{[}\PYG{n}{MAXV}\PYG{p}{],} \PYG{n}{seph}\PYG{p}{[}\PYG{n}{MAXV}\PYG{p}{],}
+  \PYG{n}{shortest}\PYG{p}{[}\PYG{n}{MAXV}\PYG{p}{];}
+\PYG{k}{struct} \PYG{n}{centroid\PYGZus{}decomposition} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{n}\PYG{p}{;} \PYG{n}{vvi} \PYG{n}{adj}\PYG{p}{;}
+  \PYG{n}{centroid\PYGZus{}decomposition}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{\PYGZus{}n}\PYG{p}{)} \PYG{o}{:} \PYG{n}{n}\PYG{p}{(}\PYG{n}{\PYGZus{}n}\PYG{p}{),} \PYG{n}{adj}\PYG{p}{(}\PYG{n}{n}\PYG{p}{)} \PYG{p}{\PYGZob{}} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{void} \PYG{n}{add\PYGZus{}edge}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{a}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{b}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{adj}\PYG{p}{[}\PYG{n}{a}\PYG{p}{].}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{b}\PYG{p}{);} \PYG{n}{adj}\PYG{p}{[}\PYG{n}{b}\PYG{p}{].}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{a}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{int} \PYG{n}{dfs}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{u}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{p}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{sz}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
+    \PYG{n}{rep}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{size}\PYG{p}{(}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]))}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{i}\PYG{p}{]} \PYG{o}{!=} \PYG{n}{p}\PYG{p}{)} \PYG{n}{sz}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]} \PYG{o}{+=} \PYG{n}{dfs}\PYG{p}{(}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{i}\PYG{p}{],} \PYG{n}{u}\PYG{p}{);}
+    \PYG{k}{return} \PYG{n}{sz}\PYG{p}{[}\PYG{n}{u}\PYG{p}{];} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{void} \PYG{n}{makepaths}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{sep}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{u}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{p}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{len}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{jmp}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{seph}\PYG{p}{[}\PYG{n}{sep}\PYG{p}{]]} \PYG{o}{=} \PYG{n}{sep}\PYG{p}{,} \PYG{n}{path}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{seph}\PYG{p}{[}\PYG{n}{sep}\PYG{p}{]]} \PYG{o}{=} \PYG{n}{len}\PYG{p}{;}
+    \PYG{k+kt}{int} \PYG{n}{bad} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;}
+    \PYG{n}{rep}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{size}\PYG{p}{(}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]))} \PYG{p}{\PYGZob{}}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{i}\PYG{p}{]} \PYG{o}{==} \PYG{n}{p}\PYG{p}{)} \PYG{n}{bad} \PYG{o}{=} \PYG{n}{i}\PYG{p}{;}
+      \PYG{k}{else} \PYG{n+nf}{makepaths}\PYG{p}{(}\PYG{n}{sep}\PYG{p}{,} \PYG{n}{adj}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{i}\PYG{p}{],} \PYG{n}{u}\PYG{p}{,} \PYG{n}{len} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{);}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{p} \PYG{o}{==} \PYG{n}{sep}\PYG{p}{)}
+      \PYG{n}{swap}\PYG{p}{(}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{bad}\PYG{p}{],} \PYG{n}{adj}\PYG{p}{[}\PYG{n}{u}\PYG{p}{].}\PYG{n}{back}\PYG{p}{()),} \PYG{n}{adj}\PYG{p}{[}\PYG{n}{u}\PYG{p}{].}\PYG{n}{pop\PYGZus{}back}\PYG{p}{();} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{void} \PYG{n}{separate}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{h}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{u}\PYG{o}{=}\PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{dfs}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{);} \PYG{k+kt}{int} \PYG{n}{sep} \PYG{o}{=} \PYG{n}{u}\PYG{p}{;}
+    \PYG{n+nl}{down}\PYG{p}{:} \PYG{n}{iter}\PYG{p}{(}\PYG{n}{nxt}\PYG{p}{,}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{sep}\PYG{p}{])}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{sz}\PYG{p}{[}\PYG{o}{*}\PYG{n}{nxt}\PYG{p}{]} \PYG{o}{\PYGZlt{}} \PYG{n}{sz}\PYG{p}{[}\PYG{n}{sep}\PYG{p}{]} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{sz}\PYG{p}{[}\PYG{o}{*}\PYG{n}{nxt}\PYG{p}{]} \PYG{o}{\PYGZgt{}} \PYG{n}{sz}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{n}{sep} \PYG{o}{=} \PYG{o}{*}\PYG{n}{nxt}\PYG{p}{;} \PYG{k}{goto} \PYG{n}{down}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+    \PYG{n}{seph}\PYG{p}{[}\PYG{n}{sep}\PYG{p}{]} \PYG{o}{=} \PYG{n}{h}\PYG{p}{,} \PYG{n}{makepaths}\PYG{p}{(}\PYG{n}{sep}\PYG{p}{,} \PYG{n}{sep}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{);}
+    \PYG{n}{rep}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{size}\PYG{p}{(}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{sep}\PYG{p}{]))} \PYG{n}{separate}\PYG{p}{(}\PYG{n}{h}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{adj}\PYG{p}{[}\PYG{n}{sep}\PYG{p}{][}\PYG{n}{i}\PYG{p}{]);} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{void} \PYG{n}{paint}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{u}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{rep}\PYG{p}{(}\PYG{n}{h}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{seph}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}
+      \PYG{n}{shortest}\PYG{p}{[}\PYG{n}{jmp}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{h}\PYG{p}{]]} \PYG{o}{=} \PYG{n}{min}\PYG{p}{(}\PYG{n}{shortest}\PYG{p}{[}\PYG{n}{jmp}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{h}\PYG{p}{]],}
+                                \PYG{n}{path}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{h}\PYG{p}{]);} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{int} \PYG{n}{closest}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{u}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k+kt}{int} \PYG{n}{mn} \PYG{o}{=} \PYG{n}{INF}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{;}
+    \PYG{n}{rep}\PYG{p}{(}\PYG{n}{h}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{seph}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}
+      \PYG{n}{mn} \PYG{o}{=} \PYG{n}{min}\PYG{p}{(}\PYG{n}{mn}\PYG{p}{,} \PYG{n}{path}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{h}\PYG{p}{]} \PYG{o}{+} \PYG{n}{shortest}\PYG{p}{[}\PYG{n}{jmp}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{h}\PYG{p}{]]);}
+    \PYG{k}{return} \PYG{n}{mn}\PYG{p}{;} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{};}
+\PYG{c+c1}{// vim: cc=60 ts=2 sts=2 sw=2:}
+\end{Verbatim}

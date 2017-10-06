@@ -1,0 +1,32 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZdq{}../data\PYGZhy{}structures/union\PYGZus{}find.cpp\PYGZdq{}}
+\PYG{k}{struct} \PYG{n}{tarjan\PYGZus{}olca} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{o}{*}\PYG{n}{ancestor}\PYG{p}{;}
+  \PYG{n}{vi} \PYG{o}{*}\PYG{n}{adj}\PYG{p}{,} \PYG{n}{answers}\PYG{p}{;}
+  \PYG{n}{vii} \PYG{o}{*}\PYG{n}{queries}\PYG{p}{;}
+  \PYG{k+kt}{bool} \PYG{o}{*}\PYG{n}{colored}\PYG{p}{;}
+  \PYG{n}{union\PYGZus{}find} \PYG{n}{uf}\PYG{p}{;}
+  \PYG{n}{tarjan\PYGZus{}olca}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{n}\PYG{p}{,} \PYG{n}{vi} \PYG{o}{*}\PYG{n}{\PYGZus{}adj}\PYG{p}{)} \PYG{o}{:} \PYG{n}{adj}\PYG{p}{(}\PYG{n}{\PYGZus{}adj}\PYG{p}{),} \PYG{n}{uf}\PYG{p}{(}\PYG{n}{n}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{colored} \PYG{o}{=} \PYG{k}{new} \PYG{k+kt}{bool}\PYG{p}{[}\PYG{n}{n}\PYG{p}{];}
+    \PYG{n}{ancestor} \PYG{o}{=} \PYG{k}{new} \PYG{k+kt}{int}\PYG{p}{[}\PYG{n}{n}\PYG{p}{];}
+    \PYG{n}{queries} \PYG{o}{=} \PYG{k}{new} \PYG{n}{vii}\PYG{p}{[}\PYG{n}{n}\PYG{p}{];}
+    \PYG{n}{memset}\PYG{p}{(}\PYG{n}{colored}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{n}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{void} \PYG{n}{query}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{x}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{y}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{queries}\PYG{p}{[}\PYG{n}{x}\PYG{p}{].}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{ii}\PYG{p}{(}\PYG{n}{y}\PYG{p}{,} \PYG{n}{size}\PYG{p}{(}\PYG{n}{answers}\PYG{p}{)));}
+    \PYG{n}{queries}\PYG{p}{[}\PYG{n}{y}\PYG{p}{].}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{ii}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{size}\PYG{p}{(}\PYG{n}{answers}\PYG{p}{)));}
+    \PYG{n}{answers}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{void} \PYG{n}{process}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{u}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{ancestor}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]} \PYG{o}{=} \PYG{n}{u}\PYG{p}{;}
+    \PYG{n}{rep}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{size}\PYG{p}{(}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]))} \PYG{p}{\PYGZob{}}
+      \PYG{k+kt}{int} \PYG{n}{v} \PYG{o}{=} \PYG{n}{adj}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{i}\PYG{p}{];}
+      \PYG{n}{process}\PYG{p}{(}\PYG{n}{v}\PYG{p}{);}
+      \PYG{n}{uf}\PYG{p}{.}\PYG{n}{unite}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,}\PYG{n}{v}\PYG{p}{);}
+      \PYG{n}{ancestor}\PYG{p}{[}\PYG{n}{uf}\PYG{p}{.}\PYG{n}{find}\PYG{p}{(}\PYG{n}{u}\PYG{p}{)]} \PYG{o}{=} \PYG{n}{u}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+    \PYG{n}{colored}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb}{true}\PYG{p}{;}
+    \PYG{n}{rep}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{size}\PYG{p}{(}\PYG{n}{queries}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]))} \PYG{p}{\PYGZob{}}
+      \PYG{k+kt}{int} \PYG{n}{v} \PYG{o}{=} \PYG{n}{queries}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{i}\PYG{p}{].}\PYG{n}{first}\PYG{p}{;}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{colored}\PYG{p}{[}\PYG{n}{v}\PYG{p}{])} \PYG{p}{\PYGZob{}}
+        \PYG{n}{answers}\PYG{p}{[}\PYG{n}{queries}\PYG{p}{[}\PYG{n}{u}\PYG{p}{][}\PYG{n}{i}\PYG{p}{].}\PYG{n}{second}\PYG{p}{]} \PYG{o}{=} \PYG{n}{ancestor}\PYG{p}{[}\PYG{n}{uf}\PYG{p}{.}\PYG{n}{find}\PYG{p}{(}\PYG{n}{v}\PYG{p}{)];}
+      \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{};}
+\PYG{c+c1}{// vim: cc=60 ts=2 sts=2 sw=2:}
+\end{Verbatim}

@@ -1,0 +1,21 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{struct} \PYG{n}{convex\PYGZus{}hull\PYGZus{}trick} \PYG{p}{\PYGZob{}}
+  \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{double}\PYG{p}{,}\PYG{k+kt}{double}\PYG{o}{\PYGZgt{}} \PYG{o}{\PYGZgt{}} \PYG{n}{h}\PYG{p}{;}
+  \PYG{k+kt}{double} \PYG{n+nf}{intersect}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{return} \PYG{p}{(}\PYG{n}{h}\PYG{p}{[}\PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{].}\PYG{n}{second}\PYG{o}{\PYGZhy{}}\PYG{n}{h}\PYG{p}{[}\PYG{n}{i}\PYG{p}{].}\PYG{n}{second}\PYG{p}{)} \PYG{o}{/}
+      \PYG{p}{(}\PYG{n}{h}\PYG{p}{[}\PYG{n}{i}\PYG{p}{].}\PYG{n}{first}\PYG{o}{\PYGZhy{}}\PYG{n}{h}\PYG{p}{[}\PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{].}\PYG{n}{first}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{void} \PYG{n+nf}{add}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{m}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{b}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{h}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{make\PYGZus{}pair}\PYG{p}{(}\PYG{n}{m}\PYG{p}{,}\PYG{n}{b}\PYG{p}{));}
+    \PYG{k}{while} \PYG{p}{(}\PYG{n}{size}\PYG{p}{(}\PYG{n}{h}\PYG{p}{)} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{3}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k+kt}{int} \PYG{n}{n} \PYG{o}{=} \PYG{n}{size}\PYG{p}{(}\PYG{n}{h}\PYG{p}{);}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{intersect}\PYG{p}{(}\PYG{n}{n}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{3}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n}{intersect}\PYG{p}{(}\PYG{n}{n}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{))} \PYG{k}{break}\PYG{p}{;}
+      \PYG{n}{swap}\PYG{p}{(}\PYG{n}{h}\PYG{p}{[}\PYG{n}{n}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{],} \PYG{n}{h}\PYG{p}{[}\PYG{n}{n}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]);}
+      \PYG{n}{h}\PYG{p}{.}\PYG{n}{pop\PYGZus{}back}\PYG{p}{();} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{double} \PYG{n+nf}{get\PYGZus{}min}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{x}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k+kt}{int} \PYG{n}{lo} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{hi} \PYG{o}{=} \PYG{n}{size}\PYG{p}{(}\PYG{n}{h}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{res} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;}
+    \PYG{k}{while} \PYG{p}{(}\PYG{n}{lo} \PYG{o}{\PYGZlt{}=} \PYG{n}{hi}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k+kt}{int} \PYG{n}{mid} \PYG{o}{=} \PYG{n}{lo} \PYG{o}{+} \PYG{p}{(}\PYG{n}{hi} \PYG{o}{\PYGZhy{}} \PYG{n}{lo}\PYG{p}{)} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{;}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{intersect}\PYG{p}{(}\PYG{n}{mid}\PYG{p}{)} \PYG{o}{\PYGZlt{}=} \PYG{n}{x}\PYG{p}{)} \PYG{n}{res} \PYG{o}{=} \PYG{n}{mid}\PYG{p}{,} \PYG{n}{lo} \PYG{o}{=} \PYG{n}{mid} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+      \PYG{k}{else} \PYG{n}{hi} \PYG{o}{=} \PYG{n}{mid} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+    \PYG{k}{return} \PYG{n}{h}\PYG{p}{[}\PYG{n}{res}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{].}\PYG{n}{first} \PYG{o}{*} \PYG{n}{x} \PYG{o}{+} \PYG{n}{h}\PYG{p}{[}\PYG{n}{res}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{].}\PYG{n}{second}\PYG{p}{;} \PYG{p}{\PYGZcb{}} \PYG{p}{\PYGZcb{};}
+\end{Verbatim}

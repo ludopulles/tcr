@@ -25,6 +25,7 @@ typedef pair<int, int> pii;
 typedef vector<int> vi;
 typedef vector<vi> vvi;
 template<class T> using min_queue = priority_queue<T, vector<T>, greater<T>>;
+template <class T> int size(const T &x) { return x.size(); } // copy the ampersand(&)!
 
 const int INF = 2147483647; // (1 << 30) - 1 + (1 << 30)
 const ll LLINF = (1LL << 62) - 1 + (1LL << 62); // = 9.223.372.036.854.775.807

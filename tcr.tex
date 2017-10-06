@@ -1,35 +1,19 @@
-
 \documentclass[8pt,a4paper,landscape,oneside]{amsart}
-\usepackage{amsmath, amsthm, amssymb, amsfonts}
+
+\usepackage{amsmath, amsthm, amssymb, amsfonts,booktabs,caption,color,courier}
+\usepackage{datetime,enumitem,fancyhdr,float,fullpage,graphicx,latexsym}
+\usepackage{listings,multicol,parcolumns,subcaption,textcomp,titling,upquote}
+\usepackage{verbatim,wrapfig}
+
+\usepackage[scaled]{beramono}
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{booktabs}
-\usepackage{caption}
-\usepackage{color}
-\usepackage{fancyhdr}
-\usepackage{float}
-\usepackage{fullpage}
-\usepackage{xcolor}
-\usepackage{textcomp}
-%\usepackage{geometry}
+
+% \usepackage{geometry}
 % \usepackage[top=0pt, bottom=1cm, left=0.3cm, right=0.3cm]{geometry}
 % \usepackage[top=10pt, bottom=5pt, left=0.3cm, right=0.3cm,, headsep=0pt, headheight=3cm,landscape]{geometry}
-\usepackage[top=3pt, bottom=1cm, left=0.3cm, right=0.3cm]{geometry}
-\usepackage{graphicx}
-\usepackage{subcaption}
-\usepackage{titling}
-\usepackage{datetime}
-\usepackage{enumitem}
-\usepackage{color,courier,fancyhdr,listings,parcolumns,verbatim,upquote}
-\usepackage{multicol}
-
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsthm}
-\usepackage{latexsym}
-\usepackage{fancyhdr}
-\usepackage{wrapfig}
+\usepackage[top=5pt, bottom=1cm, left=0.5cm, right=0.5cm]{geometry}
 
 \usepackage{minted}
 \newcommand{\code}[1]{\inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,linenos,tabsize=2]{cpp}{code/#1}}
@@ -37,7 +21,6 @@
 \newcommand{\bashcode}[1]{\inputminted{bash}{_code/#1}}
 \newcommand{\regcode}[1]{\inputminted{cpp}{code/#1}}
 %\usemintedstyle{manni}
-
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -84,36 +67,6 @@
 \title{TCR}
 \subtitle{git diff solution (Jens Heuseveldt, Ludo Pulles, Pim Spelier)}
 
-\lstset{showstringspaces=false,
-  literate={~} {$\sim$}{1},
-	basicstyle=\footnotesize\ttfamily,
-	breaklines=true,
-	commentstyle=\color[rgb]{0.5,0.5,0.5},
-	frame=lines,
-	keywordstyle=\color{blue},
-	language=C++,
-	numbers=left,
-	numbersep=5pt,
-	numberstyle=\tiny\color[rgb]{0.6,0.6,0.6},
-	otherkeywords={cin, cout, cerr, pii, pll, PI, INF, LLINF, NUM},
-	showstringspaces=false,
-	stringstyle=\color[rgb]{0.6,0.3,0},
-	tabsize=4,
-	xleftmargin=\parindent,
-	columns=[l]fixed,
-	keepspaces=true,
-	tabsize=4,
-	language=C++,
-	numbers=left,
-	numberstyle=\tiny,
-	stepnumber=1,
-	frame=leftline,
-	basicstyle=\small\ttfamily,
-	keywordstyle=\color{Maroon},
-	commentstyle=\color{MidnightBlue}
-}
-
-\usepackage[scaled]{beramono}
 \begin{document}
 
 \begin{multicols*}{3}
@@ -135,15 +88,14 @@
 At the start of a contest, type this in a terminal:
 \end{center}
 
-\lstinputlisting{code/start.sh}
+% \lstinputlisting{code/start.sh}
+\inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,linenos,tabsize=2]{bash}{code/start.sh}
 
 \begin{center}
 template.cpp
 \end{center}
 
 \code{T.cpp}
-
-Prime numbers: $\mathit{982451653}$, $\mathit{81253449}$, $10^3 + \{-9,-3,9,13\}$, $10^6 + \{-17, 3, 33\}$, $10^9 + \{7,9,21,33,87\}$
 
 \subsection{De winnende aanpak}
 
@@ -286,7 +238,7 @@ A useful identity: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{
         \code{math/floor_sum.cpp}
 
 \subsection{Numbers and Sequences}
-        Some random prime numbers: 1031, 32771, 1048583, 33554467,
+        Some random prime numbers: 1031, 32771, 1048583, 8125344, 33554467, 9982451653
         1073741827, 34359738421, 1099511627791, 35184372088891,
         1125899906842679, 36028797018963971.
 
@@ -304,142 +256,272 @@ A useful identity: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{
         \end{tabular}
 
 \section{Datastructures}
-\subsection{Standard segment tree $\mathcal{O}(\log n)$}
+\subsection{Segment tree $\mathcal{O}(\log n)$}
 
+% \subsection{segment tree $\mathcal{O}(\log n)$}
+\textbf{Standard segment tree}
 \code{datastructures/segment_tree.cpp}
+
+% \subsection{Lazy segment tree $\mathcal{O}(\log n)$}
+\textbf{Lazy segment tree}
+\code{datastructures/lazy_segment_tree.cpp}
+
+% \subsection{Lazy segment tree $\mathcal{O}(\log n)$}
+\textbf{Persistent segment tree}
+\code{datastructures/persistent_segment_tree.cpp}
 
 \subsection{Binary Indexed Tree $\mathcal{O}(\log n)$}
 
 Use one-based indices ($i > 0$)!
-
 \code{datastructures/bit.cpp}
 
-\subsection{Disjoint-Set / Union-Find $\mathcal{O}(\alpha (n))$}
+Use this if you add things, which depend on $i$:
+\code{datastructures/fenwick_tree.cpp}
 
+\subsection{Disjoint-Set / Union-Find $\mathcal{O}(\alpha (n))$}
 \code{datastructures/dsu.cpp}
 
+\subsection{AVL Tree Balanced Binary Search Tree $\mathcal{O}(\log n) / \mathcal{O}(\log n)$}
+\code{datastructures/avl_tree.cpp}
+
+Use this easy implementation for a map:
+\code{datastructures/avl_tree_map.cpp}
+
+\subsection{Cartesian tree}
+\code{datastructures/cartesian_tree.cpp}
+
+\subsection{Heap}
+	An implementation of a binary heap.
+	\code{datastructures/heap.cpp}
+
+\subsection{Dancing Links}
+	An implementation of Donald Knuth's Dancing Links data structure. A
+	linked list supporting deletion and restoration of elements.
+	\code{datastructures/dancing_links.cpp}
+
+\subsection{Misof Tree}
+	A simple tree data structure for inserting, erasing, and querying the
+	$n$th largest element.
+	\code{datastructures/misof_tree.cpp}
+
+\subsection{$k$-d Tree}
+	A $k$-dimensional tree supporting fast construction, adding points, and
+	nearest neighbor queries.
+	NOTE: Not completely stable, occasionally segfaults.
+	\code{datastructures/kd_tree.cpp}
+
+\subsection{Sqrt Decomposition}
+	Design principle that supports many operations in amortized $\sqrt{n}$ per operation.
+	\code{datastructures/sqrt_decomposition.cpp}
+
+\subsection{Monotonic Queue}
+	A queue that supports querying for the minimum element. Useful for sliding window algorithms.
+	\code{datastructures/monotonic_queue.cpp}
+
+\subsection{Convex Hull Trick}
+	If converting to integers, look out for division by 0 and $\pm\infty$.
+	\code{datastructures/convex_hull_trick.cpp}
+	And dynamic variant:
+	\code{datastructures/convex_hull_trick_dynamic.cpp}
+
+\subsection{Sparse Table}
+	\code{datastructures/sparse_table.cpp}
+
 \section{Graph Algorithms}
-% TODO: articulation points, and bridges!
 \subsection{Maximum matching $\mathcal{O}(n m)$}
-
-This problem could be solved with a flow algorithm like Dinic's algorithm which runs in $\mathcal{O} (\sqrt{V} E)$, too.
-
+% This problem could be solved with a flow algorithm like Dinic's algorithm which runs in $\mathcal{O} (E \sqrt{V})$, too.
 \code{graphs/maxmatch.cpp}
 
-\subsection{Strongly Connected Components $\mathcal{O}(V + E)$}
+\subsection{Hopcroft-Karp bipartite matching $\mathcal{O}(E \sqrt{V})$}
+\code{graphs/hopcroft_karp.cpp}
 
+\subsubsection{Minimum Vertex Cover in Bipartite Graphs}
+\code{graphs/bipartite_mvc.cpp}
+
+\subsection{Depth first searches}
+
+\subsubsection{Cut Points and Bridges}
+\code{graphs/cut_points_and_bridges.cpp}
+
+\subsubsection{Strongly Connected Components $\mathcal{O}(V + E)$}
 \code{graphs/scc.cpp}
 
+\subsubsection{Dominator graph}
+\code{graphs/dominator.cpp}
+
 \subsubsection{2-SAT $\mathcal{O}(V+E)$}
-
 Include \texttt{findSCC}.
-
 \code{satsolver.cpp}
 
-% \begin{comment}
 \subsection{Cycle Detection $\mathcal{O}(V + E)$}
-
 \code{findcycle.cpp}
-% \end{comment}
 
 \subsection{Shortest path}
 
-% Hier zitten sowieso al heel veel fouten in, en het is niet flexibel voor begin-, en eindpunt
-\subsubsection{Dijkstra $\mathcal{O}(E + V \log V)$}
+\subsubsection{Dijkstra $\mathcal{O}(|E|\log{|V|})$}
+\code{graphs/dijkstra.cpp}
 
 \subsubsection{Floyd-Warshall $\mathcal{O}(V^{3})$}
-
 \code{graphs/floydwarshall.cpp}
 
 \subsubsection{Bellman Ford $\mathcal{O}(V E)$}
-
 This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
-
 \code{graphs/bellmanford.cpp}
 
-\subsection{Max-flow min-cut}
+\subsubsection{IDA$^\star$ algorithm}
+\code{graphs/idastar.cpp}
+
+\subsection{Maximum Flow Algorithms}
 \subsubsection{Dinic's Algorithm $\mathcal{O}(V^{2} E)$}
-
-\begin{comment}
-// http://www.slideshare.net/KuoE0/acmicpc-dinics-algorithm
-\end{comment}
-
+% http://www.slideshare.net/KuoE0/acmicpc-dinics-algorithm
 \code{graphs/dinic.cpp}
 
-\subsection{Min-cost max-flow}
-
+\subsubsection{Min-cost max-flow}
 Find the cheapest possible way of sending a certain amount of flow through a flow network.
-
 \code{graphs/mincostmaxflow.cpp}
 
+\subsubsection{Gomory-Hu Tree - All Pairs Maximum Flow}
+An implementation of the Gomory-Hu Tree. The spanning tree is constructed using Gusfield's algorithm
+in $O(|V| ^ 2)$ plus $|V|-1$ times the time it takes to calculate the maximum flow.
+If Dinic's algorithm is used to calculate the max flow, the running time is $O(|V|^3|E|)$.
+NOTE: Not sure if it works correctly with disconnected graphs.
+\code{graphs/gomory_hu_tree.cpp}
+
 \subsection{Minimal Spanning Tree}
-
 % Kruskal is shorter...
-\begin{comment}
-\subsubsection{Prim $\mathcal{O}((E + V) \log V)$}
-
-\code{graphs/mst_prim.cpp}
-\end{comment}
+% \subsubsection{Prim $\mathcal{O}((E + V) \log V)$}
+% \code{graphs/mst_prim.cpp}
 
 \subsubsection{Kruskal $\mathcal{O}(E \log V)$}
-
-\begin{comment}
 \code{graphs/mst_kruskal.cpp}
-\end{comment}
+
+\subsection{Topological Sort}
+\subsubsection{Modified Depth-First Search}
+\code{graphs/tsort.cpp}
+
+\subsection{Euler Path}
+Finds an euler path (or circuit) in a directed graph, or reports that none exist.
+\code{graphs/euler_path.cpp}
+And an undirected version, which finds a cycle.
+\code{graphs/euler_path_undirected.cpp}
+
+\subsection{Heavy-Light Decomposition}
+\code{graphs/hld.cpp}
+
+\subsection{Centroid Decomposition}
+\code{graphs/centroid_decomposition.cpp}
+
+\subsection{Least Common Ancestors, Binary Jumping}
+\code{graphs/lca.cpp}
+
+\subsection{Tarjan's Off-line Lowest Common Ancestors Algorithm}
+\code{graphs/tarjan_olca.cpp}
+
+\subsection{Minimum Mean Weight Cycle}
+Given a strongly connected directed graph, finds the cycle of minimum
+mean weight. If you have a graph that is not strongly connected, run
+this on each strongly connected component.
+\code{graphs/min_mean_cycle.cpp}
+
+\subsection{Minimum Arborescence}
+Given a weighted directed graph, finds a subset of edges of minimum
+total weight so that there is a unique path from the root $r$ to each
+vertex. Returns a vector of size $n$, where the $i$th element is the
+edge for the $i$th vertex. The answer for the root is undefined!
+\code{graphs/arborescence.cpp}
+
+\subsection{Blossom algorithm}
+Finds a maximum matching in an arbitrary graph in $O(|V|^4)$ time. Be
+vary of loop edges.
+\code{graphs/blossom.cpp}
+
+\subsection{Maximum Density Subgraph}
+Given (weighted) undirected graph $G$. Binary search density. If $g$ is
+current density, construct flow network: $(S, u, m)$, $(u, T,
+m+2g-d_u)$, $(u,v,1)$, where $m$ is a large constant (larger than sum
+of edge weights). Run floating-point max-flow. If minimum cut has empty
+$S$-component, then maximum density is smaller than $g$, otherwise it's
+larger. Distance between valid densities is at least $1/(n(n-1))$. Edge
+case when density is $0$. This also works for weighted graphs by
+replacing $d_u$ by the weighted degree, and doing more iterations (if
+weights are not integers).
+
+\subsection{Maximum-Weight Closure}
+Given a vertex-weighted directed graph $G$. Turn the graph into a flow
+network, adding weight $\infty$ to each edge. Add vertices $S,T$. For
+each vertex $v$ of weight $w$, add edge $(S,v,w)$ if $w\geq 0$, or edge
+$(v,T,-w)$ if $w<0$. Sum of positive weights minus minimum $S-T$ cut is
+the answer. Vertices reachable from $S$ are in the closure. The
+maximum-weight closure is the same as the complement of the
+minimum-weight closure on the graph with edges reversed.
+
+\subsection{Maximum Weighted Independent Set in a Bipartite Graph}
+This is the same as the minimum weighted vertex cover. Solve this by
+constructing a flow network with edges $(S,u,w(u))$ for $u\in L$,
+$(v,T,w(v))$ for $v\in R$ and $(u,v,\infty)$ for $(u,v)\in E$. The
+minimum $S,T$-cut is the answer. Vertices adjacent to a cut edge are
+in the vertex cover.
+
+\subsection{Synchronizing word problem}
+A DFA has a synchronizing word (an input sequence that moves all states
+to the same state) iff.\ each pair of states has a synchronizing word.
+That can be checked using reverse DFS over pairs of states. Finding the
+shortest synchronizing word is NP-complete.
 
 \section{String algorithms}
-
 \subsection{Trie}
-
 \code{strings/trie.cpp}
 
 \subsection{Z-algorithm $\mathcal{O}(n)$}
-
 \code{strings/z_function.cpp}
 
 \subsection{Suffix array $\mathcal{O}(n \log^2{n})$}
-
 This creates an array $P[0], P[1], \dots, P[n-1]$ such that the suffix $S[i \dots n]$ is the $P[i]^\textit{th}$ suffix of $S$ when lexicographically sorted.
-
 \code{strings/suffixarray.cpp}
 
 \subsection{Longest Common Subsequence $\mathcal{O}(n^{2})$}
 \textsc{Substring}: \textit{consecutive characters}\,!!!
-
 \code{strings/lcs.cpp}
 
 \subsection{Levenshtein Distance $\mathcal{O}(n^{2})$}
-
 Also known as the `Edit distance'.
-
 \code{strings/edit_dist.cpp}
 
 \subsection{Knuth-Morris-Pratt algorithm $\mathcal{O}(N + M)$}
-
 \code{strings/kmp.cpp}
 
 \subsection{Aho-Corasick Algorithm $\mathcal{O}(N + \sum_{i=1}^{m} |S_i|)$}
-
 All given P must be unique!
-
 \code{strings/aho_corasick.cpp}
 
-\section{Geometry}
+\subsection{eerTree}
+	Constructs an eerTree in $O(n)$, one character at a time.
+	\code{strings/eertree.cpp}
+	% http://arxiv.org/pdf/1506.04862v1.pdf
 
+\subsection{Suffix Automaton}
+	Minimum automata that accepts all suffixes of a string with $O(n)$
+	construction. The automata itself is a DAG therefore suitable for DP,
+	examples are counting unique substrings, occurrences of substrings and
+	suffix.
+	\code{strings/suffix_automaton.cpp}
+
+\subsection{Hashing}
+	Modulus should be a large prime. Can also use multiple instances with
+	different moduli to minimize chance of collision.
+	\code{strings/hasher.cpp}
+
+\section{Geometry}
 \code{geometry/main.cpp}
 
 \subsection{Convex Hull $\mathcal{O}(n \log n)$}
-
 \code{geometry/convex_hull.cpp}
 
 \subsection{Rotating Calipers $\mathcal{O}(n)$}
-
 Finds the longest distance between two points in a convex hull.
-
 \code{geometry/rotating_calipers.cpp}
 
 \subsection{Closest points $\mathcal{O}(n \log n)$}
-
 \code{geometry/closest_points.cpp}
 
 \subsection{Great-Circle Distance}

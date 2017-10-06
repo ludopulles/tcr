@@ -9,7 +9,7 @@
 \PYG{n}{ll} \PYG{n+nf}{mod}\PYG{p}{(}\PYG{n}{ll} \PYG{n}{a}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{b}\PYG{p}{)} \PYG{p}{\PYGZob{}} \PYG{k}{return} \PYG{p}{(}\PYG{n}{a} \PYG{o}{\PYGZpc{}=} \PYG{n}{b}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{0} \PYG{o}{?} \PYG{n}{a} \PYG{o}{+} \PYG{n+nl}{b} \PYG{p}{:} \PYG{n}{a}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
 
 \PYG{c+c1}{// safe multiplication (ab \PYGZpc{} m) for m \PYGZlt{}= 4e18 in O(log b)}
-\PYG{n}{ll} \PYG{n+nf}{mulmod}\PYG{p}{(}\PYG{n}{ll} \PYG{n}{a}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{b}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{m}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+\PYG{n}{ll} \PYG{n+nf}{mod\PYGZus{}mul}\PYG{p}{(}\PYG{n}{ll} \PYG{n}{a}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{b}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{m}\PYG{p}{)} \PYG{p}{\PYGZob{}}
 	\PYG{n}{ll} \PYG{n}{r} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
 	\PYG{k}{while} \PYG{p}{(}\PYG{n}{b}\PYG{p}{)} \PYG{p}{\PYGZob{}}
 		\PYG{k}{if} \PYG{p}{(}\PYG{n}{b} \PYG{o}{\PYGZam{}} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{n}{r} \PYG{o}{=} \PYG{p}{(}\PYG{n}{r} \PYG{o}{+} \PYG{n}{a}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{n}{m}\PYG{p}{;} \PYG{n}{a} \PYG{o}{=} \PYG{p}{(}\PYG{n}{a} \PYG{o}{+} \PYG{n}{a}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{n}{m}\PYG{p}{;} \PYG{n}{b} \PYG{o}{\PYGZgt{}\PYGZgt{}=} \PYG{l+m+mi}{1}\PYG{p}{;}
@@ -18,11 +18,11 @@
 \PYG{p}{\PYGZcb{}}
 
 \PYG{c+c1}{// safe exponentation (a\PYGZca{}b \PYGZpc{} m) for m \PYGZlt{}= 2e9 in O(log b)}
-\PYG{n}{ll} \PYG{n+nf}{powmod}\PYG{p}{(}\PYG{n}{ll} \PYG{n}{a}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{b}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{m}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+\PYG{n}{ll} \PYG{n+nf}{mod\PYGZus{}pow}\PYG{p}{(}\PYG{n}{ll} \PYG{n}{a}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{b}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{m}\PYG{p}{)} \PYG{p}{\PYGZob{}}
 	\PYG{n}{ll} \PYG{n}{r} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
 	\PYG{k}{while} \PYG{p}{(}\PYG{n}{b}\PYG{p}{)} \PYG{p}{\PYGZob{}}
-		\PYG{k}{if} \PYG{p}{(}\PYG{n}{b} \PYG{o}{\PYGZam{}} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{n}{r} \PYG{o}{=} \PYG{p}{(}\PYG{n}{r} \PYG{o}{*} \PYG{n}{a}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{n}{m}\PYG{p}{;} \PYG{c+c1}{// r = mulmod(r, a, m);}
-		\PYG{n}{a} \PYG{o}{=} \PYG{p}{(}\PYG{n}{a} \PYG{o}{*} \PYG{n}{a}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{n}{m}\PYG{p}{;} \PYG{c+c1}{// a = mulmod(a, a, m);}
+		\PYG{k}{if} \PYG{p}{(}\PYG{n}{b} \PYG{o}{\PYGZam{}} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{n}{r} \PYG{o}{=} \PYG{p}{(}\PYG{n}{r} \PYG{o}{*} \PYG{n}{a}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{n}{m}\PYG{p}{;} \PYG{c+c1}{// r = mod\PYGZus{}mul(r, a, m);}
+		\PYG{n}{a} \PYG{o}{=} \PYG{p}{(}\PYG{n}{a} \PYG{o}{*} \PYG{n}{a}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{n}{m}\PYG{p}{;} \PYG{c+c1}{// a = mod\PYGZus{}mul(a, a, m);}
 		\PYG{n}{b} \PYG{o}{\PYGZgt{}\PYGZgt{}=} \PYG{l+m+mi}{1}\PYG{p}{;}
 	\PYG{p}{\PYGZcb{}}
 	\PYG{k}{return} \PYG{n}{r}\PYG{p}{;}
@@ -47,8 +47,8 @@
 	\PYG{k}{if} \PYG{p}{(}\PYG{n}{mod}\PYG{p}{(}\PYG{n}{a} \PYG{o}{\PYGZhy{}} \PYG{n}{b}\PYG{p}{,} \PYG{n}{d}\PYG{p}{))} \PYG{k}{return} \PYG{n}{NO\PYGZus{}SOLUTION}\PYG{p}{;}
 	\PYG{k}{return} \PYG{n}{pll}\PYG{p}{(}\PYG{n}{mod}\PYG{p}{(}\PYG{n}{s} \PYG{o}{*} \PYG{n}{b} \PYG{o}{*} \PYG{n}{n} \PYG{o}{+} \PYG{n}{t} \PYG{o}{*} \PYG{n}{a} \PYG{o}{*} \PYG{n}{m}\PYG{p}{,} \PYG{n}{nm}\PYG{p}{)} \PYG{o}{/} \PYG{n}{d}\PYG{p}{,} \PYG{n}{nm} \PYG{o}{/} \PYG{n}{d}\PYG{p}{);}
 	\PYG{c+cm}{/* when n, m \PYGZgt{} 10\PYGZca{}6, avoid overflow:}
-\PYG{c+cm}{	return pll(mod(mulmod(mulmod(s, b, nm), n, nm)}
-\PYG{c+cm}{	             + mulmod(mulmod(t, a, nm), m, nm), nm) / d, nm / d); */}
+\PYG{c+cm}{	return pll(mod(mod\PYGZus{}mul(mod\PYGZus{}mul(s, b, nm), n, nm)}
+\PYG{c+cm}{	             + mod\PYGZus{}mul(mod\PYGZus{}mul(t, a, nm), m, nm), nm) / d, nm / d); */}
 \PYG{p}{\PYGZcb{}}
 
 \PYG{c+c1}{// phi[i] = \PYGZsh{}\PYGZob{} 0 \PYGZlt{} j \PYGZlt{}= i | gcd(i, j) = 1 \PYGZcb{}}
@@ -74,15 +74,16 @@
 \PYG{p}{\PYGZcb{}}
 
 \PYG{c+c1}{// returns if n is prime for n \PYGZlt{} 3e24 ( \PYGZgt{} 2\PYGZca{}64)}
+\PYG{c+c1}{// but use mul\PYGZus{}mod for n \PYGZgt{} 2e9!!!}
 \PYG{k+kt}{bool} \PYG{n+nf}{millerRabin}\PYG{p}{(}\PYG{n}{ll} \PYG{n}{n}\PYG{p}{)\PYGZob{}}
 	\PYG{k}{if} \PYG{p}{(}\PYG{n}{n} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{2} \PYG{o}{||} \PYG{n}{n} \PYG{o}{\PYGZpc{}} \PYG{l+m+mi}{2} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{k}{return} \PYG{n}{n} \PYG{o}{==} \PYG{l+m+mi}{2}\PYG{p}{;}
 	\PYG{n}{ll} \PYG{n}{d} \PYG{o}{=} \PYG{n}{n} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{ad}\PYG{p}{,} \PYG{n}{s} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{r}\PYG{p}{;}
 	\PYG{k}{for} \PYG{p}{(;} \PYG{n}{d} \PYG{o}{\PYGZpc{}} \PYG{l+m+mi}{2} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{d} \PYG{o}{/=} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{n}{s}\PYG{o}{++}\PYG{p}{;}
 	\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n+nl}{a} \PYG{p}{:} \PYG{p}{\PYGZob{}} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+m+mi}{11}\PYG{p}{,} \PYG{l+m+mi}{13}\PYG{p}{,} \PYG{l+m+mi}{17}\PYG{p}{,} \PYG{l+m+mi}{19}\PYG{p}{,} \PYG{l+m+mi}{23}\PYG{p}{,} \PYG{l+m+mi}{29}\PYG{p}{,} \PYG{l+m+mi}{31}\PYG{p}{,} \PYG{l+m+mi}{37}\PYG{p}{,} \PYG{l+m+mi}{41} \PYG{p}{\PYGZcb{})} \PYG{p}{\PYGZob{}}
 		\PYG{k}{if} \PYG{p}{(}\PYG{n}{n} \PYG{o}{==} \PYG{n}{a}\PYG{p}{)} \PYG{k}{return} \PYG{n+nb}{true}\PYG{p}{;}
-		\PYG{k}{if} \PYG{p}{((}\PYG{n}{ad} \PYG{o}{=} \PYG{n}{powmod}\PYG{p}{(}\PYG{n}{a}\PYG{p}{,} \PYG{n}{d}\PYG{p}{,} \PYG{n}{n}\PYG{p}{))} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{k}{continue}\PYG{p}{;}
+		\PYG{k}{if} \PYG{p}{((}\PYG{n}{ad} \PYG{o}{=} \PYG{n}{mod\PYGZus{}pow}\PYG{p}{(}\PYG{n}{a}\PYG{p}{,} \PYG{n}{d}\PYG{p}{,} \PYG{n}{n}\PYG{p}{))} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{k}{continue}\PYG{p}{;}
 		\PYG{k}{for} \PYG{p}{(}\PYG{n}{r} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{r} \PYG{o}{\PYGZlt{}} \PYG{n}{s} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{ad} \PYG{o}{+} \PYG{l+m+mi}{1} \PYG{o}{!=} \PYG{n}{n}\PYG{p}{;} \PYG{n}{r}\PYG{o}{++}\PYG{p}{)}
-			\PYG{n}{ad} \PYG{o}{=} \PYG{n}{mulmod}\PYG{p}{(}\PYG{n}{ad}\PYG{p}{,} \PYG{n}{ad}\PYG{p}{,} \PYG{n}{n}\PYG{p}{);}
+			\PYG{n}{ad} \PYG{o}{=} \PYG{p}{(}\PYG{n}{ad} \PYG{o}{*} \PYG{n}{ad}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{n}{n}\PYG{p}{;}
 		\PYG{k}{if} \PYG{p}{(}\PYG{n}{r} \PYG{o}{==} \PYG{n}{s}\PYG{p}{)} \PYG{k}{return} \PYG{n+nb}{false}\PYG{p}{;}
 	\PYG{p}{\PYGZcb{}}
 	\PYG{k}{return} \PYG{n+nb}{true}\PYG{p}{;}
