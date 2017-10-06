@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{double} \PYG{n+nf}{gc\PYGZus{}distance}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{pLat}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{pLong}\PYG{p}{,}
+         \PYG{k+kt}{double} \PYG{n}{qLat}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{qLong}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{r}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{pLat} \PYG{o}{*=} \PYG{n}{pi} \PYG{o}{/} \PYG{l+m+mi}{180}\PYG{p}{;} \PYG{n}{pLong} \PYG{o}{*=} \PYG{n}{pi} \PYG{o}{/} \PYG{l+m+mi}{180}\PYG{p}{;}
+  \PYG{n}{qLat} \PYG{o}{*=} \PYG{n}{pi} \PYG{o}{/} \PYG{l+m+mi}{180}\PYG{p}{;} \PYG{n}{qLong} \PYG{o}{*=} \PYG{n}{pi} \PYG{o}{/} \PYG{l+m+mi}{180}\PYG{p}{;}
+  \PYG{k}{return} \PYG{n}{r} \PYG{o}{*} \PYG{n}{acos}\PYG{p}{(}\PYG{n}{cos}\PYG{p}{(}\PYG{n}{pLat}\PYG{p}{)} \PYG{o}{*} \PYG{n}{cos}\PYG{p}{(}\PYG{n}{qLat}\PYG{p}{)} \PYG{o}{*} \PYG{n}{cos}\PYG{p}{(}\PYG{n}{pLong} \PYG{o}{\PYGZhy{}} \PYG{n}{qLong}\PYG{p}{)} \PYG{o}{+}
+          \PYG{n}{sin}\PYG{p}{(}\PYG{n}{pLat}\PYG{p}{)} \PYG{o}{*} \PYG{n}{sin}\PYG{p}{(}\PYG{n}{qLat}\PYG{p}{));} \PYG{p}{\PYGZcb{}}
+\PYG{c+c1}{// vim: cc=60 ts=2 sts=2 sw=2:}
+\end{Verbatim}

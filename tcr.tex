@@ -223,9 +223,85 @@ A game can be reduced to Nim if it is a finite impartial game. Nim and its varia
 
 A useful identity: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{mod} \, 4]$.
 
-\section{Mathematics}
+\section{math}
 
-\code{math.cpp}
+\code{math/math.cpp}
+
+\subsection{Primitive Root}
+\code{math/primitive_root.cpp}
+
+\subsection{Tonelli-Shanks algorithm}
+        Given prime $p$ and integer $1\leq n<p$, returns the square root $r$ of
+        $n$ modulo $p$. There is also another solution given by $-r$ modulo
+        $p$.
+        \code{math/tonelli_shanks.cpp}
+
+\subsection{Numeric Integration}
+        \ifverbose
+        Numeric integration using Simpson's rule.
+        \fi
+        \code{math/numeric_integration.cpp}
+
+\subsection{Fast Hadamard Transform}
+        Computes the Hadamard transform of the given array. Can be used to
+        compute the \texttt{XOR}-convolution of arrays, exactly like with FFT.
+        For \texttt{AND}-convolution, use $(x+y,y)$ and $(x-y,y)$. For
+        \texttt{OR}-convolution, use $(x,x+y)$ and $(x,-x+y)$. \textbf{Note}:
+        Size of array must be a power of $2$.
+        \code{math/fht.cpp}
+
+\subsection{Tridiagonal Matrix Algorithm}
+        Solves a tridiagonal system of linear equations $a_ix_{i-1} + b_ix_i +
+        c_ix_{i+1} = d_i$ where $a_1 = c_n = 0$. Beware of numerical
+        instability.
+        \code{math/tridiagonal.cpp}
+
+\subsection{Mertens Function}
+        Mertens function is $M(n) = \sum_{i=1}^n \mu(i)$. Let $L\approx
+        (n\log{\log{n}})^{2/3}$ and the algorithm runs in $O(n^{2/3})$.
+        \ifverbose
+        \else
+            Can also be easily changed to compute the summatory $\Phi$.
+        \fi
+        \code{math/mertens.cpp}
+    \ifverbose
+    
+\subsection{Summatory Phi}
+        The summatory phi function $\Phi(n) = \sum_{i=1}^n \phi(i)$. Let $L\approx
+        (n\log{\log{n}})^{2/3}$ and the algorithm runs in $O(n^{2/3})$.
+        \code{math/summatory_phi.cpp}
+    \fi
+
+\subsection{Josephus problem}
+        Last man standing out of $n$ if every $k$th is killed. Zero-based, and
+        does not kill $0$ on first pass.
+        \code{math/josephus.cpp}
+
+\subsection{Number of Integer Points under Line}
+        Count the number of integer solutions to $Ax+By\leq C$, $0 \leq x \leq
+        n$, $0 \leq y$. In other words, evaluate the sum $\sum_{x=0}^n
+        \left\lfloor \frac{C-Ax}{B} + 1\right\rfloor$. To count all solutions,
+        let $n = \left\lfloor \frac{c}{a}\right\rfloor$. In any case, it must hold
+        that $C-nA \geq 0$. Be very careful about overflows.
+        \code{math/floor_sum.cpp}
+
+\subsection{Numbers and Sequences}
+        Some random prime numbers: 1031, 32771, 1048583, 33554467,
+        1073741827, 34359738421, 1099511627791, 35184372088891,
+        1125899906842679, 36028797018963971.
+
+        More random prime numbers: $10^3 + \{-9,-3,9,13\}$, $10^6+
+        \{-17,3,33\}$, $10^9+ \{7,9,21,33,87\}$.
+
+        Some maximal divisor counts:
+        \begin{tabular}{rr}
+        840 & 32 \\
+        720\,720 & 240 \\
+        735\,134\,400 & 1\,344 \\
+        963\,761\,198\,400 & 6\,720 \\
+        866\,421\,317\,361\,600 & 26\,880 \\
+        897\,612\,484\,786\,617\,600 & 103\,680 \\
+        \end{tabular}
 
 \section{Datastructures}
 \subsection{Standard segment tree $\mathcal{O}(\log n)$}
@@ -365,6 +441,47 @@ Finds the longest distance between two points in a convex hull.
 \subsection{Closest points $\mathcal{O}(n \log n)$}
 
 \code{geometry/closest_points.cpp}
+
+\subsection{Great-Circle Distance}
+        Computes the distance between two points (given as latitude/longitude
+        coordinates) on a sphere of radius $r$.
+        \code{geometry/gc_distance.cpp}
+
+\subsection{3D Primitives}
+        \code{geometry/primitives3d.cpp}
+
+\subsection{Polygon Centroid}
+        \begin{align*}
+          C_x &= \frac{1}{6A}\sum_{i=0}^{n-1}(x_i+x_{i+1})(x_iy_{i+1} - x_{i+1}y_i) \\
+          C_Y &= \frac{1}{6A}\sum_{i=0}^{n-1}(y_i+y_{i+1})(x_iy_{i+1} - x_{i+1}y_i) \\
+          A &= \frac12\sum_{i=0}^{n-1}(x_iy_{i+1}-x_{i+1}y_i)
+        \end{align*}
+
+\subsection{Rectilinear Minimum Spanning Tree}
+        Given a set of $n$ points in the plane, and the aim is to find a
+        minimum spanning tree connecting these $n$ points, assuming the
+        Manhattan distance is used. The function \texttt{candidates} returns at
+        most $4n$ edges that are a superset of the edges in a minimum spanning
+        tree, and then one can use Kruskal's algorithm.
+        \code{geometry/rmst.cpp}
+
+\subsection{Formulas}
+        Let $a = (a_x, a_y)$ and $b = (b_x, b_y)$ be two-dimensional vectors.
+        \begin{itemize}
+            \item $a\cdot b = |a||b|\cos{\theta}$, where $\theta$ is the angle
+                between $a$ and $b$.
+            \item $a\times b = |a||b|\sin{\theta}$, where $\theta$ is the
+                signed angle between $a$ and $b$.
+            \item $a\times b$ is equal to the area of the parallelogram with
+                two of its sides formed by $a$ and $b$. Half of that is the
+                area of the triangle formed by $a$ and $b$.
+            \item \textbf{Euler's formula:} $V - E + F = 2$
+            \item Side lengths $a,b,c$ can form a triangle iff.\ $a+b>c$, $b+c>a$ and $a+c>b$.
+            \item Sum of internal angles of a regular convex $n$-gon is $(n-2)\pi$.
+            \item \textbf{Law of sines:} $\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}$
+            \item \textbf{Law of cosines:} $b^2 = a^2 + c^2 - 2ac\cos B$
+            \item Internal tangents of circles $(c_1,r_1), (c_2,r_2)$ intersect at $(c_1r_2+c_2r_1)/(r_1+r_2)$, external intersect at $(c_1r_2-c_2r_1)/(r_1+r_2)$.
+        \end{itemize}
 
 \section{Miscellaneous}
 \subsection{Binary search $\mathcal{O}(\log (hi - lo))$}
@@ -547,7 +664,7 @@ Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) =
                                 \item Is it the Synchronizing word problem?
                             \end{itemize}
                     \end{itemize}
-                \item Mathematics
+                \item math
                     \begin{itemize}
                         \item Is the function multiplicative?
                         \item Look for a pattern

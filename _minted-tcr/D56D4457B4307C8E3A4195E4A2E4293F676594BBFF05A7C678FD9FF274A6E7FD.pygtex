@@ -1,0 +1,28 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZdq{}mod\PYGZus{}pow.cpp\PYGZdq{}}
+\PYG{n}{ll} \PYG{n+nf}{legendre}\PYG{p}{(}\PYG{n}{ll} \PYG{n}{a}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{p}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{a} \PYG{o}{\PYGZpc{}} \PYG{n}{p} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{p} \PYG{o}{==} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{k}{return} \PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{k}{return} \PYG{n}{mod\PYGZus{}pow}\PYG{p}{(}\PYG{n}{a}\PYG{p}{,} \PYG{p}{(}\PYG{n}{p}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{p}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{1} \PYG{o}{?} \PYG{l+m+mi}{1} \PYG{o}{:} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\PYG{n}{ll} \PYG{n+nf}{tonelli\PYGZus{}shanks}\PYG{p}{(}\PYG{n}{ll} \PYG{n}{n}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{p}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{assert}\PYG{p}{(}\PYG{n}{legendre}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,}\PYG{n}{p}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{);}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{p} \PYG{o}{==} \PYG{l+m+mi}{2}\PYG{p}{)} \PYG{k}{return} \PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{n}{ll} \PYG{n}{s} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{q} \PYG{o}{=} \PYG{n}{p}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{z} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{p}{;}
+  \PYG{k}{while} \PYG{p}{(}\PYG{o}{\PYGZti{}}\PYG{n}{q} \PYG{o}{\PYGZam{}} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{n}{s}\PYG{o}{++}\PYG{p}{,} \PYG{n}{q} \PYG{o}{\PYGZgt{}\PYGZgt{}=} \PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{s} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{k}{return} \PYG{n}{mod\PYGZus{}pow}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,} \PYG{p}{(}\PYG{n}{p}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{/}\PYG{l+m+mi}{4}\PYG{p}{,} \PYG{n}{p}\PYG{p}{);}
+  \PYG{k}{while} \PYG{p}{(}\PYG{n}{legendre}\PYG{p}{(}\PYG{n}{z}\PYG{p}{,}\PYG{n}{p}\PYG{p}{)} \PYG{o}{!=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{n}{z}\PYG{o}{++}\PYG{p}{;}
+  \PYG{n}{ll} \PYG{n}{c} \PYG{o}{=} \PYG{n}{mod\PYGZus{}pow}\PYG{p}{(}\PYG{n}{z}\PYG{p}{,} \PYG{n}{q}\PYG{p}{,} \PYG{n}{p}\PYG{p}{),}
+    \PYG{n}{r} \PYG{o}{=} \PYG{n}{mod\PYGZus{}pow}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,} \PYG{p}{(}\PYG{n}{q}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{n}{p}\PYG{p}{),}
+    \PYG{n}{t} \PYG{o}{=} \PYG{n}{mod\PYGZus{}pow}\PYG{p}{(}\PYG{n}{n}\PYG{p}{,} \PYG{n}{q}\PYG{p}{,} \PYG{n}{p}\PYG{p}{),}
+    \PYG{n}{m} \PYG{o}{=} \PYG{n}{s}\PYG{p}{;}
+  \PYG{k}{while} \PYG{p}{(}\PYG{n}{t} \PYG{o}{!=} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{ll} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{ts} \PYG{o}{=} \PYG{p}{(}\PYG{n}{ll}\PYG{p}{)}\PYG{n}{t}\PYG{o}{*}\PYG{n}{t} \PYG{o}{\PYGZpc{}} \PYG{n}{p}\PYG{p}{;}
+    \PYG{k}{while} \PYG{p}{(}\PYG{n}{ts} \PYG{o}{!=} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{n}{i}\PYG{o}{++}\PYG{p}{,} \PYG{n}{ts} \PYG{o}{=} \PYG{p}{((}\PYG{n}{ll}\PYG{p}{)}\PYG{n}{ts} \PYG{o}{*} \PYG{n}{ts}\PYG{p}{)} \PYG{o}{\PYGZpc{}} \PYG{n}{p}\PYG{p}{;}
+    \PYG{n}{ll} \PYG{n}{b} \PYG{o}{=} \PYG{n}{mod\PYGZus{}pow}\PYG{p}{(}\PYG{n}{c}\PYG{p}{,} \PYG{l+m+mi}{1LL}\PYG{o}{\PYGZlt{}\PYGZlt{}}\PYG{p}{(}\PYG{n}{m}\PYG{o}{\PYGZhy{}}\PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{),} \PYG{n}{p}\PYG{p}{);}
+    \PYG{n}{r} \PYG{o}{=} \PYG{p}{(}\PYG{n}{ll}\PYG{p}{)}\PYG{n}{r} \PYG{o}{*} \PYG{n}{b} \PYG{o}{\PYGZpc{}} \PYG{n}{p}\PYG{p}{;}
+    \PYG{n}{t} \PYG{o}{=} \PYG{p}{(}\PYG{n}{ll}\PYG{p}{)}\PYG{n}{t} \PYG{o}{*} \PYG{n}{b} \PYG{o}{\PYGZpc{}} \PYG{n}{p} \PYG{o}{*} \PYG{n}{b} \PYG{o}{\PYGZpc{}} \PYG{n}{p}\PYG{p}{;}
+    \PYG{n}{c} \PYG{o}{=} \PYG{p}{(}\PYG{n}{ll}\PYG{p}{)}\PYG{n}{b} \PYG{o}{*} \PYG{n}{b} \PYG{o}{\PYGZpc{}} \PYG{n}{p}\PYG{p}{;}
+    \PYG{n}{m} \PYG{o}{=} \PYG{n}{i}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+  \PYG{k}{return} \PYG{n}{r}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\PYG{c+c1}{// vim: cc=60 ts=2 sts=2 sw=2:}
+\end{Verbatim}
