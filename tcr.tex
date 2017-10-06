@@ -1,8 +1,69 @@
-\documentclass{article}
 
-% \usepackage[dutch]{babel}
+\documentclass[8pt,a4paper,landscape,oneside]{amsart}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{fullpage}
+\usepackage{xcolor}
+\usepackage{textcomp}
+%\usepackage{geometry}
+% \usepackage[top=0pt, bottom=1cm, left=0.3cm, right=0.3cm]{geometry}
+\usepackage[top=3pt, bottom=1cm, left=0.3cm, right=0.3cm]{geometry}
+\usepackage{graphicx}
+% \usepackage{listings}
+\usepackage{subcaption}
+\usepackage[scaled]{beramono}
+\usepackage{titling}
+\usepackage{datetime}
+\usepackage{enumitem}
 \usepackage{color,courier,fancyhdr,listings,parcolumns,verbatim,upquote}
-\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage{multicol}
+
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.1em\vspace{-1em}}%
+}
+
+% Header/Footer
+% \geometry{includeheadfoot}
+%\fancyhf{}
+\pagestyle{fancy}
+\lhead{Reykjavík University}
+\rhead{\thepage}
+\cfoot{}
+\setlength{\headheight}{15.2pt}
+\setlength{\droptitle}{-20pt}
+\posttitle{\par\end{center}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Math and bit operators
+\DeclareMathOperator{\lcm}{lcm}
+\newcommand*\BitAnd{\mathrel{\&}}
+\newcommand*\BitOr{\mathrel{|}}
+\newcommand*\ShiftLeft{\ll}
+\newcommand*\ShiftRight{\gg}
+\newcommand*\BitNeg{\ensuremath{\mathord{\sim}}}
+\DeclareRobustCommand{\stirling}{\genfrac\{\}{0pt}{}}
+
+\newenvironment{myitemize}
+{ \begin{itemize}[leftmargin=.5cm]
+    \setlength{\itemsep}{0pt}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}     }
+{ \end{itemize}                  }
+
+% Output Verbosity
+\newif\ifverbose
+\verbosetrue
+% \verbosefalse
 
 \title{TCR}
 \author{git diff solution (Jens Heuseveldt, Ludo Pulles, Pim Spelier)}
@@ -31,6 +92,7 @@
 
 \begin{document}
 
+\begin{multicols*}{3}
 \maketitle
 \begin{center}
 	\makeatletter
@@ -791,5 +853,5 @@ int solvemat(int n)
 	return 1;
 }
 \end{lstlisting}
-
+\end{multicols*}
 \end{document}
