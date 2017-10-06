@@ -47,69 +47,13 @@
 At the start of a contest, type this in a terminal:
 \end{center}
 
-\begin{lstlisting}
-printf "set nu sw=4 ts=4 noet ai hls shellcmdflag=-ic\nsyntax on\ncolor slate" > ~/.vimrc
-echo "alias g11='g++ -Wall -Wshadow -DLOG -std=c++11'" >> ~/.bashrc
-\end{lstlisting}
+\lstinputlisting{code/vim.sh}
 
 \begin{center}
 template.cpp
 \end{center}
 
-\begin{lstlisting}
-#include<bits/stdc++.h>
-using namespace std;
-
-// Order statistics tree (if supported by judge!):
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
-
-template<class TK, class TM>
-using order_tree = tree<TK, TM, less<TK>, rb_tree_tag, tree_order_statistics_node_update>;
-// iterator	find_by_order(int r) (zero based)
-// int		order_of_key(TK v)
-template<class TV> using order_set = order_tree<TV, null_type>;
-
-#define x first
-#define y second
-#define pb push_back
-#define mp make_pair
-#define eb emplace_back
-#define rep(i,a,b) for(auto i=(a);i!=(b); ++i)
-#define all(v) (v).begin(), (v).end()
-
-typedef long long ll;
-typedef pair<int, int> pii;
-typedef vector<int> vi;
-typedef vector<vi> vvi;
-template<class T> using min_queue = priority_queue<T, vector<T>, greater<T>>;
-
-const int INF = 2147483647; // (1 << 30) - 1 + (1 << 30)
-const ll LLINF = (1LL << 62) - 1 + (1LL << 62); // = 9.223.372.036.854.775.807
-const double PI = acos(-1.0);
-
-#ifdef LOG
-#define DBG(x) cerr << __LINE__ << ": " << #x << " = " << (x) << endl
-#else
-#define DBG(x)
-const bool LOG = false;
-#endif
-
-void Log() { if(LOG) cerr << "\n\n"; }
-template<class T, class... S>
-void Log(T t, S... s) { if(LOG) cerr << t << "\t", Log(s...); }
-
-// lambda-expression: [] (args) -> retType { body }
-int main() {
-	ios_base::sync_with_stdio(false); // fast IO
-	cin.tie(NULL); // fast IO
-	cerr << boolalpha; // print true/false
-	(cout << fixed).precision(10); // adjust precision
-
-	return 0;
-}
-\end{lstlisting}
+\lstinputlisting{code/T.cpp}
 
 Prime numbers: $\mathit{982451653}$, $\mathit{81253449}$, $10^3 + \{-9,-3,9,13\}$, $10^6 + \{-17, 3, 33\}$, $10^9 + \{7,9,21,33,87\}$
 
@@ -118,9 +62,9 @@ Prime numbers: $\mathit{982451653}$, $\mathit{81253449}$, $10^3 + \{-9,-3,9,13\}
 \begin{itemize}
 	\setlength\itemsep{-.25em}
 	\item Goed slapen \& een vroeg ritme hebben
-	\item Genoeg drinken \& eten tijdens de wedstrijd
+	\item Genoeg drinken \& eten voor en tijdens de wedstrijd
 	\item Een lijst van alle problemen met info waar het over gaat, en wie het goed kan oplossen
-	\item Ludo moet \textbf{ALLE} opgaves \textbf{goed} lezen
+	\item Ludo moet {\huge\textbf{ALLE}} opgaves \textbf{goed} lezen
 	\item Test de kleine voorbeeldgevallen
 	\item Houd na 2 uur een pauze en overleg waar iedereen mee bezig is
 	\item Maak zelf wat test-cases
@@ -128,7 +72,7 @@ Prime numbers: $\mathit{982451653}$, $\mathit{81253449}$, $10^3 + \{-9,-3,9,13\}
 	\item Als iemand niks te doen heeft, kan hij nodige dingen uit de TCR typen.
 	\item We moeten ook een voorbeeld test-case voor TCR algoritmes hebben om te testen of het goed overgetypt is
 	\item Bij geometrie moeten we om kunnen gaan met meerdere input manieren (voor bv. lijnen)
-	\item Gebruik veel long long`s
+	\item Gebruik veel long long\textquotesingle s
 \end{itemize}
 
 \subsection{Wrong Answer}
@@ -172,7 +116,7 @@ bool isOverflown = __builtin_[add|mul|sub]_overflow(a, b, \&res);
 		In any bipartite graph, the number of edges in a maximum matching equals the number of vertices in a minimum vertex cover
 \end{description}
 
-\begin{comment}
+% \begin{comment}
 \subsection{Game theory}
 
 A game can be reduced to Nim if it is a finite impartial game. Nim and its variants include:
@@ -187,177 +131,28 @@ A game can be reduced to Nim if it is a finite impartial game. Nim and its varia
 	\item[Lasker's Nim] Players may alternatively split a pile into two new non-empty piles. $g(4k+1) = 4k+1$, $g(4k+2) = 4k+2$, $g(4k+3) = 4k+4$, $g(4k+4) = 4k+3$ ($k\geq 0$).
 	\item[Hackenbush on trees] A tree with stalks $(x_i)_{i=1}^n$ may be replaced with a single stalk with length $\bigoplus_{i=1}^n x_i$.
 \end{description}
-\end{comment}
+% \end{comment}
 
 A useful identity: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{mod} \, 4]$.
 
 \section{Mathematics}
 
-\begin{lstlisting}
-int abs(int x) { return x > 0 ? x : -x; }
-int sign(int x) { return (x > 0) - (x < 0); }
-
-// greatest common divisor
-ll gcd(ll a, ll b) { while (b) a %= b, swap(a, b); return a; };
-// least common multiple
-ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
-ll mod(ll a, ll b) { return (a %= b) < 0 ? a + b : a; }
-
-// safe multiplication (ab % m) for m <= 4e18 in O(log b)
-ll mulmod(ll a, ll b, ll m) {
-	ll r = 0;
-	while (b) {
-		if (b & 1) r = (r + a) % m;
-		a = (a + a) % m;
-		b >>= 1;
-	}
-	return r;
-}
-
-// safe exponentation (a^b % m) for m <= 2e9 in O(log b)
-ll powmod(ll a, ll b, ll m) {
-	ll r = 1;
-	while (b) {
-		if (b & 1) r = (r * a) % m; // r = mulmod(r, a, m);
-		a = (a * a) % m; // a = mulmod(a, a, m);
-		b >>= 1;
-	}
-	return r;
-}
-
-// returns x, y such that ax + by = gcd(a, b)
-ll egcd(ll a, ll b, ll &x, ll &y) {
-	ll xx = y = 0, yy = x = 1;
-	while (b) {
-		x -= a / b * xx; swap(x, xx);
-		y -= a / b * yy; swap(y, yy);
-		a %= b; swap(a, b);
-	}
-	return a;
-}
-
-// Chinese remainder theorem
-const pll NO_SOLUTION(0, -1);
-// Returns (u, v) such that x = u % v <=> x = a % n and x = b % m
-pll crt(ll a, ll n, ll b, ll m) {
-	ll s, t, d = egcd(n, m, s, t), nm = n * m;
-	if (mod(a - b, d)) return NO_SOLUTION;
-	return pll(mod(s * b * n + t * a * m, nm) / d, nm / d);
-	/* when n, m > 10^6, avoid overflow:
-	return pll(mod(mulmod(mulmod(s, b, nm), n, nm)
-	             + mulmod(mulmod(t, a, nm), m, nm), nm) / d, nm / d); */
-}
-
-// phi[i] = #{ 0 < j <= i | gcd(i, j) = 1 }
-vi totient(int N) {
-	vi phi(N);
-	for (int i = 0; i < N; i++) phi[i] = i;
-	for (int i = 2; i < N; i++)
-		if (phi[i] == i)
-			for (int j = i; j < N; j += i) phi[j] -= phi[j] / i;
-	return phi;
-}
-
-// calculate nCk % p (p prime!)
-ll lucas(ll n, ll k, ll p) {
-	ll ans = 1;
-	while (n) {
-		ll np = n % p, kp = k % p;
-		if (np < kp) return 0;
-		ans = mod(ans * binom(np, kp), p); // (np C kp)
-		n /= p; k /= p;
-	}
-	return ans;
-}
-
-// returns if n is prime for n < 3e24 ( > 2^64)
-bool millerRabin(ll n)
-{
-	if (n < 2 || n % 2 == 0) return n == 2;
-	ll d = n - 1, ad, s = 0, r;
-	for (; d % 2 == 0; d /= 2) s++;
-	for (int a : { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41 }) {
-		if (n == a) return true;
-		if ((ad = powmod(a, d, n)) == 1) continue;
-		for (r = 0; r < s && ad + 1 != n; r++)
-			ad = mulmod(ad, ad, n);
-		if (r == s) return false;
-	}
-	return true;
-}
-\end{lstlisting}
+\lstinputlisting{code/math.cpp}
 
 \section{Datastructures}
 \subsection{Standard segment tree $\mathcal{O}(\log n)$}
 
-\begin{lstlisting}
-typedef /* Tree element */ S;
-const int n = 1 << 20;
-S t[2 * n];
-
-// required axiom: associativity
-S combine(S l, S r) { return l + r; } // sum segment tree
-S combine(S l, S r) { return max(l, r); } // max segment tree
-
-void build() {
-	for (int i = n; --i; ) t[i] = combine(t[2 * i], t[2 * i + 1]);
-}
-
-// set value v on position i
-void update(int i, S v) {
-	for (t[i += n] = v; i /= 2; ) t[i] = combine(t[2 * i], t[2 * i + 1]);
-}
-
-// sum on interval [l, r)
-S query(int l, int r) {
-	S resL, resR;
-	for (l += n, r += n; l < r; l /= 2, r /= 2) {
-		if (l & 1) resL = combine(resL, t[l++]);
-		if (r & 1) resR = combine(t[--r], resR);
-	}
-	return combine(resL, resR);
-}
-\end{lstlisting}
+\lstinputlisting{code/segment_tree.cpp}
 
 \subsection{Binary Indexed Tree $\mathcal{O}(\log n)$}
 
 Use one-based indices ($i > 0$)!
 
-\begin{lstlisting}
-int bit[MAXN + 1];
-
-// arr[i] += v
-void update(int i, int v) {
-	while (i <= MAXN) bit[i] += v, i += i & -i;
-}
-
-// returns sum of arr[i], where i: [1, i]
-int query(int i) {
-	int v = 0; while (i) v += bit[i], i -= i & -i; return v;
-}
-\end{lstlisting}
+\lstinputlisting{code/bit.cpp}
 
 \subsection{Disjoint-Set / Union-Find $\mathcal{O}(\alpha (n))$}
 
-\begin{lstlisting}
-int par[MAXN], rnk[MAXN];
-
-void uf_init(int n) {
-	fill_n(par, n, -1);
-	fill_n(rnk, n, 0);
-}
-
-int uf_find(int v) {
-	return par[v] < 0 ? v : par[v] = uf_find(par[v]);
-}
-
-void uf_union(int a, int b) {
-	if ((a = uf_find(a)) == (b = uf_find(b))) return;
-	if (rnk[a] < rnk[b]) swap(a, b);
-	if (rnk[a] == rnk[b]) rnk[a]++;
-	par[b] = a;
-}
-\end{lstlisting}
+\lstinputlisting{code/dsu.cpp}
 
 \section{Graph Algorithms}
 % TODO: articulation points, and bridges!
@@ -365,380 +160,53 @@ void uf_union(int a, int b) {
 
 This problem could be solved with a flow algorithm like Dinic's algorithm which runs in $\mathcal{O} (\sqrt{V} E)$, too.
 
-\begin{lstlisting}
-const int sizeL = 1e4, sizeR = 1e4;
-bool vis[sizeR];
-int par[sizeR]; // par : R -> L
-vi adj[sizeL]; // adj : L -> (N -> R)
-
-bool match(int u) {
-	for (int v : adj[u]) {
-		if (vis[v]) continue;
-		vis[v] = true;
-		if (par[v] == -1 || match(par[v])) {
-			par[v] = u;
-			return true;
-		}
-	}
-	return false;
-}
-
-// perfect matching iff ret == sizeL == sizeR
-int maxmatch() {
-	fill_n(par, sizeR, -1);
-	int ret = 0;
-	for (int i = 0; i < sizeL; i++) {
-		fill_n(vis, sizeR, false);
-		ret += match(i);
-	}
-	return ret;
-}
-\end{lstlisting}
+\lstinputlisting{code/maxmatch.cpp}
 
 \subsection{Strongly Connected Components $\mathcal{O}(V + E)$}
 
-\begin{lstlisting}
-vvi adj, comps;
-vi tidx, lnk, cnr, st;
-vector<bool> vis;
-int age, ncomps;
-
-void tarjan(int v) {
-	tidx[v] = lnk[v] = ++age;
-	vis[v] = true;
-	st.pb(v);
-
-	for (int w : adj[v]) {
-		if (!tidx[w]) tarjan(w), lnk[v] = min(lnk[v], lnk[w]);
-		else if (vis[w]) lnk[v] = min(lnk[v], tidx[w]);
-	}
-
-	if (lnk[v] != tidx[v]) return;
-
-	comps.pb(vi());
-	int w;
-	do {
-		vis[w = st.back()] = false;
-		cnr[w] = ncomps;
-		comps.back().pb(w);
-		st.pop_back();
-	} while (w != v);
-	ncomps++;
-}
-
-void findSCC(int n) {
-	age = ncomps = 0;
-	vis.assign(n, false);
-	tidx.assign(n, 0);
-	lnk.resize(n);
-	cnr.resize(n);
-	comps.clear();
-
-	for (int i = 0; i < n; i++)
-		if (tidx[i] == 0) tarjan(i);
-}
-\end{lstlisting}
+\lstinputlisting{code/scc.cpp}
 
 \subsubsection{2-SAT $\mathcal{O}(V+E)$}
 
 Include \texttt{findSCC}.
 
-\begin{lstlisting}
-void init2sat(int n) { adj.assign(2 * n, vi()); }
+\lstinputlisting{code/satsolver.cpp}
 
-// vl, vr = true -> variable l, variable r should be negated.
-void imply(int xl, bool vl, int xr, bool vr) {
-	adj[2 * xl + vl].pb(2 * xr + vr);
-	adj[2 * xr +!vr].pb(2 * xl +!vl);
-}
-
-void satOr(int xl, bool vl, int xr, bool vr) { imply(xl, !vl, xr, vr); }
-void satConst(int x, bool v) { imply(x, !v, x, v); }
-void satIff(int xl, bool vl, int xr, bool vr) {
-	imply(xl, vl, xr, vr);
-	imply(xr, vr, xl, vl);
-}
-
-bool solve2sat(int n, vector<bool> &sol) {
-	findSCC(2 * n);
-	for (int i = 0; i < n; i++)
-		if (cnr[2 * i] == cnr[2 * i + 1]) return false;
-	vector<bool> seen(n, false);
-	sol.assign(n, false);
-	for (vi &comp : comps) {
-		for (int v : comp) {
-			if (seen[v / 2]) continue;
-			seen[v / 2] = true;
-			sol[v / 2] = v & 1;
-		}
-	}
-	return true;
-}
-\end{lstlisting}
-
-\begin{comment}
+% \begin{comment}
 \subsection{Cycle Detection $\mathcal{O}(V + E)$}
 
-\begin{lstlisting}
-vvi adj; // assumes bidirected graph, adjust accordingly
-vector<bool> vis(MAXN, false);
-vi par(MAXN, -1);
-
-bool cycle_detection() {
-	stack<int> s;
-	s.push(0);
-	vis[0] = true;
-	while(!s.empty()) {
-		int cur = s.top();
-		s.pop();
-		for(int i : adj[cur]) {
-			if(vis[i] && par[cur] != i) return true;
-			s.push(i);
-			par[i] = cur;
-			vis[i] = true;
-		}
-	}
-	return false;
-}
-\end{lstlisting}
-\end{comment}
+\lstinputlisting{code/findcycle.cpp}
+% \end{comment}
 
 \subsection{Shortest path}
 
-\begin{comment}
-\subsubsection{BFS $\mathcal{O}(V + E)$}
-
-\begin{lstlisting}
-int n, dist[MAXN];
-vi edges[MAXN]; // (to, cost)
-
-// faster than dijkstra when all edge costs are the same
-int bfs(int from, int to) {
-	fill_n(dist, n, -1);
-	dist[from] = 0;
-
-	queue<int> q;
-	q.push(from);
-	while (!q.empty()) {
-		int cur = q.front();
-		q.pop();
-		for (int nxt : edges[cur]) {
-			if (dist[nxt] >= 0) {
-				dist[nxt] = dist[cur] + 1;
-				if (nxt == to) return dist[nxt];
-				q.push(nxt);
-			}
-		}
-	}
-	return -1;
-}
-\end{lstlisting}
-\end{comment}
-
 % Hier zitten sowieso al heel veel fouten in, en het is niet flexibel voor begin-, en eindpunt
-\begin{comment}
 \subsubsection{Dijkstra $\mathcal{O}(E + V \log V)$}
-
-\begin{lstlisting}
-int n, dist[MAXN];
-bool vis[MAXN];
-vector<pii> edges[MAXN]; // (to, cost)
-
-void dijkstra() {
-	fill_n(vis, n, false);
-	priority_queue<pii, vector<pii>, greater<pii> > q; // (dist, vertex)
-	q.push(pii(0, 0));
-
-	while (!q.empty()) {
-		pii v = q.top();
-		q.pop();
-
-		if (vis[v.y]) continue;
-		vis[v.y] = true;
-
-		for (const pii e : edges[v.y]) {
-			q.push(pii(v.x + e.y, e.x));
-		}
-		dist[v.y] = v.x;
-	}
-}
-\end{lstlisting}
-\end{comment}
 
 \subsubsection{Floyd-Warshall $\mathcal{O}(V^{3})$}
 
-\begin{lstlisting}
-int n = 100, d[MAXN][MAXN];
-for (int i = 0; i < n; i++) fill_n(d[i], n, INF / 3);
-// set direct distances from i to j in d[i][j] (and d[j][i])
-for (int i = 0; i < n; i++)
-	for (int j = 0; j < n; j++)
-		for (int k = 0; k < n; k++)
-			d[j][k] = min(d[j][k], d[j][i] + d[i][k]);
-\end{lstlisting}
+\lstinputlisting{code/floydwarshall.cpp}
 
 \subsubsection{Bellman Ford $\mathcal{O}(V E)$}
 
 This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
 
-\begin{lstlisting}
-vector< pair<pii,int> > edges; // ((from, to), weight)
-vi dist;
-
-// when undirected, add back edges
-bool bellman_ford(int V, int source) {
-	dist.assign(V, INF / 3);
-	dist[source] = 0;
-	
-	bool updated = true;
-	int loops = 0;
-	while (updated && loops < n) {
-		updated = false;
-		for (auto e : edges) {
-			int alt = dist[e.x.x] + e.y;
-			if (alt < dist[e.x.y]) {
-				dist[e.x.y] = alt;
-				updated = true;
-			}
-		}
-	}
-	return loops < n; // loops >= n: negative cycles
-}
-\end{lstlisting}
+\lstinputlisting{code/bellmanford.cpp}
 
 \subsection{Max-flow min-cut}
 \subsubsection{Dinic's Algorithm $\mathcal{O}(V^{2} E)$}
 
-Let's hope this algorithm works correctly! \dots
-
-\begin{lstlisting}
+\begin{comment}
 // http://www.slideshare.net/KuoE0/acmicpc-dinics-algorithm
-struct edge {
-	int to, rev;
-	ll cap, flow;
-	edge(int t, int r, ll c) : to(t), rev(r), cap(c), flow(0) {}
-};
+\end{comment}
 
-int s, t, level[MAXN]; // s = source, t = sink
-vector<edge> g[MAXN];
-
-void add_edge(int fr, int to, ll cap) {
-	g[fr].pb(edge(to, g[to].size(), cap));
-	g[to].pb(edge(fr, g[fr].size() - 1, 0));
-}
-
-bool dinic_bfs() {
-	fill_n(level, MAXN, 0);
-	level[s] = 1;
-
-	queue<int> q;
-	q.push(s);
-	while (!q.empty()) {
-		int cur = q.front();
-		q.pop();
-		for (edge e : g[cur]) {
-			if (level[e.to] == 0 && e.flow < e.cap) {
-				level[e.to] = level[cur] + 1;
-				q.push(e.to);
-			}
-		}
-	}
-	return level[t] != 0;
-}
-
-ll dinic_dfs(int cur, ll maxf) {
-	if (cur == t) return maxf;
-
-	ll f = 0;
-	bool isSat = true;
-	for (edge &e : g[cur]) {
-		if (level[e.to] != level[cur] + 1 || e.flow >= e.cap)
-			continue;
-		ll df = dinic_dfs(e.to, min(maxf - f, e.cap - e.flow));
-		f += df;
-		e.flow += df;
-		g[e.to][e.rev].flow -= df;
-		isSat &= e.flow == e.cap;
-		if (maxf == f) break;
-	}
-	if (isSat) level[cur] = 0;
-	return f;
-}
-
-ll dinic_maxflow() {
-	ll f = 0;
-	while (dinic_bfs()) f += dinic_dfs(s, LLINF);
-	return f;
-}
-\end{lstlisting}
+\lstinputlisting{code/dinic.cpp}
 
 \subsection{Min-cost max-flow}
 
 Find the cheapest possible way of sending a certain amount of flow through a flow network.
 
-\begin{lstlisting}
-struct edge {
-	// to, rev, flow, capacity, weight
-	int t, r;
-	ll f, c, w;
-	edge(int _t, int _r, ll _c, ll _w) : t(_t), r(_r), f(0), c(_c), w(_w) {}
-};
-
-int n, par[MAXN];
-vector<edge> adj[MAXN];
-ll dist[MAXN];
-
-bool findPath(int s, int t) {
-	fill_n(dist, n, LLINF);
-	fill_n(par, n, -1);
-
-	priority_queue< pii, vector<pii>, greater<pii> > q;
-	q.push(pii(dist[s] = 0, s));
-
-	while (!q.empty()) {
-		int d = q.top().x, v = q.top().y;
-		q.pop();
-		if (d > dist[v]) continue;
-
-		for (edge e : adj[v]) {
-			if (e.f < e.c && d + e.w < dist[e.t]) {
-				q.push(pii(dist[e.t] = d + e.w, e.t));
-				par[e.t] = e.r;
-			}
-		}
-	}
-	return dist[t] < INF;
-}
-
-pair<ll, ll> minCostMaxFlow(int s, int t) {
-	ll cost = 0, flow = 0;
-	while (findPath(s, t)) {
-		ll f = INF, c = 0;
-		int cur = t;
-		while (cur != s) {
-			const edge &rev = adj[cur][par[cur]], &e = adj[rev.t][rev.r];
-			f = min(f, e.c - e.f);
-			cur = rev.t;
-		}
-		cur = t;
-		while (cur != s) {
-			edge &rev = adj[cur][par[cur]], &e = adj[rev.t][rev.r];
-			c += e.w;
-			e.f += f;
-			rev.f -= f;
-			cur = rev.t;
-		}
-		cost += f * c;
-		flow += f;
-	}
-	return pair<ll, ll>(cost, flow);
-}
-
-inline void addEdge(int from, int to, ll cap, ll weight) {
-	adj[from].pb(edge(to, adj[to].size(), cap, weight));
-	adj[to].pb(edge(from, adj[from].size() - 1, 0, -weight));
-}
-\end{lstlisting}
+\lstinputlisting{code/mincostmaxflow.cpp}
 
 \subsection{Minimal Spanning Tree}
 
@@ -746,112 +214,24 @@ inline void addEdge(int from, int to, ll cap, ll weight) {
 \begin{comment}
 \subsubsection{Prim $\mathcal{O}((E + V) \log V)$}
 
-\begin{lstlisting}
-// minimum spanning forest actually...
-vector<pii> edges[MAXN]; // or set
-int dist[MAXN];
-bool done[MAXN];
-
-ll prim(int n) {
-	fill_n(dist, n, INF);
-	fill_n(done, n, false);
-	ll ret = 0, trees = 0;
-	set<pii> q; // (to MST, vertex)
-	for (int i = 0; i < n; i++) {
-		if (done[i]) continue;
-		trees++;
-		q.insert(pii(dist[i] = 0, i));
-		while (!q.empty()) {
-			ret += q.begin()->first;
-			int cur = q.begin()->second;
-			q.erase(q.begin());
-			done[cur] = true;
-			for (pii pr : edges[cur]) {
-				if (!done[pr.x] && pr.y < dist[pr.x]) {
-					q.erase(pii(dist[pr.x], pr.x));
-					dist[pr.x] = pr.y;
-					q.insert(pii(dist[pr.x], pr.x));
-				}
-			}
-		}
-	}
-	// if (trees > 1) return -1; // forest
-	return ret;
-}
-\end{lstlisting}
+\lstinputlisting{code/mst_prim.cpp}
 \end{comment}
 
 \subsubsection{Kruskal $\mathcal{O}(E \log V)$}
 
-\begin{lstlisting}
-struct edge { int x, y, w; };
-edge edges[MAXM];
-
-ll kruskal(int n, int m) { // n: #vertices, m: #edges
-	uf_init(n);
-	sort(edges, edges + m, [] (edge a, edge b) -> bool { return a.w < b.w; });
-	ll ret = 0;
-	while (m--) {
-		if (uf_find(edges[m].x) == uf_find(edges[m].y)) continue;
-		ret += edges[m].w;
-		uf_union(edges[m].x, edges[m].y);
-	}
-	return ret;
-}
-\end{lstlisting}
+\begin{comment}
+\lstinputlisting{code/mst_kruskal.cpp}
+\end{comment}
 
 \section{String algorithms}
 
 \subsection{Trie}
 
-\begin{lstlisting}
-const int SIGMA = 26;
-
-struct trie {
-	bool word;
-	trie **adj;
-
-	trie() : word(false), adj(new trie*[SIGMA]) {
-		for (int i = 0; i < SIGMA; i++) adj[i] = NULL;
-	}
-
-	void addWord(const string &str) {
-		trie *cur = this;
-		for (char ch : str) {
-			int i = ch - 'a';
-			if (!cur->adj[i]) cur->adj[i] = new trie();
-			cur = cur->adj[i];
-		}
-		cur->word = true;
-	}
-
-	bool isWord(const string &str) {
-		trie *cur = this;
-		for (char ch : str) {
-			int i = ch - 'a';
-			if (!cur->adj[i]) return false;
-			cur = cur->adj[i];
-		}
-		return cur->word;
-	}
-};
-\end{lstlisting}
+\lstinputlisting{code/trie.cpp}
 
 \subsection{Z-algorithm $\mathcal{O}(n)$}
 
-\begin{lstlisting}
-// z[i] = length of longest substring starting from s[i] which is also a prefix of s.
-vi z_function(const string &s) {
-	int n = (int) s.length();
-	vi z(n);
-	for (int i = 1, l = 0, r = 0; i < n; ++i) {
-		if (i <= r) z[i] = min (r - i + 1, z[i - l]);
-		while (i + z[i] < n && s[z[i]] == s[i + z[i]]) ++z[i];
-		if (i + z[i] - 1 > r) l = i, r = i + z[i] - 1;
-	}
-	return z;
-}
-\end{lstlisting}
+\lstinputlisting{code/z_function.cpp}
 
 \subsection{Suffix array $\mathcal{O}(n \log^2{n})$}
 
