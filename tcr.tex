@@ -991,6 +991,37 @@ Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) =
             \left(x+k\frac{b}{\gcd(a,b)}, y-k\frac{a}{\gcd(a,b)}\right) \]
 
         \subsection{Misc}
+            \subsubsection{Binomial transform}
+                If $a_n = \sum_{k=0}^{n} \binom{n}{k} b_k$, then $b_n = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} a_k$.
+
+            \subsubsection{Generating functions}
+
+                Ordinary (o.g.f.): $A(x) := \sum_{n=0}^{\infty} a_i x^i$.
+
+                Exponential (e.g.f.): $A(x) := \sum_{n=0}^{\infty} a_i x^i/i!$.
+
+                o.g.f. convolution: $c_n = \sum_{k=0}^{n} a_k b_{n-k}$ (use FFT for $\mathcal{O}(n \log n)$).
+
+                e.g.f. convolution: $c_n = \sum_{k=0}^{n} \binom{n}{k} a_k b_{n-k} = n! \sum_{k=0}^{n} \frac{a_k}{k!} \frac{b_{n-k}}{(n-k)!}$ (use FFT for $\mathcal{O}(n \log n)$).
+
+            \subsubsection{General linear recurrences}
+                
+                If $a_n = \sum_{k=0}^{n-1} a_k b_{n-k}$, then $A(x) = \frac{a_0}{1-B(x)}$.
+                We also can compute all $a_n$ with Divide-and-Conquer algorithm in $\mathcal{O}(n \log^2 n n)$.
+
+            \subsubsection{Inverse polynomial modulo $x^l$}
+                
+                Given $A(x)$, find $B(x)$ such that $A(x)B(x) = 1 + x^l Q(x)$ for some $Q(x)$.
+
+                Step 1: Start with $B_0(x) = 1/a_0$
+
+                Step 2: $B_{k+1}(x) = (-B_k(x)^2 A(x) + 2 B_k(x)) \mod x^{2^{k+1}}$.
+
+            \subsubsection{Fast subset convolution}
+                
+                Given array $a_i$ of size $2^k$ calculate $b_i = \sum_{j \BitAnd i = i} a_j$.
+                \code{math/subset_conv.cpp}
+
             \subsubsection{Determinants and PM}
                 \begin{align*}
                     det(A) &= \sum_{\sigma \in S_n}\text{sgn}(\sigma)\prod_{i = 1}^n a_{i,\sigma(i)}\\

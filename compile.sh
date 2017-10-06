@@ -1,1 +1,1 @@
-pdflatex -shell-escape tcr.tex && evince tcr.pdf
+pdflatex -shell-escape tcr.tex && evince tcr.pdf &

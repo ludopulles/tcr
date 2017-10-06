@@ -1,9 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\}]
-\PYG{k+kt}{int} \PYG{n+nf}{J}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{n}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{k}\PYG{p}{)} \PYG{p}{\PYGZob{}}
-  \PYG{k}{if} \PYG{p}{(}\PYG{n}{n} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
-  \PYG{k}{if} \PYG{p}{(}\PYG{n}{k} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{k}{return} \PYG{n}{n}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{;}
-  \PYG{k}{if} \PYG{p}{(}\PYG{n}{n} \PYG{o}{\PYGZlt{}} \PYG{n}{k}\PYG{p}{)} \PYG{k}{return} \PYG{p}{(}\PYG{n}{J}\PYG{p}{(}\PYG{n}{n}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{k}\PYG{p}{)}\PYG{o}{+}\PYG{n}{k}\PYG{p}{)}\PYG{o}{\PYGZpc{}}\PYG{n}{n}\PYG{p}{;}
-  \PYG{k+kt}{int} \PYG{n}{np} \PYG{o}{=} \PYG{n}{n} \PYG{o}{\PYGZhy{}} \PYG{n}{n}\PYG{o}{/}\PYG{n}{k}\PYG{p}{;}
-  \PYG{k}{return} \PYG{n}{k}\PYG{o}{*}\PYG{p}{((}\PYG{n}{J}\PYG{p}{(}\PYG{n}{np}\PYG{p}{,}\PYG{n}{k}\PYG{p}{)}\PYG{o}{+}\PYG{n}{np}\PYG{o}{\PYGZhy{}}\PYG{n}{n}\PYG{o}{\PYGZpc{}}\PYG{n}{k}\PYG{o}{\PYGZpc{}}\PYG{n}{np}\PYG{p}{)}\PYG{o}{\PYGZpc{}}\PYG{n}{np}\PYG{p}{)} \PYG{o}{/} \PYG{p}{(}\PYG{n}{k}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
-\PYG{c+c1}{// vim: cc=60 ts=2 sts=2 sw=2:}
-\end{Verbatim}
