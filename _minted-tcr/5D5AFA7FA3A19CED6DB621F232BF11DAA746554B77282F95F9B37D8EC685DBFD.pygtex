@@ -1,0 +1,77 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{double} \PYG{n+nf}{perimeter}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{ab}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{bc}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{ca}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{ab} \PYG{o}{+} \PYG{n}{bc} \PYG{o}{+} \PYG{n}{ca}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{double} \PYG{n+nf}{perimeter}\PYG{p}{(}\PYG{n}{point} \PYG{n}{a}\PYG{p}{,} \PYG{n}{point} \PYG{n}{b}\PYG{p}{,} \PYG{n}{point} \PYG{n}{c}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{)} \PYG{o}{+} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{b}\PYG{p}{,} \PYG{n}{c}\PYG{p}{)} \PYG{o}{+} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{c}\PYG{p}{,} \PYG{n}{a}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{double} \PYG{n+nf}{area}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{ab}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{bc}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{ca}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{c+c1}{// Heron\PYGZsq{}s formula, split sqrt(a * b) into sqrt(a) * sqrt(b); in implementation}
+  \PYG{k+kt}{double} \PYG{n}{s} \PYG{o}{=} \PYG{l+m+mf}{0.5} \PYG{o}{*} \PYG{n}{perimeter}\PYG{p}{(}\PYG{n}{ab}\PYG{p}{,} \PYG{n}{bc}\PYG{p}{,} \PYG{n}{ca}\PYG{p}{);}
+  \PYG{k}{return} \PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{s}\PYG{p}{)} \PYG{o}{*} \PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{s} \PYG{o}{\PYGZhy{}} \PYG{n}{ab}\PYG{p}{)} \PYG{o}{*} \PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{s} \PYG{o}{\PYGZhy{}} \PYG{n}{bc}\PYG{p}{)} \PYG{o}{*} \PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{s} \PYG{o}{\PYGZhy{}} \PYG{n}{ca}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{double} \PYG{n+nf}{area}\PYG{p}{(}\PYG{n}{point} \PYG{n}{a}\PYG{p}{,} \PYG{n}{point} \PYG{n}{b}\PYG{p}{,} \PYG{n}{point} \PYG{n}{c}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{area}\PYG{p}{(}\PYG{n}{dist}\PYG{p}{(}\PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{),} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{b}\PYG{p}{,} \PYG{n}{c}\PYG{p}{),} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{c}\PYG{p}{,} \PYG{n}{a}\PYG{p}{));} \PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{double} \PYG{n+nf}{rInCircle}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{ab}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{bc}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{ca}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{area}\PYG{p}{(}\PYG{n}{ab}\PYG{p}{,} \PYG{n}{bc}\PYG{p}{,} \PYG{n}{ca}\PYG{p}{)} \PYG{o}{/} \PYG{p}{(}\PYG{l+m+mf}{0.5} \PYG{o}{*} \PYG{n}{perimeter}\PYG{p}{(}\PYG{n}{ab}\PYG{p}{,} \PYG{n}{bc}\PYG{p}{,} \PYG{n}{ca}\PYG{p}{));} \PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{double} \PYG{n+nf}{rInCircle}\PYG{p}{(}\PYG{n}{point} \PYG{n}{a}\PYG{p}{,} \PYG{n}{point} \PYG{n}{b}\PYG{p}{,} \PYG{n}{point} \PYG{n}{c}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{rInCircle}\PYG{p}{(}\PYG{n}{dist}\PYG{p}{(}\PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{),} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{b}\PYG{p}{,} \PYG{n}{c}\PYG{p}{),} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{c}\PYG{p}{,} \PYG{n}{a}\PYG{p}{));} \PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{// assumption: the required points/lines functions have been written}
+\PYG{c+c1}{// returns 1 if there is an inCircle center, returns 0 otherwise}
+\PYG{c+c1}{// if this function returns 1, ctr will be the inCircle center}
+\PYG{c+c1}{// and r is the same as rInCircle}
+\PYG{k+kt}{int} \PYG{n+nf}{inCircle}\PYG{p}{(}\PYG{n}{point} \PYG{n}{p1}\PYG{p}{,} \PYG{n}{point} \PYG{n}{p2}\PYG{p}{,} \PYG{n}{point} \PYG{n}{p3}\PYG{p}{,} \PYG{n}{point} \PYG{o}{\PYGZam{}}\PYG{n}{ctr}\PYG{p}{,} \PYG{k+kt}{double} \PYG{o}{\PYGZam{}}\PYG{n}{r}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{r} \PYG{o}{=} \PYG{n}{rInCircle}\PYG{p}{(}\PYG{n}{p1}\PYG{p}{,} \PYG{n}{p2}\PYG{p}{,} \PYG{n}{p3}\PYG{p}{);}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{fabs}\PYG{p}{(}\PYG{n}{r}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n}{EPS}\PYG{p}{)} \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}                   \PYG{c+c1}{// no inCircle center}
+
+  \PYG{n}{line} \PYG{n}{l1}\PYG{p}{,} \PYG{n}{l2}\PYG{p}{;}                    \PYG{c+c1}{// compute these two angle bisectors}
+  \PYG{k+kt}{double} \PYG{n}{ratio} \PYG{o}{=} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{p1}\PYG{p}{,} \PYG{n}{p2}\PYG{p}{)} \PYG{o}{/} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{p1}\PYG{p}{,} \PYG{n}{p3}\PYG{p}{);}
+  \PYG{n}{point} \PYG{n}{p} \PYG{o}{=} \PYG{n}{translate}\PYG{p}{(}\PYG{n}{p2}\PYG{p}{,} \PYG{n}{scale}\PYG{p}{(}\PYG{n}{toVec}\PYG{p}{(}\PYG{n}{p2}\PYG{p}{,} \PYG{n}{p3}\PYG{p}{),} \PYG{n}{ratio} \PYG{o}{/} \PYG{p}{(}\PYG{l+m+mi}{1} \PYG{o}{+} \PYG{n}{ratio}\PYG{p}{)));}
+  \PYG{n}{pointsToLine}\PYG{p}{(}\PYG{n}{p1}\PYG{p}{,} \PYG{n}{p}\PYG{p}{,} \PYG{n}{l1}\PYG{p}{);}
+
+  \PYG{n}{ratio} \PYG{o}{=} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{p2}\PYG{p}{,} \PYG{n}{p1}\PYG{p}{)} \PYG{o}{/} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{p2}\PYG{p}{,} \PYG{n}{p3}\PYG{p}{);}
+  \PYG{n}{p} \PYG{o}{=} \PYG{n}{translate}\PYG{p}{(}\PYG{n}{p1}\PYG{p}{,} \PYG{n}{scale}\PYG{p}{(}\PYG{n}{toVec}\PYG{p}{(}\PYG{n}{p1}\PYG{p}{,} \PYG{n}{p3}\PYG{p}{),} \PYG{n}{ratio} \PYG{o}{/} \PYG{p}{(}\PYG{l+m+mi}{1} \PYG{o}{+} \PYG{n}{ratio}\PYG{p}{)));}
+  \PYG{n}{pointsToLine}\PYG{p}{(}\PYG{n}{p2}\PYG{p}{,} \PYG{n}{p}\PYG{p}{,} \PYG{n}{l2}\PYG{p}{);}
+
+  \PYG{n}{areIntersect}\PYG{p}{(}\PYG{n}{l1}\PYG{p}{,} \PYG{n}{l2}\PYG{p}{,} \PYG{n}{ctr}\PYG{p}{);}           \PYG{c+c1}{// get their intersection point}
+  \PYG{k}{return} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{double} \PYG{n+nf}{rCircumCircle}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{ab}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{bc}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{ca}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{ab} \PYG{o}{*} \PYG{n}{bc} \PYG{o}{*} \PYG{n}{ca} \PYG{o}{/} \PYG{p}{(}\PYG{l+m+mf}{4.0} \PYG{o}{*} \PYG{n}{area}\PYG{p}{(}\PYG{n}{ab}\PYG{p}{,} \PYG{n}{bc}\PYG{p}{,} \PYG{n}{ca}\PYG{p}{));} \PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{double} \PYG{n+nf}{rCircumCircle}\PYG{p}{(}\PYG{n}{point} \PYG{n}{a}\PYG{p}{,} \PYG{n}{point} \PYG{n}{b}\PYG{p}{,} \PYG{n}{point} \PYG{n}{c}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{rCircumCircle}\PYG{p}{(}\PYG{n}{dist}\PYG{p}{(}\PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{p}{),} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{b}\PYG{p}{,} \PYG{n}{c}\PYG{p}{),} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{c}\PYG{p}{,} \PYG{n}{a}\PYG{p}{));} \PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{// assumption: the required points/lines functions have been written}
+\PYG{c+c1}{// returns 1 if there is a circumCenter center, returns 0 otherwise}
+\PYG{c+c1}{// if this function returns 1, ctr will be the circumCircle center}
+\PYG{c+c1}{// and r is the same as rCircumCircle}
+\PYG{k+kt}{int} \PYG{n+nf}{circumCircle}\PYG{p}{(}\PYG{n}{point} \PYG{n}{p1}\PYG{p}{,} \PYG{n}{point} \PYG{n}{p2}\PYG{p}{,} \PYG{n}{point} \PYG{n}{p3}\PYG{p}{,} \PYG{n}{point} \PYG{o}{\PYGZam{}}\PYG{n}{ctr}\PYG{p}{,} \PYG{k+kt}{double} \PYG{o}{\PYGZam{}}\PYG{n}{r}\PYG{p}{)\PYGZob{}}
+  \PYG{k+kt}{double} \PYG{n}{a} \PYG{o}{=} \PYG{n}{p2}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{p1}\PYG{p}{.}\PYG{n}{x}\PYG{p}{,} \PYG{n}{b} \PYG{o}{=} \PYG{n}{p2}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{p1}\PYG{p}{.}\PYG{n}{y}\PYG{p}{;}
+  \PYG{k+kt}{double} \PYG{n}{c} \PYG{o}{=} \PYG{n}{p3}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{p1}\PYG{p}{.}\PYG{n}{x}\PYG{p}{,} \PYG{n}{d} \PYG{o}{=} \PYG{n}{p3}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{p1}\PYG{p}{.}\PYG{n}{y}\PYG{p}{;}
+  \PYG{k+kt}{double} \PYG{n}{e} \PYG{o}{=} \PYG{n}{a} \PYG{o}{*} \PYG{p}{(}\PYG{n}{p1}\PYG{p}{.}\PYG{n}{x} \PYG{o}{+} \PYG{n}{p2}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{+} \PYG{n}{b} \PYG{o}{*} \PYG{p}{(}\PYG{n}{p1}\PYG{p}{.}\PYG{n}{y} \PYG{o}{+} \PYG{n}{p2}\PYG{p}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kt}{double} \PYG{n}{f} \PYG{o}{=} \PYG{n}{c} \PYG{o}{*} \PYG{p}{(}\PYG{n}{p1}\PYG{p}{.}\PYG{n}{x} \PYG{o}{+} \PYG{n}{p3}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{+} \PYG{n}{d} \PYG{o}{*} \PYG{p}{(}\PYG{n}{p1}\PYG{p}{.}\PYG{n}{y} \PYG{o}{+} \PYG{n}{p3}\PYG{p}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kt}{double} \PYG{n}{g} \PYG{o}{=} \PYG{l+m+mf}{2.0} \PYG{o}{*} \PYG{p}{(}\PYG{n}{a} \PYG{o}{*} \PYG{p}{(}\PYG{n}{p3}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{p2}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{b} \PYG{o}{*} \PYG{p}{(}\PYG{n}{p3}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{p2}\PYG{p}{.}\PYG{n}{x}\PYG{p}{));}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{fabs}\PYG{p}{(}\PYG{n}{g}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n}{EPS}\PYG{p}{)} \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+
+  \PYG{n}{ctr}\PYG{p}{.}\PYG{n}{x} \PYG{o}{=} \PYG{p}{(}\PYG{n}{d}\PYG{o}{*}\PYG{n}{e} \PYG{o}{\PYGZhy{}} \PYG{n}{b}\PYG{o}{*}\PYG{n}{f}\PYG{p}{)} \PYG{o}{/} \PYG{n}{g}\PYG{p}{;}
+  \PYG{n}{ctr}\PYG{p}{.}\PYG{n}{y} \PYG{o}{=} \PYG{p}{(}\PYG{n}{a}\PYG{o}{*}\PYG{n}{f} \PYG{o}{\PYGZhy{}} \PYG{n}{c}\PYG{o}{*}\PYG{n}{e}\PYG{p}{)} \PYG{o}{/} \PYG{n}{g}\PYG{p}{;}
+  \PYG{n}{r} \PYG{o}{=} \PYG{n}{dist}\PYG{p}{(}\PYG{n}{p1}\PYG{p}{,} \PYG{n}{ctr}\PYG{p}{);}  \PYG{c+c1}{// r = distance from center to 1 of the 3 points}
+  \PYG{k}{return} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{// returns true if point d is inside the circumCircle defined by a,b,c}
+\PYG{k+kt}{int} \PYG{n+nf}{inCircumCircle}\PYG{p}{(}\PYG{n}{point} \PYG{n}{a}\PYG{p}{,} \PYG{n}{point} \PYG{n}{b}\PYG{p}{,} \PYG{n}{point} \PYG{n}{c}\PYG{p}{,} \PYG{n}{point} \PYG{n}{d}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{b}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{*} \PYG{p}{((}\PYG{n}{c}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{c}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{+} \PYG{p}{(}\PYG{n}{c}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{c}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{))} \PYG{o}{+}
+         \PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{*} \PYG{p}{((}\PYG{n}{b}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{b}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{+} \PYG{p}{(}\PYG{n}{b}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{b}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{))} \PYG{o}{*} \PYG{p}{(}\PYG{n}{c}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{+}
+         \PYG{p}{((}\PYG{n}{a}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{+} \PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{))} \PYG{o}{*} \PYG{p}{(}\PYG{n}{b}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{c}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{\PYGZhy{}}
+         \PYG{p}{((}\PYG{n}{a}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{+} \PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{))} \PYG{o}{*} \PYG{p}{(}\PYG{n}{b}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{c}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{\PYGZhy{}}
+         \PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{b}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{*} \PYG{p}{((}\PYG{n}{c}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{c}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{+} \PYG{p}{(}\PYG{n}{c}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{c}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{))} \PYG{o}{\PYGZhy{}}
+         \PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{*} \PYG{p}{((}\PYG{n}{b}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{b}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{+} \PYG{p}{(}\PYG{n}{b}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{b}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{))} \PYG{o}{*} \PYG{p}{(}\PYG{n}{c}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{d}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0} \PYG{o}{?} \PYG{l+m+mi}{1} \PYG{o}{:} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{bool} \PYG{n+nf}{canFormTriangle}\PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{a}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{b}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{c}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{p}{(}\PYG{n}{a} \PYG{o}{+} \PYG{n}{b} \PYG{o}{\PYGZgt{}} \PYG{n}{c}\PYG{p}{)} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{p}{(}\PYG{n}{a} \PYG{o}{+} \PYG{n}{c} \PYG{o}{\PYGZgt{}} \PYG{n}{b}\PYG{p}{)} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{p}{(}\PYG{n}{b} \PYG{o}{+} \PYG{n}{c} \PYG{o}{\PYGZgt{}} \PYG{n}{a}\PYG{p}{);} \PYG{p}{\PYGZcb{}}
+\end{Verbatim}

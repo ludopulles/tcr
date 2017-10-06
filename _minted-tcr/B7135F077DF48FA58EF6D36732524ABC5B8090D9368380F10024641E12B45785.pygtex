@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{int} \PYG{n+nf}{insideCircle}\PYG{p}{(}\PYG{n}{point\PYGZus{}i} \PYG{n}{p}\PYG{p}{,} \PYG{n}{point\PYGZus{}i} \PYG{n}{c}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{r}\PYG{p}{)} \PYG{p}{\PYGZob{}} \PYG{c+c1}{// all integer version}
+  \PYG{k+kt}{int} \PYG{n}{dx} \PYG{o}{=} \PYG{n}{p}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{c}\PYG{p}{.}\PYG{n}{x}\PYG{p}{,} \PYG{n}{dy} \PYG{o}{=} \PYG{n}{p}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{c}\PYG{p}{.}\PYG{n}{y}\PYG{p}{;}
+  \PYG{k+kt}{int} \PYG{n}{Euc} \PYG{o}{=} \PYG{n}{dx} \PYG{o}{*} \PYG{n}{dx} \PYG{o}{+} \PYG{n}{dy} \PYG{o}{*} \PYG{n}{dy}\PYG{p}{,} \PYG{n}{rSq} \PYG{o}{=} \PYG{n}{r} \PYG{o}{*} \PYG{n}{r}\PYG{p}{;}             \PYG{c+c1}{// all integer}
+  \PYG{k}{return} \PYG{n}{Euc} \PYG{o}{\PYGZlt{}} \PYG{n}{rSq} \PYG{o}{?} \PYG{l+m+mi}{0} \PYG{o}{:} \PYG{n}{Euc} \PYG{o}{==} \PYG{n}{rSq} \PYG{o}{?} \PYG{l+m+mi}{1} \PYG{o}{:} \PYG{l+m+mi}{2}\PYG{p}{;} \PYG{p}{\PYGZcb{}} \PYG{c+c1}{//inside/border/outside}
+
+\PYG{k+kt}{bool} \PYG{n+nf}{circle2PtsRad}\PYG{p}{(}\PYG{n}{point} \PYG{n}{p1}\PYG{p}{,} \PYG{n}{point} \PYG{n}{p2}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{r}\PYG{p}{,} \PYG{n}{point} \PYG{o}{\PYGZam{}}\PYG{n}{c}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{double} \PYG{n}{d2} \PYG{o}{=} \PYG{p}{(}\PYG{n}{p1}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{p2}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{p1}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{p2}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{+} 
+              \PYG{p}{(}\PYG{n}{p1}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{p2}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(}\PYG{n}{p1}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{p2}\PYG{p}{.}\PYG{n}{y}\PYG{p}{);}
+  \PYG{k+kt}{double} \PYG{n}{det} \PYG{o}{=} \PYG{n}{r} \PYG{o}{*} \PYG{n}{r} \PYG{o}{/} \PYG{n}{d2} \PYG{o}{\PYGZhy{}} \PYG{l+m+mf}{0.25}\PYG{p}{;}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{det} \PYG{o}{\PYGZlt{}} \PYG{l+m+mf}{0.0}\PYG{p}{)} \PYG{k}{return} \PYG{n+nb}{false}\PYG{p}{;}
+  \PYG{k+kt}{double} \PYG{n}{h} \PYG{o}{=} \PYG{n}{sqrt}\PYG{p}{(}\PYG{n}{det}\PYG{p}{);}
+  \PYG{n}{c}\PYG{p}{.}\PYG{n}{x} \PYG{o}{=} \PYG{p}{(}\PYG{n}{p1}\PYG{p}{.}\PYG{n}{x} \PYG{o}{+} \PYG{n}{p2}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{*} \PYG{l+m+mf}{0.5} \PYG{o}{+} \PYG{p}{(}\PYG{n}{p1}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{p2}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{*} \PYG{n}{h}\PYG{p}{;}
+  \PYG{n}{c}\PYG{p}{.}\PYG{n}{y} \PYG{o}{=} \PYG{p}{(}\PYG{n}{p1}\PYG{p}{.}\PYG{n}{y} \PYG{o}{+} \PYG{n}{p2}\PYG{p}{.}\PYG{n}{y}\PYG{p}{)} \PYG{o}{*} \PYG{l+m+mf}{0.5} \PYG{o}{+} \PYG{p}{(}\PYG{n}{p2}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{p1}\PYG{p}{.}\PYG{n}{x}\PYG{p}{)} \PYG{o}{*} \PYG{n}{h}\PYG{p}{;}
+  \PYG{k}{return} \PYG{n+nb}{true}\PYG{p}{;} \PYG{p}{\PYGZcb{}}         \PYG{c+c1}{// to get the other center, reverse p1 and p2}
+\end{Verbatim}

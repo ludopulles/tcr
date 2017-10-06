@@ -14,7 +14,8 @@
 \usepackage{textcomp}
 %\usepackage{geometry}
 % \usepackage[top=0pt, bottom=1cm, left=0.3cm, right=0.3cm]{geometry}
-\usepackage[top=10pt, bottom=5pt, left=0.3cm, right=0.3cm,, headsep=0pt, headheight=3cm,landscape]{geometry}
+% \usepackage[top=10pt, bottom=5pt, left=0.3cm, right=0.3cm,, headsep=0pt, headheight=3cm,landscape]{geometry}
+\usepackage[top=3pt, bottom=1cm, left=0.3cm, right=0.3cm]{geometry}
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{titling}
@@ -37,7 +38,6 @@
 \newcommand{\regcode}[1]{\inputminted{cpp}{code/#1}}
 %\usemintedstyle{manni}
 
-\pagestyle{fancy}
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -48,10 +48,10 @@
 
 % Header/Footer
 % \geometry{includeheadfoot}
-%\fancyhf{}
-%\pagestyle{fancy}
-\begin{comment}
+% \fancyhf{}
+\pagestyle{fancy}
 \lhead{Utrecht University}
+\chead{git diff solution}
 \rhead{\thepage}
 \cfoot{}
 \setlength{\headheight}{15.2pt}
@@ -59,7 +59,7 @@
 \posttitle{\par\end{center}}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
-\end{comment}
+
 % Math and bit operators
 \DeclareMathOperator{\lcm}{lcm}
 \newcommand*\BitAnd{\mathrel{\&}}
@@ -112,9 +112,6 @@
 	keywordstyle=\color{Maroon},
 	commentstyle=\color{MidnightBlue}
 }
-
-\lhead{Utrecht University}
-\rhead{git diff solution}
 
 \usepackage[scaled]{beramono}
 \begin{document}
@@ -387,6 +384,17 @@ Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) =
 \subsection{Partial linear equation solver $\mathcal{O}(N^3)$}
 
 \code{matrix_solver.cpp}
+
+\section{Geometry (CP3)}
+\subsection{Points and lines}
+\code{geometry/CP/points_lines.cpp}
+\subsection{Polygon}
+\code{geometry/CP/polygon.cpp}
+\subsection{Triangle}
+\code{geometry/CP/triangles.cpp}
+\subsection{Circle}
+\code{geometry/CP/circles.cpp}
+
 \end{multicols*}
 \onecolumn
 \begin{multicols*}{3}
