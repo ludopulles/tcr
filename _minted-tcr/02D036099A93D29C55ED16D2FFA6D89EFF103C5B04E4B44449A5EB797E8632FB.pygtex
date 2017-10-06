@@ -1,0 +1,31 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{const} \PYG{k+kt}{int} \PYG{n}{SIGMA} \PYG{o}{=} \PYG{l+m+mi}{26}\PYG{p}{;}
+
+\PYG{k}{struct} \PYG{n}{trie} \PYG{p}{\PYGZob{}}
+	\PYG{k+kt}{bool} \PYG{n}{word}\PYG{p}{;} \PYG{n}{trie} \PYG{o}{**}\PYG{n}{adj}\PYG{p}{;}
+
+	\PYG{n}{trie}\PYG{p}{()} \PYG{o}{:} \PYG{n}{word}\PYG{p}{(}\PYG{n+nb}{false}\PYG{p}{),} \PYG{n}{adj}\PYG{p}{(}\PYG{k}{new} \PYG{n}{trie}\PYG{o}{*}\PYG{p}{[}\PYG{n}{SIGMA}\PYG{p}{])} \PYG{p}{\PYGZob{}}
+		\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{SIGMA}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{n}{adj}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb}{NULL}\PYG{p}{;}
+	\PYG{p}{\PYGZcb{}}
+
+	\PYG{k+kt}{void} \PYG{n}{addWord}\PYG{p}{(}\PYG{k}{const} \PYG{n}{string} \PYG{o}{\PYGZam{}}\PYG{n}{str}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+		\PYG{n}{trie} \PYG{o}{*}\PYG{n}{cur} \PYG{o}{=} \PYG{k}{this}\PYG{p}{;}
+		\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{char} \PYG{n+nl}{ch} \PYG{p}{:} \PYG{n}{str}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+			\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{n}{ch} \PYG{o}{\PYGZhy{}} \PYG{l+s+sc}{\PYGZsq{}a\PYGZsq{}}\PYG{p}{;}
+			\PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])} \PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{k}{new} \PYG{n}{trie}\PYG{p}{();}
+			\PYG{n}{cur} \PYG{o}{=} \PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+		\PYG{p}{\PYGZcb{}}
+		\PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{word} \PYG{o}{=} \PYG{n+nb}{true}\PYG{p}{;}
+	\PYG{p}{\PYGZcb{}}
+
+	\PYG{k+kt}{bool} \PYG{n}{isWord}\PYG{p}{(}\PYG{k}{const} \PYG{n}{string} \PYG{o}{\PYGZam{}}\PYG{n}{str}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+		\PYG{n}{trie} \PYG{o}{*}\PYG{n}{cur} \PYG{o}{=} \PYG{k}{this}\PYG{p}{;}
+		\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{char} \PYG{n+nl}{ch} \PYG{p}{:} \PYG{n}{str}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+			\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{n}{ch} \PYG{o}{\PYGZhy{}} \PYG{l+s+sc}{\PYGZsq{}a\PYGZsq{}}\PYG{p}{;}
+			\PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])} \PYG{k}{return} \PYG{n+nb}{false}\PYG{p}{;}
+			\PYG{n}{cur} \PYG{o}{=} \PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{adj}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+		\PYG{p}{\PYGZcb{}}
+		\PYG{k}{return} \PYG{n}{cur}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{word}\PYG{p}{;}
+	\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

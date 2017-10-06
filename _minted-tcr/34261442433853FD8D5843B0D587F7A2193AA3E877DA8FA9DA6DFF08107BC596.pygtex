@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// z[i] = length of longest substring starting from s[i] which is also a prefix of s.}
+\PYG{n}{vi} \PYG{n+nf}{z\PYGZus{}function}\PYG{p}{(}\PYG{k}{const} \PYG{n}{string} \PYG{o}{\PYGZam{}}\PYG{n}{s}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{k+kt}{int} \PYG{n}{n} \PYG{o}{=} \PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)} \PYG{n}{s}\PYG{p}{.}\PYG{n}{length}\PYG{p}{();}
+	\PYG{n}{vi} \PYG{n}{z}\PYG{p}{(}\PYG{n}{n}\PYG{p}{);}
+	\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{l} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{r} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{n}\PYG{p}{;} \PYG{o}{++}\PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+		\PYG{k}{if} \PYG{p}{(}\PYG{n}{i} \PYG{o}{\PYGZlt{}=} \PYG{n}{r}\PYG{p}{)} \PYG{n}{z}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{min} \PYG{p}{(}\PYG{n}{r} \PYG{o}{\PYGZhy{}} \PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{z}\PYG{p}{[}\PYG{n}{i} \PYG{o}{\PYGZhy{}} \PYG{n}{l}\PYG{p}{]);}
+		\PYG{k}{while} \PYG{p}{(}\PYG{n}{i} \PYG{o}{+} \PYG{n}{z}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZlt{}} \PYG{n}{n} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{s}\PYG{p}{[}\PYG{n}{z}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]]} \PYG{o}{==} \PYG{n}{s}\PYG{p}{[}\PYG{n}{i} \PYG{o}{+} \PYG{n}{z}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]])} \PYG{o}{++}\PYG{n}{z}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+		\PYG{k}{if} \PYG{p}{(}\PYG{n}{i} \PYG{o}{+} \PYG{n}{z}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1} \PYG{o}{\PYGZgt{}} \PYG{n}{r}\PYG{p}{)} \PYG{n}{l} \PYG{o}{=} \PYG{n}{i}\PYG{p}{,} \PYG{n}{r} \PYG{o}{=} \PYG{n}{i} \PYG{o}{+} \PYG{n}{z}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{;}
+	\PYG{p}{\PYGZcb{}}
+	\PYG{k}{return} \PYG{n}{z}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

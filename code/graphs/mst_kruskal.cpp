@@ -7,8 +7,7 @@ ll kruskal(int n, int m) { // n: #vertices, m: #edges
 	ll ret = 0;
 	while (m--) {
 		if (uf_find(edges[m].x) == uf_find(edges[m].y)) continue;
-		ret += edges[m].w;
-		uf_union(edges[m].x, edges[m].y);
+		ret += edges[m].w; uf_union(edges[m].x, edges[m].y);
 	}
 	return ret;
 }

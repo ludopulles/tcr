@@ -1,8 +1,7 @@
 const int SIGMA = 26;
 
 struct trie {
-	bool word;
-	trie **adj;
+	bool word; trie **adj;
 
 	trie() : word(false), adj(new trie*[SIGMA]) {
 		for (int i = 0; i < SIGMA; i++) adj[i] = NULL;

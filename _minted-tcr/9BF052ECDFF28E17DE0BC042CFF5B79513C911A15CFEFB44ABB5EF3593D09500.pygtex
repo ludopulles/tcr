@@ -1,0 +1,21 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{vector}\PYG{o}{\PYGZlt{}} \PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{n}{pii}\PYG{p}{,} \PYG{n}{ll}\PYG{o}{\PYGZgt{}} \PYG{o}{\PYGZgt{}} \PYG{n}{edges}\PYG{p}{;} \PYG{c+c1}{// ((from, to), weight)}
+\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{ll}\PYG{o}{\PYGZgt{}} \PYG{n}{dist}\PYG{p}{;}
+
+\PYG{c+c1}{// when undirected, add back edges}
+\PYG{k+kt}{bool} \PYG{n+nf}{bellman\PYGZus{}ford}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{V}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{source}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{n}{dist}\PYG{p}{.}\PYG{n}{assign}\PYG{p}{(}\PYG{n}{V}\PYG{p}{,} \PYG{l+m+mf}{1e18}\PYG{p}{);} \PYG{n}{dist}\PYG{p}{[}\PYG{n}{source}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+	
+	\PYG{k+kt}{bool} \PYG{n}{updated} \PYG{o}{=} \PYG{n+nb}{true}\PYG{p}{;} \PYG{k+kt}{int} \PYG{n}{loops} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+	\PYG{k}{while} \PYG{p}{(}\PYG{n}{updated} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{loops} \PYG{o}{\PYGZlt{}} \PYG{n}{n}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+		\PYG{n}{updated} \PYG{o}{=} \PYG{n+nb}{false}\PYG{p}{;}
+		\PYG{k}{for} \PYG{p}{(}\PYG{k}{auto} \PYG{n+nl}{e} \PYG{p}{:} \PYG{n}{edges}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+			\PYG{k+kt}{int} \PYG{n}{alt} \PYG{o}{=} \PYG{n}{dist}\PYG{p}{[}\PYG{n}{e}\PYG{p}{.}\PYG{n}{x}\PYG{p}{.}\PYG{n}{x}\PYG{p}{]} \PYG{o}{+} \PYG{n}{e}\PYG{p}{.}\PYG{n}{y}\PYG{p}{;}
+			\PYG{k}{if} \PYG{p}{(}\PYG{n}{alt} \PYG{o}{\PYGZlt{}} \PYG{n}{dist}\PYG{p}{[}\PYG{n}{e}\PYG{p}{.}\PYG{n}{x}\PYG{p}{.}\PYG{n}{y}\PYG{p}{])} \PYG{p}{\PYGZob{}}
+				\PYG{n}{dist}\PYG{p}{[}\PYG{n}{e}\PYG{p}{.}\PYG{n}{x}\PYG{p}{.}\PYG{n}{y}\PYG{p}{]} \PYG{o}{=} \PYG{n}{alt}\PYG{p}{;} \PYG{n}{updated} \PYG{o}{=} \PYG{n+nb}{true}\PYG{p}{;}
+			\PYG{p}{\PYGZcb{}}
+		\PYG{p}{\PYGZcb{}}
+	\PYG{p}{\PYGZcb{}}
+	\PYG{k}{return} \PYG{n}{loops} \PYG{o}{\PYGZlt{}} \PYG{n}{n}\PYG{p}{;} \PYG{c+c1}{// loops \PYGZgt{}= n: negative cycles}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

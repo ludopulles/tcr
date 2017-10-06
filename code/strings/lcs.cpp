@@ -14,8 +14,7 @@ int lcs(const string &w1, const string &w2) {
 
 // backtrace
 string getLCS(const string &w1, const string &w2) {
-	int i = w1.size(), j = w2.size();
-	string ret = "";
+	int i = w1.size(), j = w2.size(); string ret = "";
 	while (i > 0 && j > 0) {
 		if (w1[i - 1] == w2[j - 1]) ret += w1[--i], j--;
 		else if (dp[i][j - 1] > dp[i - 1][j]) j--;

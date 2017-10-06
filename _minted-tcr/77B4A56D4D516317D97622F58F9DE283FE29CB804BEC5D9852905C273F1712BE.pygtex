@@ -1,0 +1,49 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{struct} \PYG{n}{edge} \PYG{p}{\PYGZob{}}
+	\PYG{k+kt}{int} \PYG{n}{to}\PYG{p}{,} \PYG{n}{rev}\PYG{p}{;} \PYG{n}{ll} \PYG{n}{cap}\PYG{p}{,} \PYG{n}{flow}\PYG{p}{;}
+	\PYG{n}{edge}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{t}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{r}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{c}\PYG{p}{)} \PYG{o}{:} \PYG{n}{to}\PYG{p}{(}\PYG{n}{t}\PYG{p}{),} \PYG{n}{rev}\PYG{p}{(}\PYG{n}{r}\PYG{p}{),} \PYG{n}{cap}\PYG{p}{(}\PYG{n}{c}\PYG{p}{),} \PYG{n}{flow}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{k+kt}{int} \PYG{n}{s}\PYG{p}{,} \PYG{n}{t}\PYG{p}{,} \PYG{n}{level}\PYG{p}{[}\PYG{n}{MAXN}\PYG{p}{];} \PYG{c+c1}{// s = source, t = sink}
+\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{edge}\PYG{o}{\PYGZgt{}} \PYG{n}{g}\PYG{p}{[}\PYG{n}{MAXN}\PYG{p}{];}
+
+\PYG{k+kt}{void} \PYG{n+nf}{add\PYGZus{}edge}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{fr}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{to}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{cap}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{n}{g}\PYG{p}{[}\PYG{n}{fr}\PYG{p}{].}\PYG{n}{pb}\PYG{p}{(}\PYG{n}{edge}\PYG{p}{(}\PYG{n}{to}\PYG{p}{,} \PYG{n}{g}\PYG{p}{[}\PYG{n}{to}\PYG{p}{].}\PYG{n}{size}\PYG{p}{(),} \PYG{n}{cap}\PYG{p}{));} \PYG{n}{g}\PYG{p}{[}\PYG{n}{to}\PYG{p}{].}\PYG{n}{pb}\PYG{p}{(}\PYG{n}{edge}\PYG{p}{(}\PYG{n}{fr}\PYG{p}{,} \PYG{n}{g}\PYG{p}{[}\PYG{n}{fr}\PYG{p}{].}\PYG{n}{size}\PYG{p}{()} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{));}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{bool} \PYG{n+nf}{dinic\PYGZus{}bfs}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+	\PYG{n}{fill\PYGZus{}n}\PYG{p}{(}\PYG{n}{level}\PYG{p}{,} \PYG{n}{MAXN}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{);} \PYG{n}{level}\PYG{p}{[}\PYG{n}{s}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
+
+	\PYG{n}{queue}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}} \PYG{n}{q}\PYG{p}{;} \PYG{n}{q}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{s}\PYG{p}{);}
+	\PYG{k}{while} \PYG{p}{(}\PYG{o}{!}\PYG{n}{q}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())} \PYG{p}{\PYGZob{}}
+		\PYG{k+kt}{int} \PYG{n}{cur} \PYG{o}{=} \PYG{n}{q}\PYG{p}{.}\PYG{n}{front}\PYG{p}{();} \PYG{n}{q}\PYG{p}{.}\PYG{n}{pop}\PYG{p}{();}
+		\PYG{k}{for} \PYG{p}{(}\PYG{n}{edge} \PYG{n+nl}{e} \PYG{p}{:} \PYG{n}{g}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{])} \PYG{p}{\PYGZob{}}
+			\PYG{k}{if} \PYG{p}{(}\PYG{n}{level}\PYG{p}{[}\PYG{n}{e}\PYG{p}{.}\PYG{n}{to}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{o}{\PYGZam{}\PYGZam{}} \PYG{n}{e}\PYG{p}{.}\PYG{n}{flow} \PYG{o}{\PYGZlt{}} \PYG{n}{e}\PYG{p}{.}\PYG{n}{cap}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+				\PYG{n}{level}\PYG{p}{[}\PYG{n}{e}\PYG{p}{.}\PYG{n}{to}\PYG{p}{]} \PYG{o}{=} \PYG{n}{level}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{n}{q}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{e}\PYG{p}{.}\PYG{n}{to}\PYG{p}{);}
+			\PYG{p}{\PYGZcb{}}
+		\PYG{p}{\PYGZcb{}}
+	\PYG{p}{\PYGZcb{}}
+	\PYG{k}{return} \PYG{n}{level}\PYG{p}{[}\PYG{n}{t}\PYG{p}{]} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{ll} \PYG{n+nf}{dinic\PYGZus{}dfs}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{cur}\PYG{p}{,} \PYG{n}{ll} \PYG{n}{maxf}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{k}{if} \PYG{p}{(}\PYG{n}{cur} \PYG{o}{==} \PYG{n}{t}\PYG{p}{)} \PYG{k}{return} \PYG{n}{maxf}\PYG{p}{;}
+
+	\PYG{n}{ll} \PYG{n}{f} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{k+kt}{bool} \PYG{n}{isSat} \PYG{o}{=} \PYG{n+nb}{true}\PYG{p}{;}
+	\PYG{k}{for} \PYG{p}{(}\PYG{n}{edge} \PYG{o}{\PYGZam{}}\PYG{n+nl}{e} \PYG{p}{:} \PYG{n}{g}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{])} \PYG{p}{\PYGZob{}}
+		\PYG{k}{if} \PYG{p}{(}\PYG{n}{level}\PYG{p}{[}\PYG{n}{e}\PYG{p}{.}\PYG{n}{to}\PYG{p}{]} \PYG{o}{!=} \PYG{n}{level}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1} \PYG{o}{||} \PYG{n}{e}\PYG{p}{.}\PYG{n}{flow} \PYG{o}{\PYGZgt{}=} \PYG{n}{e}\PYG{p}{.}\PYG{n}{cap}\PYG{p}{)}
+			\PYG{k}{continue}\PYG{p}{;}
+		\PYG{n}{ll} \PYG{n}{df} \PYG{o}{=} \PYG{n}{dinic\PYGZus{}dfs}\PYG{p}{(}\PYG{n}{e}\PYG{p}{.}\PYG{n}{to}\PYG{p}{,} \PYG{n}{min}\PYG{p}{(}\PYG{n}{maxf} \PYG{o}{\PYGZhy{}} \PYG{n}{f}\PYG{p}{,} \PYG{n}{e}\PYG{p}{.}\PYG{n}{cap} \PYG{o}{\PYGZhy{}} \PYG{n}{e}\PYG{p}{.}\PYG{n}{flow}\PYG{p}{));}
+		\PYG{n}{f} \PYG{o}{+=} \PYG{n}{df}\PYG{p}{;} \PYG{n}{e}\PYG{p}{.}\PYG{n}{flow} \PYG{o}{+=} \PYG{n}{df}\PYG{p}{;} \PYG{n}{g}\PYG{p}{[}\PYG{n}{e}\PYG{p}{.}\PYG{n}{to}\PYG{p}{][}\PYG{n}{e}\PYG{p}{.}\PYG{n}{rev}\PYG{p}{].}\PYG{n}{flow} \PYG{o}{\PYGZhy{}=} \PYG{n}{df}\PYG{p}{;} \PYG{n}{isSat} \PYG{o}{\PYGZam{}=} \PYG{n}{e}\PYG{p}{.}\PYG{n}{flow} \PYG{o}{==} \PYG{n}{e}\PYG{p}{.}\PYG{n}{cap}\PYG{p}{;}
+		\PYG{k}{if} \PYG{p}{(}\PYG{n}{maxf} \PYG{o}{==} \PYG{n}{f}\PYG{p}{)} \PYG{k}{break}\PYG{p}{;}
+	\PYG{p}{\PYGZcb{}}
+	\PYG{k}{if} \PYG{p}{(}\PYG{n}{isSat}\PYG{p}{)} \PYG{n}{level}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+	\PYG{k}{return} \PYG{n}{f}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{ll} \PYG{n+nf}{dinic\PYGZus{}maxflow}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+	\PYG{n}{ll} \PYG{n}{f} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+	\PYG{k}{while} \PYG{p}{(}\PYG{n}{dinic\PYGZus{}bfs}\PYG{p}{())} \PYG{n}{f} \PYG{o}{+=} \PYG{n}{dinic\PYGZus{}dfs}\PYG{p}{(}\PYG{n}{s}\PYG{p}{,} \PYG{n}{LLINF}\PYG{p}{);}
+	\PYG{k}{return} \PYG{n}{f}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

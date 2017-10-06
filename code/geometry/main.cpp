@@ -58,20 +58,16 @@ bool pointOnSegment(pt a, pt b, pt c) {
 // true => 1 intersection, false => parallel, so 0 or \infty solutions
 bool linesIntersect(pt a, pt b, pt c, pt d) { return ((a - b) ^ (c - d)) != 0; }
 vec lineLineIntersection(pt a, pt b, pt c, pt d) {
-	double det = (a - b) ^ (c - d);
-	pt ret = (c - d) * (a ^ b) - (a - b) * (c ^ d);
+	double det = (a - b) ^ (c - d); pt ret = (c - d) * (a ^ b) - (a - b) * (c ^ d);
 	return vec(ret.x / det, ret.y / det);
 }
 
 // dp, dq are directions from p, q
 // intersection at p + t_i dp, for 0 <= i < return value
-int segmentIntersection(pt p, pt dp, pt q, pt dq, frac &t0, frac &t1)
-{
+int segmentIntersection(pt p, pt dp, pt q, pt dq, frac &t0, frac &t1){
 	if (dp * dp == 0) swap(p, q), swap(dp, dq); // dq = 0
 	if (dp * dp == 0) { t0 = t1 = frac(0, 1); return p == q; } // dp = dq = 0
-
-	pt dpq = (q - p);
-	NUM c = dp ^ dq, c0 = dpq ^ dp, c1 = dpq ^ dq;
+	pt dpq = (q - p); NUM c = dp ^ dq, c0 = dpq ^ dp, c1 = dpq ^ dq;
 	if (c == 0) { // parallel, dp > 0, dq >= 0
 		if (c0 != 0) return 0; // not collinear
 		NUM v0 = dpq * dp, v1 = v0 + dq * dp, dp2 = dp * dp;
@@ -97,7 +93,6 @@ bool pointInPolygon(pt p, const vector<pt> &pts) {
 	for (int N = pts.size(), i = 0, j = N - 1; i < N; j = i++) {
 		if (pointOnSegment(p, pts[i], pts[j])) return true; // boundary
 		double angle = acos((pts[i] - p) * (pts[j] - p) / len(pts[i], p) / len(pts[j], p));
-		sum += ((pts[i] - p) ^ (pts[j] - p)) < 0 ? angle : -angle;
-	}
+		sum += ((pts[i] - p) ^ (pts[j] - p)) < 0 ? angle : -angle;}
 	return abs(abs(sum) - 2 * PI) < EPS;
 }

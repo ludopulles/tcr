@@ -1,0 +1,36 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{int} \PYG{n}{a}\PYG{p}{[}\PYG{n}{MAXN} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{][}\PYG{n}{MAXM} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{];} \PYG{c+c1}{// matrix, 1\PYGZhy{}based}
+
+\PYG{k+kt}{int} \PYG{n+nf}{minimum\PYGZus{}assignment}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{n}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{m}\PYG{p}{)} \PYG{p}{\PYGZob{}} \PYG{c+c1}{// n rows, m columns}
+	\PYG{n}{vi} \PYG{n}{u}\PYG{p}{(}\PYG{n}{n} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{),} \PYG{n}{v}\PYG{p}{(}\PYG{n}{m} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{),} \PYG{n}{p}\PYG{p}{(}\PYG{n}{m} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{),} \PYG{n}{way}\PYG{p}{(}\PYG{n}{m} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{);}
+
+	\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}=} \PYG{n}{n}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+		\PYG{n}{p}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{i}\PYG{p}{;}
+		\PYG{k+kt}{int} \PYG{n}{j0} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+		\PYG{n}{vi} \PYG{n}{minv}\PYG{p}{(}\PYG{n}{m} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{INF}\PYG{p}{);}
+		\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{char}\PYG{o}{\PYGZgt{}} \PYG{n}{used}\PYG{p}{(}\PYG{n}{m} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n+nb}{false}\PYG{p}{);}
+		\PYG{k}{do} \PYG{p}{\PYGZob{}}
+			\PYG{n}{used}\PYG{p}{[}\PYG{n}{j0}\PYG{p}{]} \PYG{o}{=} \PYG{n+nb}{true}\PYG{p}{;}
+			\PYG{k+kt}{int} \PYG{n}{i0} \PYG{o}{=} \PYG{n}{p}\PYG{p}{[}\PYG{n}{j0}\PYG{p}{],} \PYG{n}{delta} \PYG{o}{=} \PYG{n}{INF}\PYG{p}{,} \PYG{n}{j1}\PYG{p}{;}
+			\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}=} \PYG{n}{m}\PYG{p}{;} \PYG{n}{j}\PYG{o}{++}\PYG{p}{)}
+				\PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n}{used}\PYG{p}{[}\PYG{n}{j}\PYG{p}{])} \PYG{p}{\PYGZob{}}
+					\PYG{k+kt}{int} \PYG{n}{cur} \PYG{o}{=} \PYG{n}{a}\PYG{p}{[}\PYG{n}{i0}\PYG{p}{][}\PYG{n}{j}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{u}\PYG{p}{[}\PYG{n}{i0}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{v}\PYG{p}{[}\PYG{n}{j}\PYG{p}{];}
+					\PYG{k}{if} \PYG{p}{(}\PYG{n}{cur} \PYG{o}{\PYGZlt{}} \PYG{n}{minv}\PYG{p}{[}\PYG{n}{j}\PYG{p}{])} \PYG{n}{minv}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=} \PYG{n}{cur}\PYG{p}{,} \PYG{n}{way}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=} \PYG{n}{j0}\PYG{p}{;}
+					\PYG{k}{if} \PYG{p}{(}\PYG{n}{minv}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]} \PYG{o}{\PYGZlt{}} \PYG{n}{delta}\PYG{p}{)} \PYG{n}{delta} \PYG{o}{=} \PYG{n}{minv}\PYG{p}{[}\PYG{n}{j}\PYG{p}{],} \PYG{n}{j1} \PYG{o}{=} \PYG{n}{j}\PYG{p}{;}
+				\PYG{p}{\PYGZcb{}}
+			\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}=} \PYG{n}{m}\PYG{p}{;} \PYG{n}{j}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+				\PYG{k}{if}\PYG{p}{(}\PYG{n}{used}\PYG{p}{[}\PYG{n}{j}\PYG{p}{])} \PYG{n}{u}\PYG{p}{[}\PYG{n}{p}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]]} \PYG{o}{+=} \PYG{n}{delta}\PYG{p}{,} \PYG{n}{v}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]} \PYG{o}{\PYGZhy{}=} \PYG{n}{delta}\PYG{p}{;}
+				\PYG{k}{else} \PYG{n}{minv}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]} \PYG{o}{\PYGZhy{}=} \PYG{n}{delta}\PYG{p}{;}
+			\PYG{p}{\PYGZcb{}}
+			\PYG{n}{j0} \PYG{o}{=} \PYG{n}{j1}\PYG{p}{;}
+		\PYG{p}{\PYGZcb{}} \PYG{k}{while} \PYG{p}{(}\PYG{n}{p}\PYG{p}{[}\PYG{n}{j0}\PYG{p}{]} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{);}
+		\PYG{k}{do} \PYG{p}{\PYGZob{}}
+			\PYG{k+kt}{int} \PYG{n}{j1} \PYG{o}{=} \PYG{n}{way}\PYG{p}{[}\PYG{n}{j0}\PYG{p}{];} \PYG{n}{p}\PYG{p}{[}\PYG{n}{j0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{p}\PYG{p}{[}\PYG{n}{j1}\PYG{p}{];} \PYG{n}{j0} \PYG{o}{=} \PYG{n}{j1}\PYG{p}{;}
+		\PYG{p}{\PYGZcb{}} \PYG{k}{while} \PYG{p}{(}\PYG{n}{j0}\PYG{p}{);}
+	\PYG{p}{\PYGZcb{}}
+
+	\PYG{c+c1}{// column j is assigned to row p[j]}
+	\PYG{c+c1}{// for (int j = 1; j \PYGZlt{}= m; ++ j) ans[p[j]] = j;}
+	\PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{n}{v}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{];}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

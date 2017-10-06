@@ -4,10 +4,8 @@ int dist[MAXN];
 bool done[MAXN];
 
 ll prim(int n) {
-	fill_n(dist, n, INF);
-	fill_n(done, n, false);
-	ll ret = 0, trees = 0;
-	set<pii> q; // (to MST, vertex)
+	fill_n(dist, n, INF); fill_n(done, n, false);
+	ll ret = 0, trees = 0; set<pii> q; // (to MST, vertex)
 	for (int i = 0; i < n; i++) {
 		if (done[i]) continue;
 		trees++;

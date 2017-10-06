@@ -1,17 +1,14 @@
-int n;
-pt pts[maxn];
+int n;pt pts[maxn];
 
 struct byY {
 	bool operator()(int a, int b) const { return pts[a].y < pts[b].y; }
 };
 
-inline NUM dist(pii p) {
-	return hypot(pts[p.x].x - pts[p.y].x, pts[p.x].y - pts[p.y].y);
+inline NUM dist(pii p) { 
+  return hypot(pts[p.x].x - pts[p.y].x, pts[p.x].y - pts[p.y].y);
 }
 
-pii minpt(pii p1, pii p2) {
-	return (dist(p1) < dist(p2)) ? p1 : p2;
-}
+pii minpt(pii p1, pii p2) { return (dist(p1) < dist(p2)) ? p1 : p2;}
 
 // closest pts (by index) inside pts[l ... r], with sorted y values in ys
 pii closest(int l, int r, vi &ys) {
@@ -23,8 +20,7 @@ pii closest(int l, int r, vi &ys) {
 		sort(ys.begin(), ys.end(), byY());
 		return minpt(pii(l, l + 1), minpt(pii(l, l + 2), pii(l + 1, l + 2)));
 	}
-	int m = (l + r) / 2;
-	vi yl, yr;
+	int m = (l + r) / 2; vi yl, yr; 
 	pii delta = minpt(closest(l, m, yl), closest(m, r, yr));
 	NUM ddelta = dist(delta), xm = .5 * (pts[m-1].x + pts[m].x);
 	merge(yl.begin(), yl.end(), yr.begin(), yr.end(), back_inserter(ys), byY());

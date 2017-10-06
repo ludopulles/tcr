@@ -1,0 +1,13 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{int} \PYG{n}{bit}\PYG{p}{[}\PYG{n}{MAXN} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{];}
+
+\PYG{c+c1}{// arr[i] += v}
+\PYG{k+kt}{void} \PYG{n+nf}{update}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{v}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{k}{while} \PYG{p}{(}\PYG{n}{i} \PYG{o}{\PYGZlt{}=} \PYG{n}{MAXN}\PYG{p}{)} \PYG{n}{bit}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{+=} \PYG{n}{v}\PYG{p}{,} \PYG{n}{i} \PYG{o}{+=} \PYG{n}{i} \PYG{o}{\PYGZam{}} \PYG{o}{\PYGZhy{}}\PYG{n}{i}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{c+c1}{// returns sum of arr[i], where i: [1, i]}
+\PYG{k+kt}{int} \PYG{n+nf}{query}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{k+kt}{int} \PYG{n}{v} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{k}{while} \PYG{p}{(}\PYG{n}{i}\PYG{p}{)} \PYG{n}{v} \PYG{o}{+=} \PYG{n}{bit}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{n}{i} \PYG{o}{\PYGZhy{}=} \PYG{n}{i} \PYG{o}{\PYGZam{}} \PYG{o}{\PYGZhy{}}\PYG{n}{i}\PYG{p}{;} \PYG{k}{return} \PYG{n}{v}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

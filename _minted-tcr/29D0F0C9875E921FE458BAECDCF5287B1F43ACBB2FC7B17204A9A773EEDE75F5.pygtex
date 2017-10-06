@@ -1,0 +1,25 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{// points are given by: pts[ret[0]], pts[ret[1]], ... pts[ret[ret.size()\PYGZhy{}1]]}
+\PYG{n}{vi} \PYG{n+nf}{convexHull}\PYG{p}{(}\PYG{k}{const} \PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{pt}\PYG{o}{\PYGZgt{}} \PYG{o}{\PYGZam{}}\PYG{n}{pts}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+	\PYG{k}{if} \PYG{p}{(}\PYG{n}{pts}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())} \PYG{k}{return} \PYG{n}{vi}\PYG{p}{();}
+	\PYG{n}{vi} \PYG{n}{ret}\PYG{p}{;}
+	\PYG{c+c1}{// find one outer point:}
+	\PYG{k+kt}{int} \PYG{n}{fsti} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{n} \PYG{o}{=} \PYG{n}{pts}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();} \PYG{n}{pt} \PYG{n}{fstpt} \PYG{o}{=} \PYG{n}{pts}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{];}
+	\PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{n}{n}\PYG{p}{;} \PYG{n}{i}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{;} \PYG{p}{)} \PYG{k}{if} \PYG{p}{(}\PYG{n}{pts}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZlt{}} \PYG{n}{fstpt}\PYG{p}{)} \PYG{n}{fstpt} \PYG{o}{=} \PYG{n}{pts}\PYG{p}{[}\PYG{n}{fsti} \PYG{o}{=} \PYG{n}{i}\PYG{p}{];}
+	\PYG{n}{ret}\PYG{p}{.}\PYG{n}{pb}\PYG{p}{(}\PYG{n}{fsti}\PYG{p}{);} \PYG{n}{pt} \PYG{n}{refr} \PYG{o}{=} \PYG{n}{pts}\PYG{p}{[}\PYG{n}{fsti}\PYG{p}{];}
+	\PYG{n}{vi} \PYG{n}{ord}\PYG{p}{;} \PYG{c+c1}{// index into pts}
+	\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{n}{n}\PYG{p}{;} \PYG{n}{i}\PYG{o}{\PYGZhy{}\PYGZhy{}}\PYG{p}{;} \PYG{p}{)} \PYG{k}{if} \PYG{p}{(}\PYG{n}{pts}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{!=} \PYG{n}{refr}\PYG{p}{)} \PYG{n}{ord}\PYG{p}{.}\PYG{n}{pb}\PYG{p}{(}\PYG{n}{i}\PYG{p}{);}
+	\PYG{n}{sort}\PYG{p}{(}\PYG{n}{ord}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),} \PYG{n}{ord}\PYG{p}{.}\PYG{n}{end}\PYG{p}{(),} \PYG{p}{[}\PYG{o}{\PYGZam{}}\PYG{n}{pts}\PYG{p}{,} \PYG{o}{\PYGZam{}}\PYG{n}{refr}\PYG{p}{]} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{a}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{b}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{k+kt}{bool} \PYG{p}{\PYGZob{}}
+		\PYG{n}{NUM} \PYG{n}{cross} \PYG{o}{=} \PYG{p}{(}\PYG{n}{pts}\PYG{p}{[}\PYG{n}{a}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{refr}\PYG{p}{)} \PYG{o}{\PYGZca{}} \PYG{p}{(}\PYG{n}{pts}\PYG{p}{[}\PYG{n}{b}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{refr}\PYG{p}{);}
+		\PYG{k}{return} \PYG{n}{cross} \PYG{o}{!=} \PYG{l+m+mi}{0} \PYG{o}{?} \PYG{n}{cross} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0} \PYG{o}{:} \PYG{n}{lenSq}\PYG{p}{(}\PYG{n}{refr}\PYG{p}{,} \PYG{n}{pts}\PYG{p}{[}\PYG{n}{a}\PYG{p}{])} \PYG{o}{\PYGZlt{}} \PYG{n}{lenSq}\PYG{p}{(}\PYG{n}{refr}\PYG{p}{,} \PYG{n}{pts}\PYG{p}{[}\PYG{n}{b}\PYG{p}{]);}
+	\PYG{p}{\PYGZcb{});}
+	\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n+nl}{i} \PYG{p}{:} \PYG{n}{ord}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+		\PYG{c+c1}{// NOTE: \PYGZgt{} INCLUDES points on the hull\PYGZhy{}line, \PYGZgt{}= EXCLUDES}
+		\PYG{k}{while} \PYG{p}{(}\PYG{n}{ret}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{1} \PYG{o}{\PYGZam{}\PYGZam{}}
+				\PYG{p}{((}\PYG{n}{pts}\PYG{p}{[}\PYG{n}{ret}\PYG{p}{[}\PYG{n}{ret}\PYG{p}{.}\PYG{n}{size}\PYG{p}{()}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{]]}\PYG{o}{\PYGZhy{}}\PYG{n}{pts}\PYG{p}{[}\PYG{n}{ret}\PYG{p}{.}\PYG{n}{back}\PYG{p}{()])} \PYG{o}{\PYGZca{}} \PYG{p}{(}\PYG{n}{pts}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}\PYG{o}{\PYGZhy{}}\PYG{n}{pts}\PYG{p}{[}\PYG{n}{ret}\PYG{p}{.}\PYG{n}{back}\PYG{p}{()]))} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{0}\PYG{p}{)}
+			\PYG{n}{ret}\PYG{p}{.}\PYG{n}{pop\PYGZus{}back}\PYG{p}{();}
+		\PYG{n}{ret}\PYG{p}{.}\PYG{n}{pb}\PYG{p}{(}\PYG{n}{i}\PYG{p}{);}
+	\PYG{p}{\PYGZcb{}}
+	\PYG{k}{return} \PYG{n}{ret}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

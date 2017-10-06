@@ -1,0 +1,45 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{const} \PYG{k+kt}{int} \PYG{n}{MAXP} \PYG{o}{=} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{n}{MAXLEN} \PYG{o}{=} \PYG{l+m+mi}{200}\PYG{p}{,} \PYG{n}{SIGMA} \PYG{o}{=} \PYG{l+m+mi}{26}\PYG{p}{,} \PYG{n}{MAXTRIE} \PYG{o}{=} \PYG{n}{MAXP} \PYG{o}{*} \PYG{n}{MAXLEN}\PYG{p}{;}
+
+\PYG{k+kt}{int} \PYG{n}{nP}\PYG{p}{;}
+\PYG{n}{string} \PYG{n}{P}\PYG{p}{[}\PYG{n}{MAXP}\PYG{p}{],} \PYG{n}{S}\PYG{p}{;}
+
+\PYG{k+kt}{int} \PYG{n}{pnr}\PYG{p}{[}\PYG{n}{MAXTRIE}\PYG{p}{],} \PYG{n}{to}\PYG{p}{[}\PYG{n}{MAXTRIE}\PYG{p}{][}\PYG{n}{SIGMA}\PYG{p}{],} \PYG{n}{sLink}\PYG{p}{[}\PYG{n}{MAXTRIE}\PYG{p}{],} \PYG{n}{dLink}\PYG{p}{[}\PYG{n}{MAXTRIE}\PYG{p}{],} \PYG{n}{nnodes}\PYG{p}{;}
+
+\PYG{k+kt}{void} \PYG{n+nf}{ahoCorasick}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+	\PYG{n}{fill\PYGZus{}n}\PYG{p}{(}\PYG{n}{pnr}\PYG{p}{,} \PYG{n}{MAXTRIE}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{);}
+	\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{MAXTRIE}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{n}{fill\PYGZus{}n}\PYG{p}{(}\PYG{n}{to}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{n}{SIGMA}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{);}
+	\PYG{n}{fill\PYGZus{}n}\PYG{p}{(}\PYG{n}{sLink}\PYG{p}{,} \PYG{n}{MAXTRIE}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{);} \PYG{n}{fill\PYGZus{}n}\PYG{p}{(}\PYG{n}{dLink}\PYG{p}{,} \PYG{n}{MAXTRIE}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{);}
+	\PYG{n}{nnodes} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
+	\PYG{c+c1}{// STEP 1: MAKE A TREE}
+	\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{nP}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+		\PYG{k+kt}{int} \PYG{n}{cur} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+		\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{char} \PYG{n+nl}{c} \PYG{p}{:} \PYG{n}{P}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])} \PYG{p}{\PYGZob{}}
+			\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{n}{c} \PYG{o}{\PYGZhy{}} \PYG{l+s+sc}{\PYGZsq{}a\PYGZsq{}}\PYG{p}{;}
+			\PYG{k}{if} \PYG{p}{(}\PYG{n}{to}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{][}\PYG{n}{i}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{n}{to}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{][}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{nnodes}\PYG{o}{++}\PYG{p}{;}
+			\PYG{n}{cur} \PYG{o}{=} \PYG{n}{to}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{][}\PYG{n}{i}\PYG{p}{];}
+		\PYG{p}{\PYGZcb{}}
+		\PYG{n}{pnr}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{]} \PYG{o}{=} \PYG{n}{i}\PYG{p}{;}
+	\PYG{p}{\PYGZcb{}}
+	\PYG{c+c1}{// STEP 2: CREATE SUFFIX\PYGZus{}LINKS AND DICT\PYGZus{}LINKS}
+	\PYG{n}{queue}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}} \PYG{n}{q}\PYG{p}{;} \PYG{n}{q}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{);}
+	\PYG{k}{while} \PYG{p}{(}\PYG{o}{!}\PYG{n}{q}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())} \PYG{p}{\PYGZob{}}
+		\PYG{k+kt}{int} \PYG{n}{cur} \PYG{o}{=} \PYG{n}{q}\PYG{p}{.}\PYG{n}{front}\PYG{p}{();} \PYG{n}{q}\PYG{p}{.}\PYG{n}{pop}\PYG{p}{();}
+		\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{c} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{c} \PYG{o}{\PYGZlt{}} \PYG{n}{SIGMA}\PYG{p}{;} \PYG{n}{c}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+			\PYG{k}{if} \PYG{p}{(}\PYG{n}{to}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{][}\PYG{n}{c}\PYG{p}{])} \PYG{p}{\PYGZob{}}
+				\PYG{k+kt}{int} \PYG{n}{sl} \PYG{o}{=} \PYG{n}{sLink}\PYG{p}{[}\PYG{n}{to}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{][}\PYG{n}{c}\PYG{p}{]]} \PYG{o}{=} \PYG{n}{cur} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{o}{?} \PYG{l+m+mi}{0} \PYG{o}{:} \PYG{n}{to}\PYG{p}{[}\PYG{n}{sLink}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{]][}\PYG{n}{c}\PYG{p}{];}
+				\PYG{c+c1}{// if all strings have equal length, remove this:}
+				\PYG{n}{dLink}\PYG{p}{[}\PYG{n}{to}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{][}\PYG{n}{c}\PYG{p}{]]} \PYG{o}{=} \PYG{n}{pnr}\PYG{p}{[}\PYG{n}{sl}\PYG{p}{]} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{0} \PYG{o}{?} \PYG{n+nl}{sl} \PYG{p}{:} \PYG{n}{dLink}\PYG{p}{[}\PYG{n}{sl}\PYG{p}{];}
+				\PYG{n}{q}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(}\PYG{n}{to}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{][}\PYG{n}{c}\PYG{p}{]);}
+			\PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{n}{to}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{][}\PYG{n}{c}\PYG{p}{]} \PYG{o}{=} \PYG{n}{to}\PYG{p}{[}\PYG{n}{sLink}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{]][}\PYG{n}{c}\PYG{p}{];}
+		\PYG{p}{\PYGZcb{}}
+	\PYG{p}{\PYGZcb{}}
+	\PYG{c+c1}{// STEP 3: TRAVERSE S}
+	\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{cur} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{n} \PYG{o}{=} \PYG{n}{S}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{n}\PYG{p}{;} \PYG{n}{i}\PYG{o}{++}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+		\PYG{n}{cur} \PYG{o}{=} \PYG{n}{to}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{][}\PYG{n}{S}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+s+sc}{\PYGZsq{}a\PYGZsq{}}\PYG{p}{];}
+		\PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{hit} \PYG{o}{=} \PYG{n}{pnr}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{]} \PYG{o}{\PYGZgt{}=} \PYG{l+m+mi}{0} \PYG{o}{?} \PYG{n+nl}{cur} \PYG{p}{:} \PYG{n}{dLink}\PYG{p}{[}\PYG{n}{cur}\PYG{p}{];} \PYG{n}{hit}\PYG{p}{;} \PYG{n}{hit} \PYG{o}{=} \PYG{n}{dLink}\PYG{p}{[}\PYG{n}{hit}\PYG{p}{])} \PYG{p}{\PYGZob{}}
+			\PYG{n}{cerr} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{P}\PYG{p}{[}\PYG{n}{pnr}\PYG{p}{[}\PYG{n}{hit}\PYG{p}{]]} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{l+s}{\PYGZdq{} found at [\PYGZdq{}} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{p}{(}\PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{1} \PYG{o}{\PYGZhy{}} \PYG{n}{P}\PYG{p}{[}\PYG{n}{pnr}\PYG{p}{[}\PYG{n}{hit}\PYG{p}{]].}\PYG{n}{size}\PYG{p}{())} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{l+s}{\PYGZdq{}, \PYGZdq{}} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{i} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{l+s}{\PYGZdq{}]\PYGZdq{}} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{endl}\PYG{p}{;}
+		\PYG{p}{\PYGZcb{}}
+	\PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

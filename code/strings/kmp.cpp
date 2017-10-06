@@ -11,8 +11,7 @@ int kmp_search(const string &word, const string &text) {
 		if (text[i] == word[j]) {
 			i++;
 			if (++j == n) { // match at interval [i - n, i)
-				matches++;
-				j = T[j];
+				matches++; j = T[j];
 			}
 		} else if (j > 0) j = T[j];
 		else i++;

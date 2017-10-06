@@ -3,18 +3,11 @@ vi convexHull(const vector<pt> &pts) {
 	if (pts.empty()) return vi();
 	vi ret;
 	// find one outer point:
-	int fsti = 0, n = pts.size();
-	pt fstpt = pts[0];
-	for(int i = n; i--; ) {
-		if (pts[i] < fstpt) fstpt = pts[fsti = i];
-	}
-	ret.pb(fsti);
-	pt refr = pts[fsti];
-
+	int fsti = 0, n = pts.size(); pt fstpt = pts[0];
+	for(int i = n; i--; ) if (pts[i] < fstpt) fstpt = pts[fsti = i];
+	ret.pb(fsti); pt refr = pts[fsti];
 	vi ord; // index into pts
-	for (int i = n; i--; ) {
-		if (pts[i] != refr) ord.pb(i);
-	}
+	for (int i = n; i--; ) if (pts[i] != refr) ord.pb(i);
 	sort(ord.begin(), ord.end(), [&pts, &refr] (int a, int b) -> bool {
 		NUM cross = (pts[a] - refr) ^ (pts[b] - refr);
 		return cross != 0 ? cross > 0 : lenSq(refr, pts[a]) < lenSq(refr, pts[b]);

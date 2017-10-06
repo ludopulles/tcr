@@ -13,18 +13,15 @@ void fft(cpx *src, cpx *dest) {
 		for (int k = 0; k < maxn; k += m) {
 			cpx cr(1.0, 0.0);
 			for (int j = 0; j < m / 2; j++) {
-				cpx t = cr * dest[k + j + m / 2];
-				dest[k + j + m / 2] = dest[k + j] - t;
-				dest[k + j] += t;
-				cr *= r;
+				cpx t = cr * dest[k + j + m / 2]; dest[k + j + m / 2] = dest[k + j] - t;
+				dest[k + j] += t; cr *= r;
 			}
 		}
 	}
 }
 
 void multiply() {
-	fft(a, c);
-	fft(b, a);
+	fft(a, c); fft(b, a);
 	for (int i = 0; i < maxn; i++) b[i] = conj(a[i] * c[i]);
 	fft(b, c);
 	for (int i = 0; i < maxn; i++) c[i] = conj(c[i]) / (1.0 * maxn);

@@ -11,9 +11,7 @@ ll mod(ll a, ll b) { return (a %= b) < 0 ? a + b : a; }
 ll mulmod(ll a, ll b, ll m) {
 	ll r = 0;
 	while (b) {
-		if (b & 1) r = (r + a) % m;
-		a = (a + a) % m;
-		b >>= 1;
+		if (b & 1) r = (r + a) % m; a = (a + a) % m; b >>= 1;
 	}
 	return r;
 }
@@ -75,8 +73,7 @@ ll lucas(ll n, ll k, ll p) {
 }
 
 // returns if n is prime for n < 3e24 ( > 2^64)
-bool millerRabin(ll n)
-{
+bool millerRabin(ll n){
 	if (n < 2 || n % 2 == 0) return n == 2;
 	ll d = n - 1, ad, s = 0, r;
 	for (; d % 2 == 0; d /= 2) s++;

@@ -3,18 +3,12 @@ typedef double NUM;
 #define MAXN 110
 #define EPS 1e-5
 
-NUM mat[MAXN][MAXN + 1], vals[MAXN];
-bool hasval[MAXN];
+NUM mat[MAXN][MAXN + 1], vals[MAXN]; bool hasval[MAXN];
 
 bool is_zero(NUM a) { return -EPS < a && a < EPS; }
 bool eq(NUM a, NUM b) { return is_zero(a - b); }
 
-int solvemat(int n)
-{
-	for(int i = 0; i < n; i++)
-		for (int j = 0; j < n; j++) cin >> mat[i][j];
-	for (int i = 0; i < n; i++) cin >> mat[i][n];
-
+int solvemat(int n){ //mat[i][j] contains the matrix A, mat[i][n] contains b
 	int pivrow = 0, pivcol = 0;
 	while (pivcol < n) {
 		int r = pivrow, c;
@@ -31,8 +25,8 @@ int solvemat(int n)
 			NUM times = -mat[row][c];
 			for (int col = c; col <= n; col++) mat[row][col] += times * mat[r][col];
 		}
-	}
-	// now mat is in RREF
+	} // now mat is in RREF
+	
 	for (int r = pivrow; r < n; r++)
 		if (!is_zero(mat[r][n])) return 0;
 

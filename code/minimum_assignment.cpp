@@ -24,9 +24,7 @@ int minimum_assignment(int n, int m) { // n rows, m columns
 			j0 = j1;
 		} while (p[j0] != 0);
 		do {
-			int j1 = way[j0];
-			p[j0] = p[j1];
-			j0 = j1;
+			int j1 = way[j0]; p[j0] = p[j1]; j0 = j1;
 		} while (j0);
 	}
 

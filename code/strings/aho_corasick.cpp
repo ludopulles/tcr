@@ -8,8 +8,7 @@ int pnr[MAXTRIE], to[MAXTRIE][SIGMA], sLink[MAXTRIE], dLink[MAXTRIE], nnodes;
 void ahoCorasick() {
 	fill_n(pnr, MAXTRIE, -1);
 	for (int i = 0; i < MAXTRIE; i++) fill_n(to[i], SIGMA, 0);
-	fill_n(sLink, MAXTRIE, 0);
-	fill_n(dLink, MAXTRIE, 0);
+	fill_n(sLink, MAXTRIE, 0); fill_n(dLink, MAXTRIE, 0);
 	nnodes = 1;
 	// STEP 1: MAKE A TREE
 	for (int i = 0; i < nP; i++) {
@@ -22,11 +21,9 @@ void ahoCorasick() {
 		pnr[cur] = i;
 	}
 	// STEP 2: CREATE SUFFIX_LINKS AND DICT_LINKS
-	queue<int> q;
-	q.push(0);
+	queue<int> q; q.push(0);
 	while (!q.empty()) {
-		int cur = q.front();
-		q.pop();
+		int cur = q.front(); q.pop();
 		for (int c = 0; c < SIGMA; c++) {
 			if (to[cur][c]) {
 				int sl = sLink[to[cur][c]] = cur == 0 ? 0 : to[sLink[cur]][c];

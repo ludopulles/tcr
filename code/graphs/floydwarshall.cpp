@@ -1,5 +1,4 @@
-int n = 100;
-ll d[MAXN][MAXN];
+int n = 100; ll d[MAXN][MAXN];
 for (int i = 0; i < n; i++) fill_n(d[i], n, 1e18);
 // set direct distances from i to j in d[i][j] (and d[j][i])
 for (int i = 0; i < n; i++)
