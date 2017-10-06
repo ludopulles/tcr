@@ -32,11 +32,12 @@
 \usepackage{wrapfig}
 
 \usepackage{minted}
-\newcommand{\code}[1]{\inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,linenos,tabsize=2]{cpp}{code/#1}}
+\newcommand{\code}[1]{\inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,tabsize=2]{cpp}{code/#1}}
 %\newcommand{\code}[1]{\lstinputlisting{code/#1}}
 \newcommand{\bashcode}[1]{\inputminted{bash}{_code/#1}}
 \newcommand{\regcode}[1]{\inputminted{cpp}{code/#1}}
 %\usemintedstyle{manni}
+\setlength{\columnseprule}{0.4pt}
 
 
 \newcommand{\subtitle}[1]{%
