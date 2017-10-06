@@ -1,3 +1,1 @@
-if pdflatex -shell-escape tcr.tex; then
-	evince tcr.pdf &
-fi
+pdflatex -shell-escape tcr.tex && evince tcr.pdf

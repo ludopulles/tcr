@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{vi} \PYG{n+nf}{lis}\PYG{p}{(}\PYG{n}{vi} \PYG{n}{arr}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{vi} \PYG{n}{seq}\PYG{p}{,} \PYG{n}{back}\PYG{p}{(}\PYG{n}{size}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{)),} \PYG{n}{ans}\PYG{p}{;}
+  \PYG{n}{rep}\PYG{p}{(}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{size}\PYG{p}{(}\PYG{n}{arr}\PYG{p}{))} \PYG{p}{\PYGZob{}}
+    \PYG{k+kt}{int} \PYG{n}{res} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{lo} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{hi} \PYG{o}{=} \PYG{n}{size}\PYG{p}{(}\PYG{n}{seq}\PYG{p}{);}
+    \PYG{k}{while} \PYG{p}{(}\PYG{n}{lo} \PYG{o}{\PYGZlt{}=} \PYG{n}{hi}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k+kt}{int} \PYG{n}{mid} \PYG{o}{=} \PYG{p}{(}\PYG{n}{lo}\PYG{o}{+}\PYG{n}{hi}\PYG{p}{)}\PYG{o}{/}\PYG{l+m+mi}{2}\PYG{p}{;}
+      \PYG{k}{if} \PYG{p}{(}\PYG{n}{arr}\PYG{p}{[}\PYG{n}{seq}\PYG{p}{[}\PYG{n}{mid}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]]} \PYG{o}{\PYGZlt{}} \PYG{n}{arr}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])} \PYG{n}{res} \PYG{o}{=} \PYG{n}{mid}\PYG{p}{,} \PYG{n}{lo} \PYG{o}{=} \PYG{n}{mid} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+      \PYG{k}{else} \PYG{n}{hi} \PYG{o}{=} \PYG{n}{mid} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{res} \PYG{o}{\PYGZlt{}} \PYG{n}{size}\PYG{p}{(}\PYG{n}{seq}\PYG{p}{))} \PYG{n}{seq}\PYG{p}{[}\PYG{n}{res}\PYG{p}{]} \PYG{o}{=} \PYG{n}{i}\PYG{p}{;}
+    \PYG{k}{else} \PYG{n}{seq}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{i}\PYG{p}{);}
+    \PYG{n}{back}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{res} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{o}{?} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1} \PYG{o}{:} \PYG{n}{seq}\PYG{p}{[}\PYG{n}{res}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{];} \PYG{p}{\PYGZcb{}}
+  \PYG{k+kt}{int} \PYG{n}{at} \PYG{o}{=} \PYG{n}{seq}\PYG{p}{.}\PYG{n}{back}\PYG{p}{();}
+  \PYG{k}{while} \PYG{p}{(}\PYG{n}{at} \PYG{o}{!=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)} \PYG{n}{ans}\PYG{p}{.}\PYG{n}{push\PYGZus{}back}\PYG{p}{(}\PYG{n}{at}\PYG{p}{),} \PYG{n}{at} \PYG{o}{=} \PYG{n}{back}\PYG{p}{[}\PYG{n}{at}\PYG{p}{];}
+  \PYG{n}{reverse}\PYG{p}{(}\PYG{n}{ans}\PYG{p}{.}\PYG{n}{begin}\PYG{p}{(),} \PYG{n}{ans}\PYG{p}{.}\PYG{n}{end}\PYG{p}{());}
+  \PYG{k}{return} \PYG{n}{ans}\PYG{p}{;} \PYG{p}{\PYGZcb{}}
+\PYG{c+c1}{// vim: cc=60 ts=2 sts=2 sw=2:}
+\end{Verbatim}
