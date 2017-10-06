@@ -1,6 +1,7 @@
 
 \documentclass[8pt,a4paper,landscape,oneside]{amsart}
 \usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage[usenames,dvipsnames]{xcolor}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{booktabs}
@@ -15,7 +16,6 @@
 % \usepackage[top=0pt, bottom=1cm, left=0.3cm, right=0.3cm]{geometry}
 \usepackage[top=3pt, bottom=1cm, left=0.3cm, right=0.3cm]{geometry}
 \usepackage{graphicx}
-% \usepackage{listings}
 \usepackage{subcaption}
 \usepackage[scaled]{beramono}
 \usepackage{titling}
@@ -23,6 +23,15 @@
 \usepackage{enumitem}
 \usepackage{color,courier,fancyhdr,listings,parcolumns,verbatim,upquote}
 \usepackage{multicol}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{latexsym}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+
+\pagestyle{fancy}
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -34,8 +43,9 @@
 % Header/Footer
 % \geometry{includeheadfoot}
 %\fancyhf{}
-\pagestyle{fancy}
-\lhead{Reykjavík University}
+%\pagestyle{fancy}
+\begin{comment}
+\lhead{Utrecht University}
 \rhead{\thepage}
 \cfoot{}
 \setlength{\headheight}{15.2pt}
@@ -43,7 +53,7 @@
 \posttitle{\par\end{center}}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
-
+\end{comment}
 % Math and bit operators
 \DeclareMathOperator{\lcm}{lcm}
 \newcommand*\BitAnd{\mathrel{\&}}
@@ -66,11 +76,11 @@
 % \verbosefalse
 
 \title{TCR}
-\author{git diff solution (Jens Heuseveldt, Ludo Pulles, Pim Spelier)}
+\subtitle{git diff solution (Jens Heuseveldt, Ludo Pulles, Pim Spelier)}
 
-\lstset{
-	literate={~} {$\sim$}{1},
-	basicstyle=\footnotesize\ttfamily,
+\lstset{showstringspaces=false,
+  literate={~} {$\sim$}{1},
+	basicstyle=\small\ttfamily,
 	breaklines=true,
 	commentstyle=\color[rgb]{0.5,0.5,0.5},
 	frame=lines,
@@ -83,10 +93,20 @@
 	showstringspaces=false,
 	stringstyle=\color[rgb]{0.6,0.3,0},
 	tabsize=4,
-	xleftmargin=\parindent
+	xleftmargin=\parindent,
+	columns=[l]fixed,
+	keepspaces=true,
+	tabsize=4,
+	language=C++,
+	numbers=left,
+	numberstyle=\tiny,
+	stepnumber=1,
+	frame=leftline,
+	basicstyle=\small\ttfamily,
+	keywordstyle=\color{Maroon},
+	commentstyle=\color{MidnightBlue}
 }
 
-\pagestyle{fancy}
 \lhead{Utrecht University}
 \rhead{git diff solution}
 
@@ -94,6 +114,7 @@
 
 \begin{multicols*}{3}
 \maketitle
+\begin{comment}
 \begin{center}
 	\makeatletter
 	\textbf{\@title} \\
@@ -101,6 +122,7 @@
 	\emph{\@author}
 	\makeatother
 \end{center}
+\end{comment}
 
 \tableofcontents
 % \newpage
@@ -358,5 +380,5 @@ Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) =
 \subsection{Partial linear equation solver $\mathcal{O}(N^3)$}
 
 \lstinputlisting{code/matrix_solver.cpp}
-
+\end{multicols*}
 \end{document}
