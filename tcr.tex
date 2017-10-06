@@ -109,7 +109,7 @@
 At the start of a contest, type this in a terminal:
 \end{center}
 
-\lstinputlisting{code/vim.sh}
+\lstinputlisting{code/start.sh}
 
 \begin{center}
 template.cpp
@@ -204,17 +204,17 @@ A useful identity: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{
 \section{Datastructures}
 \subsection{Standard segment tree $\mathcal{O}(\log n)$}
 
-\lstinputlisting{code/segment_tree.cpp}
+\lstinputlisting{code/datastructures/segment_tree.cpp}
 
 \subsection{Binary Indexed Tree $\mathcal{O}(\log n)$}
 
 Use one-based indices ($i > 0$)!
 
-\lstinputlisting{code/bit.cpp}
+\lstinputlisting{code/datastructures/bit.cpp}
 
 \subsection{Disjoint-Set / Union-Find $\mathcal{O}(\alpha (n))$}
 
-\lstinputlisting{code/dsu.cpp}
+\lstinputlisting{code/datastructures/dsu.cpp}
 
 \section{Graph Algorithms}
 % TODO: articulation points, and bridges!
@@ -222,11 +222,11 @@ Use one-based indices ($i > 0$)!
 
 This problem could be solved with a flow algorithm like Dinic's algorithm which runs in $\mathcal{O} (\sqrt{V} E)$, too.
 
-\lstinputlisting{code/maxmatch.cpp}
+\lstinputlisting{code/graphs/maxmatch.cpp}
 
 \subsection{Strongly Connected Components $\mathcal{O}(V + E)$}
 
-\lstinputlisting{code/scc.cpp}
+\lstinputlisting{code/graphs/scc.cpp}
 
 \subsubsection{2-SAT $\mathcal{O}(V+E)$}
 
@@ -247,13 +247,13 @@ Include \texttt{findSCC}.
 
 \subsubsection{Floyd-Warshall $\mathcal{O}(V^{3})$}
 
-\lstinputlisting{code/floydwarshall.cpp}
+\lstinputlisting{code/graphs/floydwarshall.cpp}
 
 \subsubsection{Bellman Ford $\mathcal{O}(V E)$}
 
 This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
 
-\lstinputlisting{code/bellmanford.cpp}
+\lstinputlisting{code/graphs/bellmanford.cpp}
 
 \subsection{Max-flow min-cut}
 \subsubsection{Dinic's Algorithm $\mathcal{O}(V^{2} E)$}
@@ -262,13 +262,13 @@ This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
 // http://www.slideshare.net/KuoE0/acmicpc-dinics-algorithm
 \end{comment}
 
-\lstinputlisting{code/dinic.cpp}
+\lstinputlisting{code/graphs/dinic.cpp}
 
 \subsection{Min-cost max-flow}
 
 Find the cheapest possible way of sending a certain amount of flow through a flow network.
 
-\lstinputlisting{code/mincostmaxflow.cpp}
+\lstinputlisting{code/graphs/mincostmaxflow.cpp}
 
 \subsection{Minimal Spanning Tree}
 
@@ -276,528 +276,88 @@ Find the cheapest possible way of sending a certain amount of flow through a flo
 \begin{comment}
 \subsubsection{Prim $\mathcal{O}((E + V) \log V)$}
 
-\lstinputlisting{code/mst_prim.cpp}
+\lstinputlisting{code/graphs/mst_prim.cpp}
 \end{comment}
 
 \subsubsection{Kruskal $\mathcal{O}(E \log V)$}
 
 \begin{comment}
-\lstinputlisting{code/mst_kruskal.cpp}
+\lstinputlisting{code/graphs/mst_kruskal.cpp}
 \end{comment}
 
 \section{String algorithms}
 
 \subsection{Trie}
 
-\lstinputlisting{code/trie.cpp}
+\lstinputlisting{code/strings/trie.cpp}
 
 \subsection{Z-algorithm $\mathcal{O}(n)$}
 
-\lstinputlisting{code/z_function.cpp}
+\lstinputlisting{code/strings/z_function.cpp}
 
 \subsection{Suffix array $\mathcal{O}(n \log^2{n})$}
 
 This creates an array $P[0], P[1], \dots, P[n-1]$ such that the suffix $S[i \dots n]$ is the $P[i]^\textit{th}$ suffix of $S$ when lexicographically sorted.
 
-\begin{lstlisting}
-typedef pair<pii, int> tii;
-
-const int maxlogn = 17, int maxn = 1 << maxlogn;
-
-tii make_triple(int a, int b, int c) { return tii(pii(a, b), c); }
-
-int p[maxlogn + 1][maxn];
-tii L[maxn];
-
-int suffixArray(string S) {
-	int N = S.size(), stp = 1, cnt = 1;
-	for (int i = 0; i < N; i++) p[0][i] = S[i];
-	for (; cnt < N; stp++, cnt <<= 1) {
-		for (int i = 0; i < N; i++) {
-			L[i] = tii(pii(p[stp-1][i], i + cnt < N ? p[stp-1][i + cnt] : -1), i);
-		}
-		sort(L, L + N);
-		for (int i = 0; i < N; i++) {
-			p[stp][L[i].y] = i > 0 && L[i].x == L[i-1].x ? p[stp][L[i-1].y] : i;
-		}
-	}
-	return stp - 1; // result is in p[stp - 1][0 .. (N - 1)]
-}
-\end{lstlisting}
+\lstinputlisting{code/strings/suffixarray.cpp}
 
 \subsection{Longest Common Subsequence $\mathcal{O}(n^{2})$}
 \textsc{Substring}: \textit{consecutive characters}\,!!!
 
-\begin{lstlisting}
-int dp[STR_SIZE][STR_SIZE]; // DP problem
-
-int lcs(const string &w1, const string &w2) {
-	int n1 = w1.size(), n2 = w2.size();
-	for (int i = 0; i < n1; i++) {
-		for (int j = 0; j < n2; j++) {
-			if (i == 0 || j == 0) dp[i][j] = 0;
-			else if (w1[i - 1] == w2[j - 1]) dp[i][j] = dp[i - 1][j - 1] + 1;
-			else dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
-		}
-	}
-	return dp[n1][n2];
-}
-
-// backtrace
-string getLCS(const string &w1, const string &w2) {
-	int i = w1.size(), j = w2.size();
-	string ret = "";
-	while (i > 0 && j > 0) {
-		if (w1[i - 1] == w2[j - 1]) ret += w1[--i], j--;
-		else if (dp[i][j - 1] > dp[i - 1][j]) j--;
-		else i--;
-	}
-	reverse(ret.begin(), ret.end());
-	return ret;
-}
-\end{lstlisting}
+\lstinputlisting{code/strings/lcs.cpp}
 
 \subsection{Levenshtein Distance $\mathcal{O}(n^{2})$}
 
 Also known as the `Edit distance'.
 
-\begin{lstlisting}
-int dp[MAX_SIZE][MAX_SIZE]; // DP problem
-
-int levDist(const string &w1, const string &w2) {
-	int n1 = w1.size(), n2 = w2.size();
-	for (int i = 0; i <= n1; i++) dp[i][0] = i; // removal
-	for (int j = 0; j <= n2; j++) dp[0][j] = j; // insertion
-	for (int i = 1; i <= n1; i++)
-		for (int j = 1; j <= n2; j++)
-			dp[i][j] = min(
-				1 + min(dp[i - 1][j], dp[i][j - 1]),
-				dp[i - 1][j - 1] + (w1[i - 1] != w2[j - 1])
-			);
-	return dp[n1][n2];
-}
-\end{lstlisting}
+\lstinputlisting{code/strings/edit_dist.cpp}
 
 \subsection{Knuth-Morris-Pratt algorithm $\mathcal{O}(N + M)$}
 
-\begin{lstlisting}
-int kmp_search(const string &word, const string &text) {
-	int n = word.size();
-	vi T(n + 1, 0);
-	for (int i = 1, j = 0; i < n; ) {
-		if (word[i] == word[j]) T[++i] = ++j; // match
-		else if (j > 0) j = T[j]; // fallback
-		else i++; // no match, keep zero
-	}
-	int matches = 0;
-	for (int i = 0, j = 0; i < text.size(); ) {
-		if (text[i] == word[j]) {
-			i++;
-			if (++j == n) { // match at interval [i - n, i)
-				matches++;
-				j = T[j];
-			}
-		} else if (j > 0) j = T[j];
-		else i++;
-	}
-	return matches;
-}
-\end{lstlisting}
+\lstinputlisting{code/strings/kmp.cpp}
 
 \subsection{Aho-Corasick Algorithm $\mathcal{O}(N + \sum_{i=1}^{m} |S_i|)$}
 
 All given P must be unique!
 
-\begin{lstlisting}
-const int MAXP = 100, MAXLEN = 200, SIGMA = 26, MAXTRIE = MAXP * MAXLEN;
-
-int nP;
-string P[MAXP], S;
-
-int pnr[MAXTRIE], to[MAXTRIE][SIGMA], sLink[MAXTRIE], dLink[MAXTRIE], nnodes;
-
-void ahoCorasick() {
-	fill_n(pnr, MAXTRIE, -1);
-	for (int i = 0; i < MAXTRIE; i++) fill_n(to[i], SIGMA, 0);
-	fill_n(sLink, MAXTRIE, 0);
-	fill_n(dLink, MAXTRIE, 0);
-	nnodes = 1;
-	// STEP 1: MAKE A TREE
-	for (int i = 0; i < nP; i++) {
-		int cur = 0;
-		for (char c : P[i]) {
-			int i = c - 'a';
-			if (to[cur][i] == 0) to[cur][i] = nnodes++;
-			cur = to[cur][i];
-		}
-		pnr[cur] = i;
-	}
-	// STEP 2: CREATE SUFFIX_LINKS AND DICT_LINKS
-	queue<int> q;
-	q.push(0);
-	while (!q.empty()) {
-		int cur = q.front();
-		q.pop();
-		for (int c = 0; c < SIGMA; c++) {
-			if (to[cur][c]) {
-				int sl = sLink[to[cur][c]] = cur == 0 ? 0 : to[sLink[cur]][c];
-				// if all strings have equal length, remove this:
-				dLink[to[cur][c]] = pnr[sl] >= 0 ? sl : dLink[sl];
-				q.push(to[cur][c]);
-			} else to[cur][c] = to[sLink[cur]][c];
-		}
-	}
-	// STEP 3: TRAVERSE S
-	for (int cur = 0, i = 0, n = S.size(); i < n; i++) {
-		cur = to[cur][S[i] - 'a'];
-		for (int hit = pnr[cur] >= 0 ? cur : dLink[cur]; hit; hit = dLink[hit]) {
-			cerr << P[pnr[hit]] << " found at [" << (i + 1 - P[pnr[hit]].size()) << ", " << i << "]" << endl;
-		}
-	}
-}
-\end{lstlisting}
+\lstinputlisting{code/strings/aho_corasick.cpp}
 
 \section{Geometry}
 
-\begin{lstlisting}
-const double EPS = 1e-7, PI = acos(-1.0);
-
-typedef long long NUM; // EITHER double OR long long
-typedef pair<NUM, NUM> pt;
-#define x first
-#define y second
-
-pt operator+(pt p, pt q) { return pt(p.x + q.x, p.y + q.y); }
-pt operator-(pt p, pt q) { return pt(p.x - q.x, p.y - q.y); }
-
-pt& operator+=(pt &p, pt q) { return p = p + q; }
-pt& operator-=(pt &p, pt q) { return p = p - q; }
-
-pt operator*(pt p, NUM l) { return pt(p.x * l, p.y * l); }
-pt operator/(pt p, NUM l) { return pt(p.x / l, p.y / l); }
-
-NUM operator*(pt p, pt q) { return p.x * q.x + p.y * q.y; }
-NUM operator^(pt p, pt q) { return p.x * q.y - p.y * q.x; }
-
-istream& operator>>(istream &in, pt &p) { return in >> p.x >> p.y; }
-ostream& operator<<(ostream &out, pt p) { return out << '(' << p.x << ", " << p.y << ')'; }
-
-NUM lenSq(pt p) { return p * p; }
-NUM lenSq(pt p, pt q) { return lenSq(p - q); }
-double len(pt p) { return hypot(p.x, p.y); } // more overflow safe
-double len(pt p, pt q) { return len(p - q); }
-
-typedef pt frac;
-typedef pair<double, double> vec;
-vec getvec(pt p, pt dp, frac t) { return vec(p.x + 1. * dp.x * t.x / t.y, p.y + 1. * dp.y * t.x / t.y); }
-
-// square distance from pt a to line bc
-frac distPtLineSq(pt a, pt b, pt c) {
-	a -= b, c -= b;
-	return frac((a ^ c) * (a ^ c), c * c);
-}
-
-// square distance from pt a to linesegment bc
-frac distPtSegmentSq(pt a, pt b, pt c) {
-	a -= b; c -= b;
-	NUM dot = a * c, len = c * c;
-	if (dot <= 0) return frac(a * a, 1);
-	if (dot >= len) return frac((a - c) * (a - c), 1);
-	return frac(a * a * len - dot * dot, len);
-}
-
-// projects pt a onto linesegment bc
-frac proj(pt a, pt b, pt c) { return frac((a - b) * (c - b), (c - b) * (c - b)); }
-vec projv(pt a, pt b, pt c) { return getvec(b, c - b, proj(a, b, c)); }
-
-bool collinear(pt a, pt b, pt c) { return ((a - b) ^ (a - c)) == 0; }
-
-bool pointOnSegment(pt a, pt b, pt c) {
-	NUM dot = (a - b) * (c - b), len = (c - b) * (c - b);
-	return collinear(a, b, c) && 0 <= dot && dot <= len;
-}
-
-// true => 1 intersection, false => parallel, so 0 or \infty solutions
-bool linesIntersect(pt a, pt b, pt c, pt d) { return ((a - b) ^ (c - d)) != 0; }
-vec lineLineIntersection(pt a, pt b, pt c, pt d) {
-	double det = (a - b) ^ (c - d);
-	pt ret = (c - d) * (a ^ b) - (a - b) * (c ^ d);
-	return vec(ret.x / det, ret.y / det);
-}
-
-// dp, dq are directions from p, q
-// intersection at p + t_i dp, for 0 <= i < return value
-int segmentIntersection(pt p, pt dp, pt q, pt dq, frac &t0, frac &t1)
-{
-	if (dp * dp == 0) swap(p, q), swap(dp, dq); // dq = 0
-	if (dp * dp == 0) { t0 = t1 = frac(0, 1); return p == q; } // dp = dq = 0
-
-	pt dpq = (q - p);
-	NUM c = dp ^ dq, c0 = dpq ^ dp, c1 = dpq ^ dq;
-	if (c == 0) { // parallel, dp > 0, dq >= 0
-		if (c0 != 0) return 0; // not collinear
-		NUM v0 = dpq * dp, v1 = v0 + dq * dp, dp2 = dp * dp;
-		if (v1 < v0) swap(v0, v1);
-		t0 = frac(v0 = max(v0, (NUM) 0), dp2);
-		t1 = frac(v1 = min(v1, dp2), dp2);
-		return (v0 <= v1) + (v0 < v1);
-	} else if (c < 0) c = -c, c0 = -c0, c1 = -c1;
-	t0 = t1 = frac(c1, c);
-	return 0 <= min(c0, c1) && max(c0, c1) <= c;
-}
-
-// Returns TWICE the area of a polygon to keep it an integer
-NUM polygonTwiceArea(const vector<pt> &pts) {
-	NUM area = 0;
-	for (int N = pts.size(), i = 0, j = N - 1; i < N; j = i++)
-		area += pts[i] ^ pts[j];
-	return abs(area); // area < 0 <=> pts ccw
-}
-
-bool pointInPolygon(pt p, const vector<pt> &pts) {
-	double sum = 0;
-	for (int N = pts.size(), i = 0, j = N - 1; i < N; j = i++) {
-		if (pointOnSegment(p, pts[i], pts[j])) return true; // boundary
-		double angle = acos((pts[i] - p) * (pts[j] - p) / len(pts[i], p) / len(pts[j], p));
-		sum += ((pts[i] - p) ^ (pts[j] - p)) < 0 ? angle : -angle;
-	}
-	return abs(abs(sum) - 2 * PI) < EPS;
-}
-\end{lstlisting}
-
-\begin{comment}
-// Assumption: polygon has unique points
-// 0: no, 1: yes, 2: on boundary
-int pointInConvex(pt p, const vector<pt> &pts) {
-bool onBoundary = false;
-for (int N = pts.size(), sgn = 0, i = 0, j = N - 1; i < N; j = i++) {
-NUM cross = (pts[i] - p) ^ (pts[j] - p);
-int s = (cross > 0) - (cross < 0);
-if (cross == 0) onBoundary = true;
-else if (sgn == 0) sgn = s;
-else if (sgn != s) return 0;
-}
-return onBoundary ? 2 : 1;
-}
-\end{comment}
+\lstinputlisting{code/geometry/main.cpp}
 
 \subsection{Convex Hull $\mathcal{O}(n \log n)$}
 
-\begin{lstlisting}
-// points are given by: pts[ret[0]], pts[ret[1]], ... pts[ret[ret.size()-1]]
-vi convexHull(const vector<pt> &pts) {
-	if (pts.empty()) return vi();
-	vi ret;
-	// find one outer point:
-	int fsti = 0, n = pts.size();
-	pt fstpt = pts[0];
-	for(int i = n; i--; ) {
-		if (pts[i] < fstpt) fstpt = pts[fsti = i];
-	}
-	ret.pb(fsti);
-	pt refr = pts[fsti];
-
-	vi ord; // index into pts
-	for (int i = n; i--; ) {
-		if (pts[i] != refr) ord.pb(i);
-	}
-	sort(ord.begin(), ord.end(), [&pts, &refr] (int a, int b) -> bool {
-		NUM cross = (pts[a] - refr) ^ (pts[b] - refr);
-		return cross != 0 ? cross > 0 : lenSq(refr, pts[a]) < lenSq(refr, pts[b]);
-	});
-	for (int i : ord) {
-		// NOTE: > INCLUDES points on the hull-line, >= EXCLUDES
-		while (ret.size() > 1 &&
-				((pts[ret[ret.size()-2]]-pts[ret.back()]) ^ (pts[i]-pts[ret.back()])) >= 0)
-			ret.pop_back();
-		ret.pb(i);
-	}
-	return ret;
-}
-\end{lstlisting}
+\lstinputlisting{code/geometry/convex_hull.cpp}
 
 \subsection{Rotating Calipers $\mathcal{O}(n)$}
 
 Finds the longest distance between two points in a convex hull.
 
-\begin{lstlisting}
-NUM rotatingCalipers(vector<pt> &hull) {
-	int n = hull.size(), a = 0, b = 1;
-	if (n <= 1) return 0.0;
-	while (((hull[1] - hull[0]) ^ (hull[(b + 1) % n] - hull[b])) > 0) b++;
-	NUM ret = 0.0;
-	while (a < n) {
-		ret = max(ret, lenSq(hull[a], hull[b]));
-		if (((hull[(a + 1) % n] - hull[a % n]) ^ (hull[(b + 1) % n] - hull[b])) <= 0) a++;
-		else if (++b == n) b = 0;
-	}
-	return ret;
-}
-\end{lstlisting}
+\lstinputlisting{code/geometry/rotating_calipers.cpp}
 
 \subsection{Closest points $\mathcal{O}(n \log n)$}
 
-\begin{lstlisting}
-int n;
-pt pts[maxn];
-
-struct byY {
-	bool operator()(int a, int b) const { return pts[a].y < pts[b].y; }
-};
-
-inline NUM dist(pii p) {
-	return hypot(pts[p.x].x - pts[p.y].x, pts[p.x].y - pts[p.y].y);
-}
-
-pii minpt(pii p1, pii p2) {
-	return (dist(p1) < dist(p2)) ? p1 : p2;
-}
-
-// closest pts (by index) inside pts[l ... r], with sorted y values in ys
-pii closest(int l, int r, vi &ys) {
-	if (r - l == 2) { // don't assume 1 here.
-		ys = { l, l + 1 };
-		return pii(l, l + 1);
-	} else if (r - l == 3) { // brute-force
-		ys = { l, l + 1, l + 2 };
-		sort(ys.begin(), ys.end(), byY());
-		return minpt(pii(l, l + 1), minpt(pii(l, l + 2), pii(l + 1, l + 2)));
-	}
-	int m = (l + r) / 2;
-	vi yl, yr;
-	pii delta = minpt(closest(l, m, yl), closest(m, r, yr));
-	NUM ddelta = dist(delta), xm = .5 * (pts[m-1].x + pts[m].x);
-	merge(yl.begin(), yl.end(), yr.begin(), yr.end(), back_inserter(ys), byY());
-	deque<int> q;
-	for (int i : ys) {
-		if (abs(pts[i].x - xm) <= ddelta) {
-			for (int j : q) delta = minpt(delta, pii(i, j));
-			q.pb(i);
-			if (q.size() > 8) q.pop_front(); // magic from Introduction to Algorithms.
-		}
-	}
-	return delta;
-}
-\end{lstlisting}
+\lstinputlisting{code/geometry/closest_points.cpp}
 
 \section{Miscellaneous}
 \subsection{Binary search $\mathcal{O}(\log (hi - lo))$}
 
-% \noindent\begin{minipage}{.45\textwidth}
-% [title={Inclusive, Exclusive}]
-\begin{lstlisting}
-bool test(int n);
-
-int search(int lo, int hi) {
-	// assert(test(lo) && !test(hi));
-	while (hi - lo > 1) {
-		int m = (lo + hi) / 2;
-		(test(m) ? lo : hi) = m;
-	}
-	// assert(test(lo) && !test(hi));
-	return lo;
-}
-\end{lstlisting}
-
-\begin{comment}
-\end{minipage}\hfill
-\begin{minipage}{.45\textwidth}
-	\begin{lstlisting}[title={Inclusive, Inclusive}]
-bool test(int n);
-	
-int lo = 0, hi = n - 1;
-// assert(test(lo) && !test(hi + 1));
-while (lo < hi) {
-	int mid = (lo + hi + 1) / 2;
-	if (test(mid)) lo = mid;
-	else hi = mid - 1;
-}
-return lo;
-	\end{lstlisting}
-\end{minipage}
-\end{comment}
+\lstinputlisting{code/binary_search.cpp}
 
 \subsection{Fast Fourier Transform $\mathcal{O}(n \log n)$}
 
 Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) = b_0 + b_1 x + \dots + b_{n/2} x^{n/2}$, FFT calculates all coefficients of $C(x) = A(x) \cdot B(x) = c_0 + c_1 x + \dots c_{n} x^{n}$, with $c_i = \sum_{j=0}^{i} a_j b_{i-j}$.
 
-\begin{lstlisting}
-typedef complex<double> cpx;
-const int logmaxn = 20, maxn = 1 << logmaxn;
-
-cpx a[maxn] = {}, b[maxn] = {}, c[maxn];
-
-void fft(cpx *src, cpx *dest) {
-	for (int i = 0, rep = 0; i < maxn; i++, rep = 0) {
-		for (int j = i, k = logmaxn; k--; j >>= 1) rep = (rep << 1) | (j & 1);
-		dest[rep] = src[i];
-	}
-	for (int s = 1, m = 1; m <= maxn; s++, m *= 2) {
-		cpx r = exp(cpx(0, 2.0 * PI / m));
-		for (int k = 0; k < maxn; k += m) {
-			cpx cr(1.0, 0.0);
-			for (int j = 0; j < m / 2; j++) {
-				cpx t = cr * dest[k + j + m / 2];
-				dest[k + j + m / 2] = dest[k + j] - t;
-				dest[k + j] += t;
-				cr *= r;
-			}
-		}
-	}
-}
-
-void multiply() {
-	fft(a, c);
-	fft(b, a);
-	for (int i = 0; i < maxn; i++) b[i] = conj(a[i] * c[i]);
-	fft(b, c);
-	for (int i = 0; i < maxn; i++) c[i] = conj(c[i]) / (1.0 * maxn);
-}
-\end{lstlisting}
+\lstinputlisting{code/fft.cpp}
 
 \subsection{Minimum Assignment (Hungarian Algorithm) $\mathcal{O}(n^{3})$}
 
-\begin{lstlisting}
-int a[MAXN + 1][MAXM + 1]; // matrix, 1-based
-
-int minimum_assignment(int n, int m) { // n rows, m columns
-	vi u(n + 1), v(m + 1), p(m + 1), way(m + 1);
-
-	for (int i = 1; i <= n; i++) {
-		p[0] = i;
-		int j0 = 0;
-		vi minv(m + 1, INF);
-		vector<char> used(m + 1, false);
-		do {
-			used[j0] = true;
-			int i0 = p[j0], delta = INF, j1;
-			for (int j = 1; j <= m; j++)
-				if (!used[j]) {
-					int cur = a[i0][j] - u[i0] - v[j];
-					if (cur < minv[j]) minv[j] = cur, way[j] = j0;
-					if (minv[j] < delta) delta = minv[j], j1 = j;
-				}
-			for (int j = 0; j <= m; j++) {
-				if(used[j]) u[p[j]] += delta, v[j] -= delta;
-				else minv[j] -= delta;
-			}
-			j0 = j1;
-		} while (p[j0] != 0);
-		do {
-			int j1 = way[j0];
-			p[j0] = p[j1];
-			j0 = j1;
-		} while (j0);
-	}
-
-	// column j is assigned to row p[j]
-	// for (int j = 1; j <= m; ++ j) ans[p[j]] = j;
-	return -v[0];
-}
-\end{lstlisting}
+\lstinputlisting{code/minimum_assignment.cpp}
 
 \subsection{Partial linear equation solver $\mathcal{O}(N^3)$}
 
+<<<<<<< HEAD
 \begin{lstlisting}
 typedef double NUM;
 
@@ -854,4 +414,8 @@ int solvemat(int n)
 }
 \end{lstlisting}
 \end{multicols*}
+=======
+\lstinputlisting{code/matrix_solver.cpp}
+
+>>>>>>> 6f9e7f0f4b6e0690dfea4b352511edebd24ac35b
 \end{document}
