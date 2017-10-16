@@ -1,49 +1,36 @@
+const int maxn = 300;
 struct edge {
-	// to, rev, flow, capacity, weight
-	int t, r; ll f, c, w;
-	edge(int _t, int _r, ll _c, ll _w) : t(_t), r(_r), f(0), c(_c), w(_w) {}
+	int x, y; ll f, c, w;
+	edge(int _x, int _y, ll _c, ll _w) : x(_x), y(_y), f(0), c(_c), w(_w) {}
 };
+int nnodes, par[maxn]; ll dist[maxn]; vector<edge> g;
+inline void addEdge(int f, int t, ll c, ll w) {
+	g.eb(f, t, c, w); g.eb(t, f, 0, -w);
+}
 
-int n, par[MAXN]; vector<edge> adj[MAXN]; ll dist[MAXN];
-
-bool findPath(int s, int t) {
-	fill_n(dist, n, LLINF); fill_n(par, n, -1);
-
-	priority_queue< pii, vector<pii>, greater<pii> > q;
-	q.push(pii(dist[s] = 0, s));
-
-	while (!q.empty()) {
-		int d = q.top().x, v = q.top().y; q.pop();
-		if (d > dist[v]) continue;
-
-		for (edge e : adj[v]) {
-			if (e.f < e.c && d + e.w < dist[e.t]) {
-				q.push(pii(dist[e.t] = d + e.w, e.t)); par[e.t] = e.r;
+bool sp(int s, int t) {
+	fill_n(dist, nnodes, LLINF); dist[s] = 0;
+	for (int ng = g.size(), ntimes = nnodes; ntimes--; ) {
+		bool ok = false;
+		for (int i = 0; i < ng; i++)
+			if (dist[g[i].x] != LLINF && g[i].f < g[i].c && dist[g[i].x] + g[i].w < dist[g[i].y]) {
+				dist[g[i].y] = dist[g[i].x] + g[i].w;
+				par[g[i].y] = i; ok = true;
 			}
-		}
+		if (!ok) break;
 	}
-	return dist[t] < INF;
+	return dist[t] < LLINF;
 }
 
-pair<ll, ll> minCostMaxFlow(int s, int t) {
-	ll cost = 0, flow = 0;
-	while (findPath(s, t)) {
-		ll f = INF, c = 0; int cur = t;
-		while (cur != s) {
-			const edge &rev = adj[cur][par[cur]], &e = adj[rev.t][rev.r];
-			f = min(f, e.c - e.f); cur = rev.t;
-		}
-		cur = t;
-		while (cur != s) {
-			edge &rev = adj[cur][par[cur]], &e = adj[rev.t][rev.r];
-			c += e.w; e.f += f; rev.f -= f; cur = rev.t;
-		}
-		cost += f * c; flow += f;
+pair<ll, ll> minCostMaxFlow(int N, int s, int t) {
+	nnodes = N; ll c = 0, f = 0;
+	while (sp(s, t)) {
+		ll df = LLINF, dc = 0;
+		for (int cur = t, e; e = par[cur], cur != s; cur = g[e].x)
+			df = min(df, g[e].c - g[e].f);
+		for (int cur = t, e; e = par[cur], cur != s; cur = g[e].x)
+			g[e].f += df, g[e^1].f -= df, dc += g[e].w;
+		f += df; c += dc * df;
 	}
-	return pair<ll, ll>(cost, flow);
-}
-
-inline void addEdge(int from, int to, ll cap, ll weight) {
-	adj[from].pb(edge(to, adj[to].size(), cap, weight));
-	adj[to].pb(edge(from, adj[from].size() - 1, 0, -weight));
+	return make_pair(c, f);
 }
