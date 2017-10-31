@@ -1,36 +1,30 @@
 const int maxn = 300;
-struct edge {
-	int x, y; ll f, c, w;
-	edge(int _x, int _y, ll _c, ll _w) : x(_x), y(_y), f(0), c(_c), w(_w) {}
-};
-int nnodes, par[maxn]; ll dist[maxn]; vector<edge> g;
-inline void addEdge(int f, int t, ll c, ll w) {
-	g.eb(f, t, c, w); g.eb(t, f, 0, -w);
+
+struct edge { ll x, y, f, c, w; };
+ll V, par[maxn], D[maxn]; vector<edge> g;
+inline void addEdge(int u, int v, ll c, ll w) {
+	g.pb({u, v, 0, c, w});
+	g.pb({v, u, 0, 0, -w});
 }
 
-bool sp(int s, int t) {
-	fill_n(dist, nnodes, LLINF); dist[s] = 0;
-	for (int ng = g.size(), ntimes = nnodes; ntimes--; ) {
+void sp(int s, int t) {
+	fill_n(D, V, LLINF); D[s] = 0;
+	for (int ng = g.size(), _ = V; _--; ) {
 		bool ok = false;
 		for (int i = 0; i < ng; i++)
-			if (dist[g[i].x] != LLINF && g[i].f < g[i].c && dist[g[i].x] + g[i].w < dist[g[i].y]) {
-				dist[g[i].y] = dist[g[i].x] + g[i].w;
+			if (D[g[i].x] != LLINF && g[i].f < g[i].c && D[g[i].x] + g[i].w < D[g[i].y]) {
+				D[g[i].y] = D[g[i].x] + g[i].w;
 				par[g[i].y] = i; ok = true;
 			}
 		if (!ok) break;
 	}
-	return dist[t] < LLINF;
 }
 
-pair<ll, ll> minCostMaxFlow(int N, int s, int t) {
-	nnodes = N; ll c = 0, f = 0;
-	while (sp(s, t)) {
+void minCostMaxFlow(int s, int t, ll &c, ll &f) {
+	for (c = f = 0; sp(s, t), D[t] < LLINF; ) {
 		ll df = LLINF, dc = 0;
-		for (int cur = t, e; e = par[cur], cur != s; cur = g[e].x)
-			df = min(df, g[e].c - g[e].f);
-		for (int cur = t, e; e = par[cur], cur != s; cur = g[e].x)
-			g[e].f += df, g[e^1].f -= df, dc += g[e].w;
+		for (int v = t, e; e = par[v], v != s; v = g[e].x) df = min(df, g[e].c - g[e].f);
+		for (int v = t, e; e = par[v], v != s; v = g[e].x) g[e].f += df, g[e^1].f -= df, dc += g[e].w;
 		f += df; c += dc * df;
 	}
-	return make_pair(c, f);
 }
