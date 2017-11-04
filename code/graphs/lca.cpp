@@ -1,21 +1,18 @@
-struct node {
-  node *p, *jmp[20];
-  int depth;
-  node(node *_p = NULL) : p(_p) {
-    depth = p ? 1 + p->depth : 0;
-    memset(jmp, 0, sizeof(jmp));
-    jmp[0] = p;
-    for (int i = 1; (1<<i) <= depth; i++)
-      jmp[i] = jmp[i-1]->jmp[i-1]; } };
-node* st[100000];
-node* lca(node *a, node *b) {
-  if (!a || !b) return NULL;
-  if (a->depth < b->depth) swap(a,b);
-  for (int j = 19; j >= 0; j--)
-    while (a->depth - (1<<j) >= b->depth) a = a->jmp[j];
-  if (a == b) return a;
-  for (int j = 19; j >= 0; j--)
-    while (a->depth >= (1<<j) && a->jmp[j] != b->jmp[j])
-      a = a->jmp[j], b = b->jmp[j];
-  return a->p; }
-// vim: cc=60 ts=2 sts=2 sw=2:
+const int LOGSZ = 20, SZ = 1 << LOGSZ;
+int P[SZ], BP[SZ][LOGSZ];
+
+void initLCA() { // assert P[root] == root
+	rep(i, 0, SZ) BP[i][0] = P[i];
+	rep(j, 1, LOGSZ) rep(i, 0, SZ)
+		BP[i][j] = BP[BP[i][j-1]][j-1];
+}
+
+int LCA(int a, int b) {
+	if (H[a] > H[b]) swap(a, b);
+	int dh = H[b] - H[a], j = 0;
+	rep(i, 0, LOGSZ) if (dh & (1 << i)) b = BP[b][i];
+	while (BP[a][j] != BP[b][j]) j++;
+	while (--j >= 0) if (BP[a][j] != BP[b][j])
+		a = BP[a][j], b = BP[b][j];
+	return a == b ? a : P[a];
+}
