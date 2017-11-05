@@ -83,11 +83,11 @@
 % \newpage
 
 \begin{center}
-At the start of a contest, type this in a terminal:
+At the start of a contest, create the following files in the home-dir:
 \end{center}
 
-% \lstinputlisting{code/start.sh}
-\inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,linenos,tabsize=2]{bash}{code/start.sh}
+.vimrc: \inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,linenos,tabsize=2]{vim}{code/.vimrc}
+.bashrc: \inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,linenos,tabsize=2]{bash}{code/.bashrc}
 \textbf{Test script} (usage: ./test.sh A/B/..)
 \inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,tabsize=2]{bash}{code/test.sh}
 
@@ -101,40 +101,34 @@ template.cpp
 
 \begin{itemize}
 	\setlength\itemsep{-.25em}
-	\item Goed slapen \& een vroeg ritme hebben
-	\item Genoeg drinken \& eten voor en tijdens de wedstrijd
-	\item Een lijst van alle problemen met info waar het over gaat, en wie het goed kan oplossen
-	\item Ludo moet {\huge\textbf{ALLE}} opgaves \textbf{goed} lezen
-	\item Test de kleine voorbeeldgevallen
-	\item Houd na 2 uur een pauze en overleg waar iedereen mee bezig is
-	\item Maak zelf wat test-cases
-	\item Typ de dingen uit de TCR, die je zeker nodig hebt, alvast in
-	\item Als iemand niks te doen heeft, kan hij nodige dingen uit de TCR typen.
-	\item We moeten ook een voorbeeld test-case voor TCR algoritmes hebben om te testen of het goed overgetypt is
-	\item Bij geometrie moeten we om kunnen gaan met meerdere input manieren (voor bv. lijnen)
-	\item Gebruik veel long long\textquotesingle s
+	\item Slaap goed \& heb een vroeg ritme!
+	\item Drink \& eet genoeg voor \& tijdens de wedstrijd!
+	\item Houd een lijst bij met info over alle problemen.
+	\item Ludo moet {\huge\textbf{ALLE}} opgaves \textbf{goed} lezen!
+	\item Analyseer de voorbeeld test cases.
+	\item Houd na 2 uur een pauze en overleg waar iedereen mee bezig is.
+	\item Maak zelf (zware) test cases.
+	\item Gebruik \texttt{ll} indien wellicht nodig.
 \end{itemize}
 
 \subsection{Wrong Answer}
 
 \begin{enumerate}
 	\setlength\itemsep{-.25em}
-	\item Print de oplossing om te debuggen! Kijk ook naar andere (mogelijk makkelijkere) problemen.
-	\item Bedenk zelf test-cases met \textbf{randgevallen}!
-	\item Controleer op \textbf{overflow} (gebruik \textbf{OVERAL} long long, long double).
-		\\ \textit{Kijk naar overflows in tussenantwoorden bij modulo.}
+	\item Print de oplossing om te debuggen!
+	\item Kijk naar wellicht makkelijkere problemen.
+	\item Bedenk zelf test cases met \textbf{randgevallen}!
 	\item Controleer de \textbf{precisie}.
+	\item Controleer op \textbf{overflow} (gebruik \textbf{OVERAL} \texttt{ll}, \texttt{ld}).
+		\\ \textit{Kijk naar overflows in tussenantwoorden bij modulo.}
 	\item Controleer op \textbf{typo\textquotesingle s}.
-	\item Loop de voorbeeldinput accuraat langs.
-	\item Controller op off-by-one-errors (in indices of lus-grenzen)?
+	\item Loop de voorbeeld test case accuraat langs.
+	\item Controleer op off-by-one-errors (in indices of lus-grenzen)?
 \end{enumerate}
 
-\subsection{Detecting overflow}
-These are GNU builtins, detect both over- and underflow. Returns a boolean upon failure, otherwise the result is present in \texttt{ref}. Follow the template:
-
-\begin{lstlisting}
-bool isOverflown = __builtin_[add|mul|sub]_overflow(a, b, \&res);
-\end{lstlisting}
+\textbf{Detecting overflow}
+This GNU builtin checks for over- and underflow. Result is in \texttt{res} if successful:
+\code{other/overflow.cpp}
 
 \subsection{Covering problems}
 
@@ -173,7 +167,7 @@ A game can be reduced to Nim if it is a finite impartial game. Nim and its varia
 \end{description}
 % \end{comment}
 
-A useful identity: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{mod} \, 4]$.
+\textbf{A useful identity}: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{mod} \, 4]$.
 
 \section{math}
 

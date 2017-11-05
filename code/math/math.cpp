@@ -38,16 +38,11 @@ ll egcd(ll a, ll b, ll &x, ll &y) {
 	return a;
 }
 
-// Chinese remainder theorem
-const pll NO_SOLUTION(0, -1);
-// Returns (u, v) such that x = u % v <=> x = a % n and x = b % m
-pll crt(ll a, ll n, ll b, ll m) {
-	ll s, t, d = egcd(n, m, s, t), nm = n * m;
-	if (mod(a - b, d)) return NO_SOLUTION;
-	return pll(mod(s * b * n + t * a * m, nm) / d, nm / d);
-	/* when n, m > 10^6, avoid overflow:
-	return pll(mod(mod_mul(mod_mul(s, b, nm), n, nm)
-	             + mod_mul(mod_mul(t, a, nm), m, nm), nm) / d, nm / d); */
+// Chinese remainder theorem: returns (u, v) s.t.: x = u (mod v) <=> x = a (mod n) and x = b (mod m) for n,m <= 1e9
+pair<ll, ll> crt(ll a, ll n, ll b, ll m) {
+	ll s, t, d = egcd(n, m, s, t);
+	if (mod(a - b, d)) return { 0, -1 };
+	return { mod(s*b%m*n + t*a%n*m, n*m)/d, n*m/d };
 }
 
 // phi[i] = #{ 0 < j <= i | gcd(i, j) = 1 }
