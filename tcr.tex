@@ -322,8 +322,23 @@ Use this easy implementation for a map:
 	\code{datastructures/sparse_table.cpp}
 
 \section{Graph Algorithms}
+
+\subsection{Shortest path}
+
+\subsubsection{Dijkstra $\mathcal{O}(|E|\log{|V|})$}
+\code{graphs/dijkstra.cpp}
+
+\subsubsection{Floyd-Warshall $\mathcal{O}(V^{3})$}
+\code{graphs/floydwarshall.cpp}
+
+\subsubsection{Bellman Ford $\mathcal{O}(V E)$}
+This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
+\code{graphs/bellmanford.cpp}
+
+\subsubsection{IDA$^\star$ algorithm}
+\code{graphs/idastar.cpp}
+
 \subsection{Maximum matching $\mathcal{O}(n m)$}
-% This problem could be solved with a flow algorithm like Dinic's algorithm which runs in $\mathcal{O} (E \sqrt{V})$, too.
 \code{graphs/maxmatch.cpp}
 
 \subsection{Hopcroft-Karp bipartite matching $\mathcal{O}(E \sqrt{V})$}
@@ -349,21 +364,6 @@ Include \texttt{findSCC}.
 
 \subsection{Cycle Detection $\mathcal{O}(V + E)$}
 \code{findcycle.cpp}
-
-\subsection{Shortest path}
-
-\subsubsection{Dijkstra $\mathcal{O}(|E|\log{|V|})$}
-\code{graphs/dijkstra.cpp}
-
-\subsubsection{Floyd-Warshall $\mathcal{O}(V^{3})$}
-\code{graphs/floydwarshall.cpp}
-
-\subsubsection{Bellman Ford $\mathcal{O}(V E)$}
-This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
-\code{graphs/bellmanford.cpp}
-
-\subsubsection{IDA$^\star$ algorithm}
-\code{graphs/idastar.cpp}
 
 \subsection{Maximum Flow Algorithms}
 \subsubsection{Dinic's Algorithm $\mathcal{O}(V^{2} E)$}
@@ -410,6 +410,9 @@ And an undirected version, which finds a cycle.
 
 \subsection{Tarjan's Off-line Lowest Common Ancestors Algorithm}
 \code{graphs/tarjan_olca.cpp}
+
+\subsection{Misra-Gries $D+1$-edge coloring}
+\code{graphs/MisraGries.cpp}
 
 \subsection{Minimum Mean Weight Cycle}
 Given a strongly connected directed graph, finds the cycle of minimum
