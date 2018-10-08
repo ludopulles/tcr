@@ -50,11 +50,6 @@ vec projv(pt a, pt b, pt c) { return getvec(b, c - b, proj(a, b, c)); }
 
 bool collinear(pt a, pt b, pt c) { return ((a - b) ^ (a - c)) == 0; }
 
-bool pointOnSegment(pt a, pt b, pt c) {
-	NUM dot = (a - b) * (c - b), len = (c - b) * (c - b);
-	return collinear(a, b, c) && 0 <= dot && dot <= len;
-}
-
 // true => 1 intersection, false => parallel, so 0 or \infty solutions
 bool linesIntersect(pt a, pt b, pt c, pt d) { return ((a - b) ^ (c - d)) != 0; }
 vec lineLineIntersection(pt a, pt b, pt c, pt d) {
@@ -88,11 +83,21 @@ NUM polygonTwiceArea(const vector<pt> &pts) {
 	return abs(area); // area < 0 <=> pts ccw
 }
 
-bool pointInPolygon(pt p, const vector<pt> &pts) {
-	double sum = 0;
+bool segmenthaspt(pt s, pt e, pt p) {
+	pt ds = p-s, de = p-e;
+	return (ds ^ de) == 0LL && (ds * de) <= 0LL;
+}
+
+bool insidePolygon(const vector<pt> &pts, pt p, bool strict = true) {
+	int n = 0;
 	for (int N = pts.size(), i = 0, j = N - 1; i < N; j = i++) {
-		if (pointOnSegment(p, pts[i], pts[j])) return true; // boundary
-		double angle = acos((pts[i] - p) * (pts[j] - p) / len(pts[i], p) / len(pts[j], p));
-		sum += ((pts[i] - p) ^ (pts[j] - p)) < 0 ? angle : -angle;}
-	return abs(abs(sum) - 2 * PI) < EPS;
+		// if p is on edge of polygon
+		if (segmenthaspt(pts[i], pts[j], p)) return !strict;
+		// or: if(distPtSegmentSq(p, pts[i], pts[j]) <= EPS) return !strict;
+
+		// increment n if segment intersects line from p
+		n += (max(pts[i].y, pts[j].y) > p.y && min(pts[i].y, pts[j].y) <= p.y &&
+			(((pts[j] - pts[i])^(p-pts[i])) > 0) == (pts[i].y <= p.y));
+	}
+	return n & 1; // inside if odd number of intersections
 }
