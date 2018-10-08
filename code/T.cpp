@@ -1,12 +1,10 @@
-#include<bits/stdc++.h>
+#include<bits/extc++.h>
 using namespace std;
+using namespace __gnu_pbds;
 
 // BBST + order statistics (if supported by judge)
 // iterator find_by_order(int r) (zero based)
 // int order_of_key(TK v)
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-using namespace __gnu_pbds;
 template<class TK, class TM> using order_tree = tree<TK, TM, less<TK>, rb_tree_tag, tree_order_statistics_node_update>;
 template<class TV> using order_set = order_tree<TV, null_type>;
 
@@ -22,6 +20,7 @@ typedef vector<ii> vii;
 #define pb push_back
 #define eb emplace_back
 #define rep(i,a,b) for(auto i=(a);i!=(b); ++i)
+#define REP(i,n) rep(i,0,n)
 #define all(v) (v).begin(), (v).end()
 #define rs resize
 #define DBG(x) cerr << __LINE__ << ": " << #x << " = " << (x) << endl
