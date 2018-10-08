@@ -23,11 +23,12 @@ int solvemat(int n, int m) {
 		// F2: vals.set(pc, mat[pr][m]);
 		NUM div = mat[r][c];
 		for (int col = c; col <= m; col++) mat[r][col] /= div;
-		for (int row = 0; row < n; row++) {
+		REP(row, n) {
 			if (row == r) continue;
 			// F2: if (mat[row].test(c)) mat[row] ^= mat[r];
 			NUM times = -mat[row][c];
-			for (int col = c; col <= m; col++) mat[row][col] += times * mat[r][col];
+			for (int col = c; col <= m; col++)
+				mat[row][col] += times * mat[r][col];
 		}
 	} // now mat is in RREF
 	
@@ -44,8 +45,6 @@ int solvemat(int n, int m) {
 		if (hasval[col]) vals[col] = mat[row][n];
 		row++;
 	}
-
-	for (int i = 0; i < n; i++)
-		if (!hasval[i]) return 2;
+	REP(i, n) if (!hasval[i]) return 2;
 	return 1;
 }

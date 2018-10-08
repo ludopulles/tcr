@@ -10,9 +10,8 @@ int kmp_search(const string &word, const string &text) {
 	for (int i = 0, j = 0; i < text.size(); ) {
 		if (text[i] == word[j]) {
 			i++;
-			if (++j == n) { // match at interval [i - n, i)
-				matches++; j = T[j];
-			}
+			if (++j == n) // match at interval [i - n, i)
+				matches++, j = T[j];
 		} else if (j > 0) j = T[j];
 		else i++;
 	}

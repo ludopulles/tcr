@@ -1,8 +1,6 @@
 int a[MAXN + 1][MAXM + 1]; // matrix, 1-based
-
 int minimum_assignment(int n, int m) { // n rows, m columns
 	vi u(n + 1), v(m + 1), p(m + 1), way(m + 1);
-
 	for (int i = 1; i <= n; i++) {
 		p[0] = i;
 		int j0 = 0;
@@ -27,8 +25,6 @@ int minimum_assignment(int n, int m) { // n rows, m columns
 			int j1 = way[j0]; p[j0] = p[j1]; j0 = j1;
 		} while (j0);
 	}
-
 	// column j is assigned to row p[j]
-	// for (int j = 1; j <= m; ++ j) ans[p[j]] = j;
 	return -v[0];
 }
