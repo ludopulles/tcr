@@ -1,11 +1,14 @@
-int bit[MAXN + 1];
+struct BIT {
+	int n;
+	vector<ll> A;
 
-// arr[i] += v
-void update(int i, int v) {
-	while (i <= MAXN) bit[i] += v, i += i & -i;
-}
-
-// returns sum of arr[i], where i: [1, i]
-int query(int i) {
-	int v = 0; while (i) v += bit[i], i -= i & -i; return v;
-}
+	BIT(int _n) : n(_n), A(n, 0) {}
+	// A[i] += v
+	void update(int i, ll v) {
+		while (i < n) A[i] += v, i += i & -i;
+	}
+	// returns sum_{0<j<=i} A[j]
+	ll query(int i) {
+		ll v = 0; while (i > 0) v += A[i], i -= i & -i; return v;
+	}
+};
