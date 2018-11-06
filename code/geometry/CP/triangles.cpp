@@ -61,14 +61,16 @@ int circumCircle(point p1, point p2, point p3, point &ctr, double &r){
   r = dist(p1, ctr);  // r = distance from center to 1 of the 3 points
   return 1; }
 
-// returns true if point d is inside the circumCircle defined by a,b,c
-int inCircumCircle(point a, point b, point c, point d) {
-  return (a.x - d.x) * (b.y - d.y) * ((c.x - d.x) * (c.x - d.x) + (c.y - d.y) * (c.y - d.y)) +
-         (a.y - d.y) * ((b.x - d.x) * (b.x - d.x) + (b.y - d.y) * (b.y - d.y)) * (c.x - d.x) +
-         ((a.x - d.x) * (a.x - d.x) + (a.y - d.y) * (a.y - d.y)) * (b.x - d.x) * (c.y - d.y) -
-         ((a.x - d.x) * (a.x - d.x) + (a.y - d.y) * (a.y - d.y)) * (b.y - d.y) * (c.x - d.x) -
-         (a.y - d.y) * (b.x - d.x) * ((c.x - d.x) * (c.x - d.x) + (c.y - d.y) * (c.y - d.y)) -
-         (a.x - d.x) * ((b.x - d.x) * (b.x - d.x) + (b.y - d.y) * (b.y - d.y)) * (c.y - d.y) > 0 ? 1 : 0;
+// returns if pt d is inside the circumCircle defined by a,b,c
+bool inCircumCircle(point a,point b,point c,point d){
+  vec va=toVec(a, d), vb=toVec(b, d), vc=toVec(c, d);
+  return 0 <
+   (va.x)*(vb.y)*((vc.x)*(vc.x)+(vc.y)*(vc.y))+
+   (va.y)*((vb.x)*(vb.x)+(vb.y)*(vb.y))*(vc.x)+
+   ((va.x)*(va.x)+(va.y)*(va.y))*(vb.x)*(vc.y)-
+   ((va.x)*(va.x)+(va.y)*(va.y))*(vb.y)*(vc.x)-
+   (va.y)*(vb.x)*((vc.x)*(vc.x)+(vc.y)*(vc.y))-
+   (va.x)*((vb.x)*(vb.x)+(vb.y)*(vb.y))*(vc.y);
 }
 
 bool canFormTriangle(double a, double b, double c) {

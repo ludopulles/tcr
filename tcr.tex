@@ -5,12 +5,11 @@
 \usepackage{listings,multicol,parcolumns,subcaption,textcomp,titling,upquote}
 \usepackage{verbatim,wrapfig}
 
-\usepackage[scaled]{beramono}
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
-\usepackage[top=5pt, bottom=1cm, left=0.5cm, right=0.5cm]{geometry}
+\usepackage[top=1cm, bottom=1.5cm, left=1cm, right=1cm]{geometry}
 
 \usepackage{minted}
 \newcommand{\code}[1]{\inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,tabsize=2]{cpp}{code/#1}}
@@ -18,7 +17,8 @@
 \newcommand{\bashcode}[1]{\inputminted{bash}{_code/#1}}
 \newcommand{\regcode}[1]{\inputminted{cpp}{code/#1}}
 %\usemintedstyle{manni}
-\setlength{\columnseprule}{0.4pt}
+
+\setlength{\columnseprule}{.5pt}
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -79,8 +79,11 @@
 \end{center}
 \end{comment}
 
+%-------------------------------------------------------------------------------
+% BEGINNING OF THE TCR
+%-------------------------------------------------------------------------------
+
 \tableofcontents
-% \newpage
 
 \begin{center}
 At the start of a contest, create the following files in the home-dir:
@@ -177,30 +180,30 @@ A game can be reduced to Nim if it is a finite impartial game. Nim and its varia
 \code{math/primitive_root.cpp}
 
 \subsection{Tonelli-Shanks algorithm}
-        Given prime $p$ and integer $1\leq n<p$, returns the square root $r$ of
-        $n$ modulo $p$. There is also another solution given by $-r$ modulo
-        $p$.
-        \code{math/tonelli_shanks.cpp}
+Given prime $p$ and integer $1\leq n<p$, returns the square root $r$ of
+$n$ modulo $p$. There is also another solution given by $-r$ modulo
+$p$.
+\code{math/tonelli_shanks.cpp}
 
 \subsection{Numeric Integration}
-        \ifverbose
-        Numeric integration using Simpson's rule.
-        \fi
-        \code{math/numeric_integration.cpp}
+\ifverbose
+Numeric integration using Simpson's rule.
+\fi
+\code{math/numeric_integration.cpp}
 
 \subsection{Fast Hadamard Transform}
-        Computes the Hadamard transform of the given array. Can be used to
-        compute the \texttt{XOR}-convolution of arrays, exactly like with FFT.
-        For \texttt{AND}-convolution, use $(x+y,y)$ and $(x-y,y)$. For
-        \texttt{OR}-convolution, use $(x,x+y)$ and $(x,-x+y)$. \textbf{Note}:
-        Size of array must be a power of $2$.
-        \code{math/fht.cpp}
+Computes the Hadamard transform of the given array. Can be used to
+compute the \texttt{XOR}-convolution of arrays, exactly like with FFT.
+For \texttt{AND}-convolution, use $(x+y,y)$ and $(x-y,y)$. For
+\texttt{OR}-convolution, use $(x,x+y)$ and $(x,-x+y)$. \textbf{Note}:
+Size of array must be a power of $2$.
+\code{math/fht.cpp}
 
 \subsection{Tridiagonal Matrix Algorithm}
-        Solves a tridiagonal system of linear equations $a_ix_{i-1} + b_ix_i +
-        c_ix_{i+1} = d_i$ where $a_1 = c_n = 0$. Beware of numerical
-        instability.
-        \code{math/tridiagonal.cpp}
+Solves a tridiagonal system of linear equations $a_ix_{i-1} + b_ix_i +
+c_ix_{i+1} = d_i$ where $a_1 = c_n = 0$. Beware of numerical
+instability.
+\code{math/tridiagonal.cpp}
 
 \subsection{Mertens Function}
         Mertens function is $M(n) = \sum_{i=1}^n \mu(i)$. Let $L\approx
@@ -210,44 +213,44 @@ A game can be reduced to Nim if it is a finite impartial game. Nim and its varia
             Can also be easily changed to compute the summatory $\Phi$.
         \fi
         \code{math/mertens.cpp}
-    \ifverbose
-    
-\subsection{Summatory Phi}
-        The summatory phi function $\Phi(n) = \sum_{i=1}^n \phi(i)$. Let $L\approx
-        (n\log{\log{n}})^{2/3}$ and the algorithm runs in $O(n^{2/3})$.
-        \code{math/summatory_phi.cpp}
-    \fi
+
+\ifverbose
+	\subsection{Summatory Phi}
+	The summatory phi function $\Phi(n) = \sum_{i=1}^n \phi(i)$. Let $L\approx
+	(n\log{\log{n}})^{2/3}$ and the algorithm runs in $O(n^{2/3})$.
+	\code{math/summatory_phi.cpp}
+\fi
 
 \subsection{Josephus problem}
-        Last man standing out of $n$ if every $k$th is killed. Zero-based, and
-        does not kill $0$ on first pass.
-        \code{math/josephus.cpp}
+Last man standing out of $n$ if every $k$th is killed. Zero-based, and
+does not kill $0$ on first pass.
+\code{math/josephus.cpp}
 
 \subsection{Number of Integer Points under Line}
-        Count the number of integer solutions to $Ax+By\leq C$, $0 \leq x \leq
-        n$, $0 \leq y$. In other words, evaluate the sum $\sum_{x=0}^n
-        \left\lfloor \frac{C-Ax}{B} + 1\right\rfloor$. To count all solutions,
-        let $n = \left\lfloor \frac{c}{a}\right\rfloor$. In any case, it must hold
-        that $C-nA \geq 0$. Be very careful about overflows.
-        \code{math/floor_sum.cpp}
+Count the number of integer solutions to $Ax+By\leq C$, $0 \leq x \leq
+n$, $0 \leq y$. In other words, evaluate the sum $\sum_{x=0}^n
+\left\lfloor \frac{C-Ax}{B} + 1\right\rfloor$. To count all solutions,
+let $n = \left\lfloor \frac{c}{a}\right\rfloor$. In any case, it must hold
+that $C-nA \geq 0$. Be very careful about overflows.
+\code{math/floor_sum.cpp}
 
 \subsection{Numbers and Sequences}
-        Some random prime numbers: 1031, 32771, 1048583, 8125344, 33554467, 9982451653
-        1073741827, 34359738421, 1099511627791, 35184372088891,
-        1125899906842679, 36028797018963971.
+Some random prime numbers: 1031, 32771, 1048583, 8125344, 33554467, 9982451653
+1073741827, 34359738421, 1099511627791, 35184372088891,
+1125899906842679, 36028797018963971.
 
-        More random prime numbers: $10^3 + \{-9,-3,9,13\}$, $10^6+
-        \{-17,3,33\}$, $10^9+ \{7,9,21,33,87\}$.
+More random prime numbers: $10^3 + \{-9,-3,9,13\}$, $10^6+
+\{-17,3,33\}$, $10^9+ \{7,9,21,33,87\}$.
 
-        Some maximal divisor counts:
-        \begin{tabular}{rr}
-        840 & 32 \\
-        720\,720 & 240 \\
-        735\,134\,400 & 1\,344 \\
-        963\,761\,198\,400 & 6\,720 \\
-        866\,421\,317\,361\,600 & 26\,880 \\
-        897\,612\,484\,786\,617\,600 & 103\,680 \\
-        \end{tabular}
+Some maximal divisor counts:
+\begin{tabular}{rr}
+840 & 32 \\
+720\,720 & 240 \\
+735\,134\,400 & 1\,344 \\
+963\,761\,198\,400 & 6\,720 \\
+866\,421\,317\,361\,600 & 26\,880 \\
+897\,612\,484\,786\,617\,600 & 103\,680 \\
+\end{tabular}
 
 \section{Datastructures}
 \subsection{Segment tree $\mathcal{O}(\log n)$}
@@ -285,41 +288,41 @@ Use this easy implementation for a map:
 \code{datastructures/cartesian_tree.cpp}
 
 \subsection{Heap}
-	An implementation of a binary heap.
-	\code{datastructures/heap.cpp}
+An implementation of a binary heap.
+\code{datastructures/heap.cpp}
 
 \subsection{Dancing Links}
-	An implementation of Donald Knuth's Dancing Links data structure. A
-	linked list supporting deletion and restoration of elements.
-	\code{datastructures/dancing_links.cpp}
+An implementation of Donald Knuth's Dancing Links data structure. A
+linked list supporting deletion and restoration of elements.
+\code{datastructures/dancing_links.cpp}
 
 \subsection{Misof Tree}
-	A simple tree data structure for inserting, erasing, and querying the
-	$n$th largest element.
-	\code{datastructures/misof_tree.cpp}
+A simple tree data structure for inserting, erasing, and querying the
+$n$th largest element.
+\code{datastructures/misof_tree.cpp}
 
 \subsection{$k$-d Tree}
-	A $k$-dimensional tree supporting fast construction, adding points, and
-	nearest neighbor queries.
-	NOTE: Not completely stable, occasionally segfaults.
-	\code{datastructures/kd_tree.cpp}
+A $k$-dimensional tree supporting fast construction, adding points, and
+nearest neighbor queries.
+NOTE: Not completely stable, occasionally segfaults.
+\code{datastructures/kd_tree.cpp}
 
 \subsection{Sqrt Decomposition}
-	Design principle that supports many operations in amortized $\sqrt{n}$ per operation.
-	\code{datastructures/sqrt_decomposition.cpp}
+Design principle that supports many operations in amortized $\sqrt{n}$ per operation.
+\code{datastructures/sqrt_decomposition.cpp}
 
 \subsection{Monotonic Queue}
-	A queue that supports querying for the minimum element. Useful for sliding window algorithms.
-	\code{datastructures/monotonic_queue.cpp}
+A queue that supports querying for the minimum element. Useful for sliding window algorithms.
+\code{datastructures/monotonic_queue.cpp}
 
 \subsection{Convex Hull Trick}
-	If converting to integers, look out for division by 0 and $\pm\infty$.
-	\code{datastructures/convex_hull_trick.cpp}
-	And dynamic variant:
-	\code{datastructures/convex_hull_trick_dynamic.cpp}
+If converting to integers, look out for division by 0 and $\pm\infty$.
+\code{datastructures/convex_hull_trick.cpp}
+And dynamic variant:
+\code{datastructures/convex_hull_trick_dynamic.cpp}
 
 \subsection{Sparse Table}
-	\code{datastructures/sparse_table.cpp}
+\code{datastructures/sparse_table.cpp}
 
 \section{Graph Algorithms}
 
@@ -492,21 +495,21 @@ All given P must be unique!
 \code{strings/aho_corasick.cpp}
 
 \subsection{eerTree}
-	Constructs an eerTree in $O(n)$, one character at a time.
-	\code{strings/eertree.cpp}
-	% http://arxiv.org/pdf/1506.04862v1.pdf
+Constructs an eerTree in $O(n)$, one character at a time.
+\code{strings/eertree.cpp}
+% http://arxiv.org/pdf/1506.04862v1.pdf
 
 \subsection{Suffix Automaton}
-	Minimum automata that accepts all suffixes of a string with $O(n)$
-	construction. The automata itself is a DAG therefore suitable for DP,
-	examples are counting unique substrings, occurrences of substrings and
-	suffix.
-	\code{strings/suffix_automaton.cpp}
+Minimum automata that accepts all suffixes of a string with $O(n)$
+construction. The automata itself is a DAG therefore suitable for DP,
+examples are counting unique substrings, occurrences of substrings and
+suffix.
+\code{strings/suffix_automaton.cpp}
 
 \subsection{Hashing}
-	Modulus should be a large prime. Can also use multiple instances with
-	different moduli to minimize chance of collision.
-	\code{strings/hasher.cpp}
+Modulus should be a large prime. Can also use multiple instances with
+different moduli to minimize chance of collision.
+\code{strings/hasher.cpp}
 
 \section{Geometry}
 \code{geometry/main.cpp}
@@ -522,76 +525,71 @@ Finds the longest distance between two points in a convex hull.
 \code{geometry/closest_points.cpp}
 
 \subsection{Great-Circle Distance}
-        Computes the distance between two points (given as latitude/longitude
-        coordinates) on a sphere of radius $r$.
-        \code{geometry/gc_distance.cpp}
+Computes the distance between two points (given as latitude/longitude
+coordinates) on a sphere of radius $r$.
+\code{geometry/gc_distance.cpp}
 
 \subsection{3D Primitives}
-        \code{geometry/primitives3d.cpp}
+\code{geometry/primitives3d.cpp}
 
 \subsection{Polygon Centroid}
-        \begin{align*}
-          C_x &= \frac{1}{6A}\sum_{i=0}^{n-1}(x_i+x_{i+1})(x_iy_{i+1} - x_{i+1}y_i) \\
-          C_y &= \frac{1}{6A}\sum_{i=0}^{n-1}(y_i+y_{i+1})(x_iy_{i+1} - x_{i+1}y_i) \\
-          A &= \frac12\sum_{i=0}^{n-1}(x_iy_{i+1}-x_{i+1}y_i)
-        \end{align*}
+\begin{align*}
+  C_x &= \frac{1}{6A}\sum_{i=0}^{n-1}(x_i+x_{i+1})(x_iy_{i+1} - x_{i+1}y_i) \\
+  C_y &= \frac{1}{6A}\sum_{i=0}^{n-1}(y_i+y_{i+1})(x_iy_{i+1} - x_{i+1}y_i) \\
+  A &= \frac12\sum_{i=0}^{n-1}(x_iy_{i+1}-x_{i+1}y_i)
+\end{align*}
 
 \subsection{Rectilinear Minimum Spanning Tree}
-        Given a set of $n$ points in the plane, and the aim is to find a
-        minimum spanning tree connecting these $n$ points, assuming the
-        Manhattan distance is used. The function \texttt{candidates} returns at
-        most $4n$ edges that are a superset of the edges in a minimum spanning
-        tree, and then one can use Kruskal's algorithm.
-        \code{geometry/rmst.cpp}
+Given a set of $n$ points in the plane, and the aim is to find a
+minimum spanning tree connecting these $n$ points, assuming the
+Manhattan distance is used. The function \texttt{candidates} returns at
+most $4n$ edges that are a superset of the edges in a minimum spanning
+tree, and then one can use Kruskal's algorithm.
+\code{geometry/rmst.cpp}
 
 \subsection{Formulas}
-        Let $a = (a_x, a_y)$ and $b = (b_x, b_y)$ be two-dimensional vectors.
-        \begin{itemize}
-            \item $a\cdot b = |a||b|\cos{\theta}$, where $\theta$ is the angle
-                between $a$ and $b$.
-            \item $a\times b = |a||b|\sin{\theta}$, where $\theta$ is the
-                signed angle between $a$ and $b$.
-            \item $a\times b$ is equal to the area of the parallelogram with
-                two of its sides formed by $a$ and $b$. Half of that is the
-                area of the triangle formed by $a$ and $b$.
-            \item \textbf{Euler's formula:} $V - E + F = 2$
-            \item Side lengths $a,b,c$ can form a triangle iff.\ $a+b>c$, $b+c>a$ and $a+c>b$.
-            \item Sum of internal angles of a regular convex $n$-gon is $(n-2)\pi$.
-            \item \textbf{Law of sines:} $\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}$
-            \item \textbf{Law of cosines:} $b^2 = a^2 + c^2 - 2ac\cos B$
-            \item Internal tangents of circles $(c_1,r_1), (c_2,r_2)$ intersect at $(c_1r_2+c_2r_1)/(r_1+r_2)$, external intersect at $(c_1r_2-c_2r_1)/(r_1+r_2)$.
-        \end{itemize}
+Let $a = (a_x, a_y)$ and $b = (b_x, b_y)$ be two-dimensional vectors.
+\begin{itemize}
+	\item $a\cdot b = |a||b|\cos{\theta}$, where $\theta$ is the angle
+		between $a$ and $b$.
+	\item $a\times b = |a||b|\sin{\theta}$, where $\theta$ is the
+		signed angle between $a$ and $b$.
+	\item $a\times b$ is equal to the area of the parallelogram with
+		two of its sides formed by $a$ and $b$. Half of that is the
+		area of the triangle formed by $a$ and $b$.
+	\item \textbf{Euler's formula:} $V - E + F = 2$
+	\item Side lengths $a,b,c$ can form a triangle iff.\ $a+b>c$, $b+c>a$ and $a+c>b$.
+	\item Sum of internal angles of a regular convex $n$-gon is $(n-2)\pi$.
+	\item \textbf{Law of sines:} $\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}$
+	\item \textbf{Law of cosines:} $b^2 = a^2 + c^2 - 2ac\cos B$
+	\item Internal tangents of circles $(c_1,r_1), (c_2,r_2)$ intersect at $(c_1r_2+c_2r_1)/(r_1+r_2)$, external intersect at $(c_1r_2-c_2r_1)/(r_1+r_2)$.
+\end{itemize}
 
 \section{Miscellaneous}
 \subsection{Binary search $\mathcal{O}(\log (hi - lo))$}
-
 \code{binary_search.cpp}
 
 \subsection{Fast Fourier Transform $\mathcal{O}(n \log n)$}
-
 Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) = b_0 + b_1 x + \dots + b_{n/2} x^{n/2}$, FFT calculates all coefficients of $C(x) = A(x) \cdot B(x) = c_0 + c_1 x + \dots c_{n} x^{n}$, with $c_i = \sum_{j=0}^{i} a_j b_{i-j}$.
-
 \code{math/fft.cpp}
 
 \subsection{Minimum Assignment (Hungarian Algorithm) $\mathcal{O}(n^{3})$}
-
 \code{minimum_assignment.cpp}
 
 \subsection{Partial linear equation solver $\mathcal{O}(N^3)$}
-
 \code{matrix_solver.cpp}
 
 \subsection{Cycle-Finding}
-        \code{other/floyds_algorithm.cpp}
+\code{other/floyds_algorithm.cpp}
 
 \subsection{Longest Increasing Subsequence}
-        \code{other/lis.cpp}
+\code{other/lis.cpp}
 
 \subsection{Dates}
-        \code{other/dates.cpp}
+\code{other/dates.cpp}
 
 \subsection{Simplex}
-        \code{other/simplex.cpp}
+\code{other/simplex.cpp}
 
 \section{Geometry (CP3)}
 \subsection{Points and lines}
@@ -604,472 +602,481 @@ Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) =
 \code{geometry/CP/circles.cpp}
 
 \section{Combinatorics}
-%TODO: CHEAT SHEET
-\begin{tabular}{@{}l|l|l@{}}
-    \toprule
-    Catalan	&	$C_0=1$, $C_n=\frac{1}{n+1}\binom{2n}{n} = \sum_{i=0}^{n-1}C_iC_{n-i-1} = \frac{4n-2}{n+1}C_{n-1}$  & \\
-    Stirling 1st kind & $\left[{0\atop 0}\right]=1$, $\left[{n\atop 0}\right]=\left[{0\atop n}\right]=0$, $\left[{n\atop k}\right]=(n-1)\left[{n-1\atop k}\right]+\left[{n-1\atop k-1}\right]$ & \#perms of $n$ objs with exactly $k$ cycles\\
-    Stirling 2nd kind & $\left\{{n\atop 1}\right\}=\left\{{n\atop n}\right\}=1$, $\left\{{n\atop k}\right\} = k \left\{{ n-1 \atop k }\right\} + \left\{{n-1\atop k-1}\right\}$ & \#ways to partition $n$ objs into $k$ nonempty sets\\
-    Euler	& $\left \langle {n\atop 0} \right \rangle = \left \langle {n\atop n-1} \right \rangle = 1 $, $\left \langle {n\atop k} \right \rangle = (k+1) \left \langle {n-1\atop {k}} \right \rangle + (n-k)\left \langle {{n-1}\atop {k-1}} \right \rangle$ & \#perms of $n$ objs with exactly $k$ ascents \\
-    Euler 2nd Order &  $\left \langle \!\!\left \langle {n\atop k} \right \rangle \!\! \right \rangle = (k+1) \left \langle \!\! \left \langle {{n-1}\atop {k}} \right \rangle \!\! \right \rangle +(2n-k-1)\left \langle \!\! \left \langle {{n-1}\atop {k-1}} \right \rangle  \!\! \right \rangle$ & \#perms of ${1,1,2,2,...,n,n}$ with exactly $k$ ascents \\
-    Bell & $B_1 = 1$, $B_n = \sum_{k=0}^{n-1} B_k \binom{n-1}{k} = \sum_{k=0}^n\left\{{n\atop k}\right\}$ & \#partitions of $1..n$ (Stirling 2nd, no limit on k)\\
-    \bottomrule
-    \end{tabular}
+\begin{itemize}[wide,labelwidth=!,labelindent=0pt]
+	\item Catalan numbers (valid bracket seq's of length $2n$):
 
-    \vspace{10pt}
-    \begin{tabular}{ll}
-        \#labeled rooted trees & $n^{n-1}$ \\
-        \#labeled unrooted trees & $n^{n-2}$ \\
-        \#forests of $k$ rooted trees & $\frac{k}{n}\binom{n}{k}n^{n-k}$ \\
-        % Kirchoff's theorem
-        $\sum_{i=1}^n i^2 = n(n+1)(2n+1)/6$ & $\sum_{i=1}^n i^3 = n^2(n+1)^2/4$ \\
-        $!n = n\times!(n-1)+(-1)^n$ & $!n = (n-1)(!(n-1)+!(n-2))$ \\
-        $\sum_{i=1}^n \binom{n}{i} F_i = F_{2n}$ & $\sum_{i} \binom{n-i}{i} = F_{n+1}$ \\
-        $\sum_{k=0}^n \binom{k}{m} = \binom{n+1}{m+1}$ & $x^k = \sum_{i=0}^k i!\stirling{k}{i}\binom{x}{i} = \sum_{i=0}^k \left\langle {k \atop i} \right\rangle\binom{x+i}{k}$ \\
+		$C_0 = 1, C_n = \frac{1}{n+1}\binom{2n}{n} = \sum_{i=0}^{n-1}C_iC_{n-i-1}$.
 
-        $a\equiv b\pmod{x,y} \Rightarrow a\equiv b\pmod{\lcm(x,y)}$ & $\sum_{d|n} \phi(d) = n$ \\
-        $ac\equiv bc\pmod{m} \Rightarrow a\equiv b\pmod{\frac{m}{\gcd(c,m)}}$ & $(\sum_{d|n} \sigma_0(d))^2 = \sum_{d|n} \sigma_0(d)^3$ \\
-        $p$ prime $\Leftrightarrow (p-1)!\equiv -1\pmod{p}$ & $\gcd(n^a-1,n^b-1) = n^{\gcd(a,b)}-1$ \\
-        $\sigma_x(n) = \prod_{i=0}^{r} \frac{p_i^{(a_i + 1)x} - 1}{p_i^x - 1}$ & $\sigma_0(n) = \prod_{i=0}^r (a_i + 1)$ \\
-        $\sum_{k=0}^m (-1)^k \binom{n}{k} = (-1)^m \binom{n-1}{m}$ & \\
-        $2^{\omega(n)} = O(\sqrt{n})$ & $\sum_{i=1}^n 2^{\omega(i)} = O(n \log n)$ \\
-        % Kinematic equations
-        $d = v_i t + \frac{1}{2}at^2$ & $v_f^2 = v_i^2 + 2ad$ \\
-        $v_f = v_i + at$ & $d = \frac{v_i + v_f}{2}t$ \\
-    \end{tabular}
-    \subsection{The Twelvefold Way}
-        Putting $n$ balls into $k$ boxes.\\
-    \begin{tabular}{@{}c|c|c|c|c|l@{}}
-    Balls & same & distinct & same & distinct & \\
-    Boxes & same & same & distinct & distinct & Remarks\\
-    \hline
-        - & $\mathrm{p}_k(n)$ & $\sum_{i=0}^k \stirling{n}{i}$ & $\binom{n+k-1}{k-1}$ & $k^n$ & $\mathrm{p}_k(n)$: \#partitions of $n$ into $\le k$ positive parts \\
-        $\mathrm{size}\ge 1$ & $\mathrm{p}(n,k)$ & $\stirling{n}{k}$ & $\binom{n-1}{k-1}$ & $k!\stirling{n}{k}$ & $\mathrm{p}(n,k)$: \#partitions of $n$ into $k$ positive parts \\
-        $\mathrm{size}\le 1$ & $[n \le k]$ & $[n \le k]$ & $\binom{k}{n}$ & $n!\binom{k}{n}$ & $[cond]$: $1$ if $cond=true$, else $0$\\
-    \bottomrule
-    \end{tabular}
+	\item Stirling 1\textsuperscript{th} kind ($\# \pi \in \mathfrak{S}_n$ with exactly $k$ cycles):
+
+		$\left[{n\atop 0}\right]=\left[{0\atop n}\right] = \delta_{0n}, \left[{n\atop k}\right]=(n-1)\left[{n-1\atop k}\right]+\left[{n-1\atop k-1}\right]$.
+
+	\item Stirling 2\textsuperscript{nd} kind ($k$-partitions of $[n]$):
+
+		$\left\{{n\atop 1}\right\}=\left\{{n\atop n}\right\}=1, \left\{{n\atop k}\right\} = k \left\{{ n-1 \atop k }\right\} + \left\{{n-1\atop k-1}\right\}$.
+
+    \item Bell numbers (partitions of $[n]$):
+
+		$B_0 = 1, B_n = \sum_{k=0}^{n-1} B_k \binom{n-1}{k} = \sum_{k=0}^n\left\{{n\atop k}\right\}$.
+
+	\item Euler ($\# \pi \in \mathfrak{S}_n$ with exactly $k$ ascents):
+
+		$\left \langle {n\atop 0} \right \rangle = \left \langle {n\atop n-1} \right \rangle = 1, \left \langle {n\atop k} \right \rangle = (k+1) \left \langle {n-1\atop {k}} \right \rangle + (n-k)\left \langle {{n-1}\atop {k-1}} \right \rangle$.
+
+	\item Euler 2\textsuperscript{nd} order (nr perms of ${1, 1, 2, 2, \dots, n, n}$ with exactly $k$ ascents):
+
+		$\left \langle {n\atop 0} \right \rangle = \left \langle {n\atop n-1} \right \rangle = 1, \left \langle {n\atop k} \right \rangle = (k+1) \left \langle {n-1\atop {k}} \right \rangle + (n-k)\left \langle {{n-1}\atop {k-1}} \right \rangle$.
+
+	\item Rooted trees: $n^{n-1}$, unrooted: $n^{n-2}$.
+	\item Forests of $k$ rooted trees: $\binom{n}{k} k \cdot n^{n-k-1}$.
+	\item $1^2 + \dots + n^2 = \frac{n(n+1)(2n+1)}{6}$, $1^3 + \dots + n^3 = \frac{n^2(n+1)^2}{4}$ \\
+	\item $\sum_{i=1}^n \binom{n}{i} F_i = F_{2n}$, $\sum_{i} \binom{n-i}{i} = F_{n+1}$
+
+\end{itemize}
+
+\begin{tabular}{ll}
+	\#labeled rooted trees & $n^{n-1}$ \\
+	\#labeled unrooted trees & $n^{n-2}$ \\
+	\#forests of $k$ rooted trees & $\frac{k}{n}\binom{n}{k}n^{n-k}$ \\
+	% Kirchoff's theorem
+	$\sum_{i=1}^n i^2 = n(n+1)(2n+1)/6$ & $\sum_{i=1}^n i^3 = n^2(n+1)^2/4$ \\
+	$!n = n\times!(n-1)+(-1)^n$ & $!n = (n-1)(!(n-1)+!(n-2))$ \\
+	$\sum_{i=1}^n \binom{n}{i} F_i = F_{2n}$ & $\sum_{i} \binom{n-i}{i} = F_{n+1}$ \\
+	$\sum_{k=0}^n \binom{k}{m} = \binom{n+1}{m+1}$ & $x^k = \sum_{i=0}^k i!\stirling{k}{i}\binom{x}{i} = \sum_{i=0}^k \left\langle {k \atop i} \right\rangle\binom{x+i}{k}$ \\
+
+	$a\equiv b\pmod{x,y} \Rightarrow a\equiv b\pmod{\lcm(x,y)}$ & $\sum_{d|n} \phi(d) = n$ \\
+	$ac\equiv bc\pmod{m} \Rightarrow a\equiv b\pmod{\frac{m}{\gcd(c,m)}}$ & $(\sum_{d|n} \sigma_0(d))^2 = \sum_{d|n} \sigma_0(d)^3$ \\
+	$p$ prime $\Leftrightarrow (p-1)!\equiv -1\pmod{p}$ & $\gcd(n^a-1,n^b-1) = n^{\gcd(a,b)}-1$ \\
+	$\sigma_x(n) = \prod_{i=0}^{r} \frac{p_i^{(a_i + 1)x} - 1}{p_i^x - 1}$ & $\sigma_0(n) = \prod_{i=0}^r (a_i + 1)$ \\
+	$\sum_{k=0}^m (-1)^k \binom{n}{k} = (-1)^m \binom{n-1}{m}$ & \\
+\end{tabular}
+
+\subsection{The Twelvefold Way}
+Putting $n$ balls into $k$ boxes.\\
+\begin{tabular}{@{}c|c|c|c|c|l@{}}
+Balls & same & distinct & same & distinct & \\
+Boxes & same & same & distinct & distinct & Remarks\\
+\hline
+	- & $\mathrm{p}_k(n)$ & $\sum_{i=0}^k \stirling{n}{i}$ & $\binom{n+k-1}{k-1}$ & $k^n$ & $\mathrm{p}_k(n)$: \#partitions of $n$ into $\le k$ positive parts \\
+	$\mathrm{size}\ge 1$ & $\mathrm{p}(n,k)$ & $\stirling{n}{k}$ & $\binom{n-1}{k-1}$ & $k!\stirling{n}{k}$ & $\mathrm{p}(n,k)$: \#partitions of $n$ into $k$ positive parts \\
+	$\mathrm{size}\le 1$ & $[n \le k]$ & $[n \le k]$ & $\binom{k}{n}$ & $n!\binom{k}{n}$ & $[cond]$: $1$ if $cond=true$, else $0$\\
+\bottomrule
+\end{tabular}
+
+\section{Formulas}
+
+% \item Number of permutations of length $n$ that have no fixed
+%     points (derangements): $D_0 = 1, D_1 = 0, D_n = (n - 1)(D_{n-1}
+%     + D_{n-2})$
+% \item Number of permutations of length $n$ that have exactly $k$
+%     fixed points: $\binom{n}{k} D_{n-k}$
+
+\begin{itemize}[leftmargin=*]
+	\item \textbf{Legendre symbol:} $\left(\frac{a}{b}\right) = a^{(b-1)/2} \pmod{b}$, $b$ odd prime.
+	\item \textbf{Heron's formula:} A triangle with side lengths
+		$a,b,c$ has area $\sqrt{s(s-a)(s-b)(s-c)}$ where $s =
+		\frac{a+b+c}{2}$.
+	\item \textbf{Pick's theorem:} A polygon on an integer grid
+		strictly containing $i$ lattice points and having $b$ lattice
+		points on the boundary has area $i + \frac{b}{2} - 1$. (Nothing
+		similar in higher dimensions)
+	\item \textbf{Euler's totient:} The number of integers less than
+		$n$ that are coprime to $n$ are $n\prod_{p|n}\left(1 - \frac{1}{p}\right)$
+		where each $p$ is a distinct prime factor of $n$.
+	\item \textbf{König's theorem:} In any bipartite graph $G=(L\cup R,E)$, the number
+		of edges in a maximum matching is equal to the number of
+		vertices in a minimum vertex cover. Let $U$ be the set of
+		unmatched vertices in $L$, and $Z$ be the set of vertices that
+		are either in $U$ or are connected to $U$ by an alternating
+		path. Then $K=(L\setminus Z)\cup(R\cap Z)$ is the minimum
+		vertex cover.
+	\item A minumum Steiner tree for $n$ vertices requires at most $n-2$ additional Steiner vertices.
+	\item The number of vertices of a graph is equal to its minimum
+		vertex cover number plus the size of a maximum independent set.
+	\item \textbf{Lagrange polynomial} through points $(x_0,y_0),\ldots,(x_k,y_k)$ is $L(x) = \sum_{j=0}^k y_j \prod_{\shortstack{$\scriptscriptstyle 0\leq m \leq k$ \\ $\scriptscriptstyle m\neq j$}} \frac{x-x_m}{x_j - x_m}$
+	\item \textbf{Hook length formula:} If $\lambda$ is a Young diagram and $h_{\lambda}(i,j)$ is the hook-length of cell $(i,j)$, then then the number of Young tableux $d_{\lambda} = n!/\prod h_{\lambda}(i,j)$.
+	\item \textbf{Möbius inversion formula:} If $f(n) = \sum_{d|n} g(d)$, then $g(n) = \sum_{d|n} \mu(d) f(n/d)$. If $f(n) = \sum_{m=1}^n g(\lfloor n/m\rfloor)$, then $g(n) = \sum_{m=1}^n \mu(m)f(\lfloor\frac{n}{m}\rfloor)$.
+	\item \#primitive pythagorean triples with hypotenuse $<n$ approx $n/(2\pi)$.
+	\item \textbf{Frobenius Number:} largest number which can't be
+		expressed as a linear combination of numbers $a_1,\ldots,a_n$
+		with non-negative coefficients. $g(a_1,a_2) = a_1a_2-a_1-a_2$,
+		$N(a_1,a_2)=(a_1-1)(a_2-1)/2$. $g(d\cdot a_1,d\cdot a_2,a_3) =
+		d\cdot g(a_1,a_2,a_3) + a_3(d-1)$. An integer $x>\left(\max_i
+		a_i\right)^2$ can be expressed in such a way iff.\ $x\ |\
+		\mathrm{gcd}(a_1,\ldots,a_n)$.
+\end{itemize}
+
+\subsection{Physics}
+\textbf{Snell's law:} $\frac{\sin\theta_1}{v_1} = \frac{\sin\theta_2}{v_2}$.
+
+\subsection{Markov Chains}
+A Markov Chain can be represented as a weighted directed graph of
+states, where the weight of an edge represents the probability of
+transitioning over that edge in one timestep. Let $P^{(m)} = (p^{(m)}_{ij})$
+be the probability matrix of transitioning from state $i$ to state $j$
+in $m$ timesteps, and note that $P^{(1)}$ is the adjacency matrix of
+the graph. \textbf{Chapman-Kolmogorov:} $p^{(m+n)}_{ij} = \sum_{k}
+p^{(m)}_{ik} p^{(n)}_{kj}$. It follows that $P^{(m+n)} =
+P^{(m)}P^{(n)}$ and $P^{(m)} = P^m$. If $p^{(0)}$ is the initial
+probability distribution (a vector), then $p^{(0)}P^{(m)}$ is the
+probability distribution after $m$ timesteps.
+
+The return times of a state $i$ is $R_i = \{m\ |\ p^{(m)}_{ii} > 0 \}$,
+and $i$ is \textit{aperiodic} if $\gcd(R_i) = 1$. A MC is aperiodic if
+any of its vertices is aperiodic. A MC is \textit{irreducible} if the
+corresponding graph is strongly connected.
+
+A distribution $\pi$ is stationary if $\pi P = \pi$. If MC is
+irreducible then $\pi_i = 1/\mathbb{E}[T_i]$, where $T_i$ is the
+expected time between two visits at $i$. $\pi_j/\pi_i$ is the expected
+number of visits at $j$ in between two consecutive visits at $i$. A MC
+is \textit{ergodic} if $\lim_{m\to\infty} p^{(0)} P^{m} = \pi$. A MC is
+ergodic iff.\ it is irreducible and aperiodic.
+
+A MC for a random walk in an undirected weighted graph (unweighted
+graph can be made weighted by adding $1$-weights) has $p_{uv} =
+w_{uv}/\sum_{x} w_{ux}$. If the graph is connected, then $\pi_u =
+\sum_{x} w_{ux} / \sum_{v}\sum_{x} w_{vx}$. Such a random walk is
+aperiodic iff.\ the graph is not bipartite.
+
+An \textit{absorbing} MC is of the form $P = \left(\begin{matrix} Q & R
+\\ 0 & I_r \end{matrix}\right)$. Let $N = \sum_{m=0}^\infty Q^m = (I_t
+- Q)^{-1}$. Then, if starting in state $i$, the expected number of
+steps till absorption is the $i$-th entry in $N1$. If starting in state
+$i$, the probability of being absorbed in state $j$ is the $(i,j)$-th
+entry of $NR$.
+
+Many problems on MC can be formulated in terms of a system of
+recurrence relations, and then solved using Gaussian elimination.
+
+\subsection{Burnside's Lemma}
+Let $G$ be a finite group that acts on a set $X$. For each $g$ in $G$
+let $X^g$ denote the set of elements in $X$ that are fixed by $g$. Then
+the number of orbits \[ |X/G| = \frac{1}{|G|} \sum_{g\in G} |X^g| \]
+
+\[
+	Z(S_n) = \frac{1}{n} \sum_{l=1}^n a_l Z(S_{n-l})
+\]
+
+\subsection{Bézout's identity}
+If $(x,y)$ is any solution to $ax+by=d$ (e.g.\ found by the Extended
+Euclidean Algorithm), then all solutions are given by \[
+\left(x+k\frac{b}{\gcd(a,b)}, y-k\frac{a}{\gcd(a,b)}\right) \]
+
+\subsection{Misc}
+
+\subsubsection{Binomial transform}
+	If $a_n = \sum_{k=0}^{n} \binom{n}{k} b_k$, then $b_n = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} a_k$.
+
+\subsubsection{Generating functions}
+
+Ordinary (o.g.f.):
+
+	$A(x) := \sum_{n=0}^{\infty} a_i x^i$,
+	$c_n = \sum_{k=0}^{n} a_k b_{n-k}$ (use FFT).
+
+Exponential (e.g.f.): $A(x) := \sum_{n=0}^{\infty} a_i x^i/i!$,
+
+	$c_n = \sum_{k=0}^{n} \binom{n}{k} a_k b_{n-k} = n! \sum_{k=0}^{n} \frac{a_k}{k!} \frac{b_{n-k}}{(n-k)!}$ (use FFT).
+
+\subsubsection{General linear recurrences}
+		
+If $a_n = \sum_{k=0}^{n-1} a_k b_{n-k}$, then $A(x) = \frac{a_0}{1-B(x)}$.
+We also can compute all $a_n$ with Divide-and-Conquer algorithm in $\mathcal{O}(n \log^2 n n)$.
+
+\subsubsection{Inverse polynomial modulo $x^l$}
+Given $A(x)$, find $B(x)$ such that $A(x)B(x) = 1 + x^l Q(x)$ for some $Q(x)$.
+
+Step 1: Start with $B_0(x) = 1/a_0$
+
+Step 2: $B_{k+1}(x) = (-B_k(x)^2 A(x) + 2 B_k(x)) \mod x^{2^{k+1}}$.
+
+\subsubsection{Fast subset convolution}
+Given array $a_i$ of size $2^k$ calculate $b_i = \sum_{j \BitAnd i = i} a_j$.
+\code{math/subset_conv.cpp}
+
+\subsubsection{Determinants and PM}
+\begin{align*}
+	\mathrm{det}(A) &= \sum_{\sigma \in S_n}\text{sgn}(\sigma)\prod_{i = 1}^n a_{i,\sigma(i)}\\
+	\mathrm{perm}(A) &= \sum_{\sigma \in S_n} \prod_{i = 1}^n a_{i,\sigma(i)}\\
+	\mathrm{pf}(A) &= \frac{1}{2^nn!}\sum_{\sigma \in S_{2n}} \text{sgn}(\sigma)\prod_{i = 1}^n a_{\sigma(2i-1),\sigma(2i)}\\ &= \sum_{M \in \text{PM}(n)} \text{sgn}(M) \prod_{(i,j) \in M} a_{i,j}
+\end{align*}
+
+\subsubsection{BEST Theorem}
+Count directed Eulerian cycles. Number of OST given by
+Kirchoff's Theorem (remove r/c with root) $\#\textsc{OST}(G,r)
+\cdot \prod_{v}(d_v-1)!$
+
+\subsubsection{Primitive Roots}
+Only exists when $n$ is $2, 4, p^k, 2p^k$, where $p$ odd prime. Assume
+$n$ prime. Number of primitive roots $\phi(\phi(n))$
+Let $g$ be primitive root. All primitive roots are of the form $g^k$
+where $k,\phi(p)$ are coprime.\\ $k$-roots:
+$g^{i \cdot \phi(n) / k}$ for $0 \leq i < k$
+
+\subsubsection{Sum of primes} For any multiplicative $f$:
+\[
+	S(n,p) = S(n, p-1) - f(p) \cdot (S(n/p,p-1) - S(p-1,p-1)).
+\]
+
+\subsubsection{Floor}
+\begin{align*}
+	&\left\lfloor \left\lfloor x/y \right\rfloor / z \right\rfloor = \left\lfloor x / (yz) \right\rfloor \\
+	&x \% y = x - y \left\lfloor x / y \right\rfloor
+\end{align*}
+
+\subsection{Debugging Tips}
+\begin{myitemize}
+	\item Stack overflow? Recursive DFS on tree that is actually a long path?
+	\item Floating-point numbers
+		\begin{itemize}
+			\item Getting \texttt{NaN}? Make sure \texttt{acos} etc.\ are
+				not getting values out of their range (perhaps
+				\texttt{1+eps}).
+			\item Rounding negative numbers?
+			\item Outputting in scientific notation?
+		\end{itemize}
+	\item Wrong Answer?
+		\begin{itemize}
+			\item Read the problem statement again!
+			\item Are multiple test cases being handled correctly?
+				  Try repeating the same test case many times.
+			\item Integer overflow?
+			\item Think very carefully about boundaries of all input parameters
+			\item Try out possible edge cases:
+				\begin{itemize}
+					\item $n=0, n=-1, n=1, n=2^{31}-1$ or $n=-2^{31}$
+					\item List is empty, or contains a single element
+					\item $n$ is even, $n$ is odd
+					\item Graph is empty, or contains a single vertex
+					\item Graph is a multigraph (loops or multiple edges)
+					\item Polygon is concave or non-simple
+				\end{itemize}
+			\item Is initial condition wrong for small cases?
+			\item Are you sure the algorithm is correct?
+			\item Explain your solution to someone.
+			\item Are you using any functions that you don't completely understand? Maybe STL functions?
+			\item Maybe you (or someone else) should rewrite the solution?
+			\item Can the input line be empty?
+		\end{itemize}
+	\item Run-Time Error?
+		\begin{itemize}
+			\item Is it actually Memory Limit Exceeded?
+		\end{itemize}
+\end{myitemize}
+
+\subsection{Solution Ideas}
+\begin{myitemize}
+	\item Dynamic Programming
+		\begin{itemize}
+			\item Parsing CFGs: CYK Algorithm
+			\item Drop a parameter, recover from others
+			\item Swap answer and a parameter
+			\item When grouping: try splitting in two
+			\item $2^k$ trick
+			\item When optimizing
+				\begin{itemize}
+					\item Convex hull optimization
+						\begin{itemize}
+							\item $\mathrm{dp}[i] = \min_{j<i}\{\mathrm{dp}[j] + b[j] \times a[i]\}$
+							\item $b[j] \geq b[j+1]$
+							\item optionally $a[i] \leq a[i+1]$
+							\item $O(n^2)$ to $O(n)$
+						\end{itemize}
+					\item Divide and conquer optimization
+						\begin{itemize}
+							\item $\mathrm{dp}[i][j] = \min_{k<j}\{\mathrm{dp}[i-1][k] + C[k][j]\}$
+							\item $A[i][j] \leq A[i][j+1]$
+							\item $O(kn^2)$ to $O(kn\log{n})$
+							\item sufficient: $C[a][c] + C[b][d] \leq C[a][d] + C[b][c]$, $a\leq b\leq c\leq d$ (QI)
+						\end{itemize}
+					\item Knuth optimization
+						\begin{itemize}
+							\item $\mathrm{dp}[i][j] = \min_{i<k<j}\{\mathrm{dp}[i][k] + \mathrm{dp}[k][j] + C[i][j]\}$
+							\item $A[i][j-1] \leq A[i][j] \leq A[i+1][j]$
+							\item $O(n^3)$ to $O(n^2)$
+							\item sufficient: QI and $C[b][c] \leq C[a][d]$, $a\leq b\leq c\leq d$
+						\end{itemize}
+				\end{itemize}
+		\end{itemize}
+	\item Greedy
+	\item Randomized
+	\item Optimizations
+		\begin{itemize}
+			\item Use bitset (/64)
+			\item Switch order of loops (cache locality)
+		\end{itemize}
+	\item Process queries offline
+		\begin{itemize}
+			\item Mo's algorithm
+		\end{itemize}
+	\item Square-root decomposition
+	\item Precomputation
+	\item Efficient simulation
+		\begin{itemize}
+			\item Mo's algorithm
+			\item Sqrt decomposition
+			\item Store $2^k$ jump pointers
+		\end{itemize}
+	\item Data structure techniques
+		\begin{itemize}
+			\item Sqrt buckets
+			\item Store $2^k$ jump pointers
+			\item $2^k$ merging trick
+		\end{itemize}
+	\item Counting
+		\begin{itemize}
+			\item Inclusion-exclusion principle
+			\item Generating functions
+		\end{itemize}
+	\item Graphs
+		\begin{itemize}
+			\item Can we model the problem as a graph?
+			\item Can we use any properties of the graph?
+			\item Strongly connected components
+			\item Cycles (or odd cycles)
+			\item Bipartite (no odd cycles)
+				\begin{itemize}
+					\item Bipartite matching
+					\item Hall's marriage theorem
+					\item Stable Marriage
+				\end{itemize}
+			\item Cut vertex/bridge
+			\item Biconnected components
+			\item Degrees of vertices (odd/even)
+			\item Trees
+				\begin{itemize}
+					\item Heavy-light decomposition
+					\item Centroid decomposition
+					\item Least common ancestor
+					\item Centers of the tree
+				\end{itemize}
+			\item Eulerian path/circuit
+			\item Chinese postman problem
+			\item Topological sort
+			\item (Min-Cost) Max Flow
+			\item Min Cut
+				\begin{itemize}
+					\item Maximum Density Subgraph
+				\end{itemize}
+			\item Huffman Coding
+			\item Min-Cost Arborescence
+			\item Steiner Tree
+			\item Kirchoff's matrix tree theorem
+			\item Pr\"ufer sequences
+			\item Lov\'asz Toggle
+			\item Look at the DFS tree (which has no cross-edges)
+			\item Is the graph a DFA or NFA?
+				\begin{itemize}
+					\item Is it the Synchronizing word problem?
+				\end{itemize}
+		\end{itemize}
+	\item math
+		\begin{itemize}
+			\item Is the function multiplicative?
+			\item Look for a pattern
+			\item Permutations
+				\begin{itemize}
+					\item Consider the cycles of the permutation
+				\end{itemize}
+			\item Functions
+				\begin{itemize}
+					\item Sum of piecewise-linear functions is a piecewise-linear function
+					\item Sum of convex (concave) functions is convex (concave)
+				\end{itemize}
+			\item Modular arithmetic
+				\begin{itemize}
+					\item Chinese Remainder Theorem
+					\item Linear Congruence
+				\end{itemize}
+			\item Sieve
+			\item System of linear equations
+			\item Values too big to represent?
+				\begin{itemize}
+					\item Compute using the logarithm
+					\item Divide everything by some large value
+				\end{itemize}
+			\item Linear programming
+				\begin{itemize}
+					\item Is the dual problem easier to solve?
+				\end{itemize}
+			\item Can the problem be modeled as a different combinatorial problem? Does that simplify calculations?
+		\end{itemize}
+	\item Logic
+		\begin{itemize}
+			\item 2-SAT
+			\item XOR-SAT (Gauss elimination or Bipartite matching)
+		\end{itemize}
+	\item Meet in the middle
+	\item Only work with the smaller half ($\log(n)$)
+	\item Strings
+		\begin{itemize}
+			\item Trie (maybe over something weird, like bits)
+			\item Suffix array
+			\item Suffix automaton (+DP?)
+			\item Aho-Corasick
+			\item eerTree
+			\item Work with $S+S$
+		\end{itemize}
+	\item Hashing
+	\item Euler tour, tree to array
+	\item Segment trees
+		\begin{itemize}
+			\item Lazy propagation
+			\item Persistent
+			\item Implicit
+			\item Segment tree of X
+		\end{itemize}
+	\item Geometry
+		\begin{itemize}
+			\item Minkowski sum (of convex sets)
+			\item Rotating calipers
+			\item Sweep line (horizontally or vertically?)
+			\item Sweep angle
+			\item Convex hull
+		\end{itemize}
+	\item Fix a parameter (possibly the answer).
+	\item Are there few distinct values?
+	\item Binary search
+	\item Sliding Window (+ Monotonic Queue)
+	\item Computing a Convolution? Fast Fourier Transform
+	\item Computing a 2D Convolution? FFT on each row, and then on each column
+	\item Exact Cover (+ Algorithm X)
+	\item Cycle-Finding
+	\item What is the smallest set of values that identify the solution? The cycle structure of the permutation? The powers of primes in the factorization?
+	\item Look at the complement problem
+		\begin{itemize}
+			\item Minimize something instead of maximizing
+		\end{itemize}
+	\item Immediately enforce necessary conditions. (All values greater than 0? Initialize them all to 1)
+	\item Add large constant to negative numbers to make them positive
+	\item Counting/Bucket sort
+\end{myitemize}
+
+
+\section*{Practice Contest Checklist}
+\begin{itemize}
+	\item How many operations per second? Compare to local machine.
+	\item What is the stack size?
+	\item How to use printf/scanf with long long/long double?
+	\item Are \texttt{\_{}\_{}int128} and \texttt{\_{}\_{}float128} available?
+	\item Does MLE give RTE or MLE as a verdict? What about stack overflow?
+	\item What is \texttt{RAND\_{}MAX}?
+	\item How does the judge handle extra spaces (or missing newlines) in the output?
+	\item Look at documentation for programming languages.
+	\item Try different programming languages: C++, Java and Python.
+	\item Try the submit script.
+	\item Try local programs: i?python[23], factor.
+	\item Try submitting with \texttt{assert(false)} and \texttt{assert(true)}.
+	\item Omitting \texttt{return 0;} still works?
+	\item Look for directory with sample test cases.
+	\item Make sure printing works.
+
+	\item Remove this page from the notebook (optionally).
+\end{itemize}
+
 
 \end{multicols*}
-\onecolumn
-\begin{multicols*}{3}
-\section{Useful Information}
 
-    \section{Misc}
-        \subsection{Debugging Tips}
-            \begin{myitemize}
-                \item Stack overflow? Recursive DFS on tree that is actually a long path?
-                \item Floating-point numbers
-                    \begin{itemize}
-                        \item Getting \texttt{NaN}? Make sure \texttt{acos} etc.\ are
-                            not getting values out of their range (perhaps
-                            \texttt{1+eps}).
-                        \item Rounding negative numbers?
-                        \item Outputting in scientific notation?
-                    \end{itemize}
-                \item Wrong Answer?
-                    \begin{itemize}
-                        \item Read the problem statement again!
-                        \item Are multiple test cases being handled correctly?
-                              Try repeating the same test case many times.
-                        \item Integer overflow?
-                        \item Think very carefully about boundaries of all input parameters
-                        \item Try out possible edge cases:
-                            \begin{itemize}
-                                \item $n=0, n=-1, n=1, n=2^{31}-1$ or $n=-2^{31}$
-                                \item List is empty, or contains a single element
-                                \item $n$ is even, $n$ is odd
-                                \item Graph is empty, or contains a single vertex
-                                \item Graph is a multigraph (loops or multiple edges)
-                                \item Polygon is concave or non-simple
-                            \end{itemize}
-                        \item Is initial condition wrong for small cases?
-                        \item Are you sure the algorithm is correct?
-                        \item Explain your solution to someone.
-                        \item Are you using any functions that you don't completely understand? Maybe STL functions?
-                        \item Maybe you (or someone else) should rewrite the solution?
-                        \item Can the input line be empty?
-                    \end{itemize}
-                \item Run-Time Error?
-                    \begin{itemize}
-                        \item Is it actually Memory Limit Exceeded?
-                    \end{itemize}
-            \end{myitemize}
-
-        \subsection{Solution Ideas}
-            \begin{myitemize}
-                \item Dynamic Programming
-                    \begin{itemize}
-                        \item Parsing CFGs: CYK Algorithm
-                        \item Drop a parameter, recover from others
-                        \item Swap answer and a parameter
-                        \item When grouping: try splitting in two
-                        \item $2^k$ trick
-                        \item When optimizing
-                            \begin{itemize}
-                                \item Convex hull optimization
-                                    \begin{itemize}
-                                        \item $\mathrm{dp}[i] = \min_{j<i}\{\mathrm{dp}[j] + b[j] \times a[i]\}$
-                                        \item $b[j] \geq b[j+1]$
-                                        \item optionally $a[i] \leq a[i+1]$
-                                        \item $O(n^2)$ to $O(n)$
-                                    \end{itemize}
-                                \item Divide and conquer optimization
-                                    \begin{itemize}
-                                        \item $\mathrm{dp}[i][j] = \min_{k<j}\{\mathrm{dp}[i-1][k] + C[k][j]\}$
-                                        \item $A[i][j] \leq A[i][j+1]$
-                                        \item $O(kn^2)$ to $O(kn\log{n})$
-                                        \item sufficient: $C[a][c] + C[b][d] \leq C[a][d] + C[b][c]$, $a\leq b\leq c\leq d$ (QI)
-                                    \end{itemize}
-                                \item Knuth optimization
-                                    \begin{itemize}
-                                        \item $\mathrm{dp}[i][j] = \min_{i<k<j}\{\mathrm{dp}[i][k] + \mathrm{dp}[k][j] + C[i][j]\}$
-                                        \item $A[i][j-1] \leq A[i][j] \leq A[i+1][j]$
-                                        \item $O(n^3)$ to $O(n^2)$
-                                        \item sufficient: QI and $C[b][c] \leq C[a][d]$, $a\leq b\leq c\leq d$
-                                    \end{itemize}
-                            \end{itemize}
-                    \end{itemize}
-                \item Greedy
-                \item Randomized
-                \item Optimizations
-                    \begin{itemize}
-                        \item Use bitset (/64)
-                        \item Switch order of loops (cache locality)
-                    \end{itemize}
-                \item Process queries offline
-                    \begin{itemize}
-                        \item Mo's algorithm
-                    \end{itemize}
-                \item Square-root decomposition
-                \item Precomputation
-                \item Efficient simulation
-                    \begin{itemize}
-                        \item Mo's algorithm
-                        \item Sqrt decomposition
-                        \item Store $2^k$ jump pointers
-                    \end{itemize}
-                \item Data structure techniques
-                    \begin{itemize}
-                        \item Sqrt buckets
-                        \item Store $2^k$ jump pointers
-                        \item $2^k$ merging trick
-                    \end{itemize}
-                \item Counting
-                    \begin{itemize}
-                        \item Inclusion-exclusion principle
-                        \item Generating functions
-                    \end{itemize}
-                \item Graphs
-                    \begin{itemize}
-                        \item Can we model the problem as a graph?
-                        \item Can we use any properties of the graph?
-                        \item Strongly connected components
-                        \item Cycles (or odd cycles)
-                        \item Bipartite (no odd cycles)
-                            \begin{itemize}
-                                \item Bipartite matching
-                                \item Hall's marriage theorem
-                                \item Stable Marriage
-                            \end{itemize}
-                        \item Cut vertex/bridge
-                        \item Biconnected components
-                        \item Degrees of vertices (odd/even)
-                        \item Trees
-                            \begin{itemize}
-                                \item Heavy-light decomposition
-                                \item Centroid decomposition
-                                \item Least common ancestor
-                                \item Centers of the tree
-                            \end{itemize}
-                        \item Eulerian path/circuit
-                        \item Chinese postman problem
-                        \item Topological sort
-                        \item (Min-Cost) Max Flow
-                        \item Min Cut
-                            \begin{itemize}
-                                \item Maximum Density Subgraph
-                            \end{itemize}
-                        \item Huffman Coding
-                        \item Min-Cost Arborescence
-                        \item Steiner Tree
-                        \item Kirchoff's matrix tree theorem
-                        \item Pr\"ufer sequences
-                        \item Lov\'asz Toggle
-                        \item Look at the DFS tree (which has no cross-edges)
-                        \item Is the graph a DFA or NFA?
-                            \begin{itemize}
-                                \item Is it the Synchronizing word problem?
-                            \end{itemize}
-                    \end{itemize}
-                \item math
-                    \begin{itemize}
-                        \item Is the function multiplicative?
-                        \item Look for a pattern
-                        \item Permutations
-                            \begin{itemize}
-                                \item Consider the cycles of the permutation
-                            \end{itemize}
-                        \item Functions
-                            \begin{itemize}
-                                \item Sum of piecewise-linear functions is a piecewise-linear function
-                                \item Sum of convex (concave) functions is convex (concave)
-                            \end{itemize}
-                        \item Modular arithmetic
-                            \begin{itemize}
-                                \item Chinese Remainder Theorem
-                                \item Linear Congruence
-                            \end{itemize}
-                        \item Sieve
-                        \item System of linear equations
-                        \item Values too big to represent?
-                            \begin{itemize}
-                                \item Compute using the logarithm
-                                \item Divide everything by some large value
-                            \end{itemize}
-                        \item Linear programming
-                            \begin{itemize}
-                                \item Is the dual problem easier to solve?
-                            \end{itemize}
-                        \item Can the problem be modeled as a different combinatorial problem? Does that simplify calculations?
-                    \end{itemize}
-                \item Logic
-                    \begin{itemize}
-                        \item 2-SAT
-                        \item XOR-SAT (Gauss elimination or Bipartite matching)
-                    \end{itemize}
-                \item Meet in the middle
-                \item Only work with the smaller half ($\log(n)$)
-                \item Strings
-                    \begin{itemize}
-                        \item Trie (maybe over something weird, like bits)
-                        \item Suffix array
-                        \item Suffix automaton (+DP?)
-                        \item Aho-Corasick
-                        \item eerTree
-                        \item Work with $S+S$
-                    \end{itemize}
-                \item Hashing
-                \item Euler tour, tree to array
-                \item Segment trees
-                    \begin{itemize}
-                        \item Lazy propagation
-                        \item Persistent
-                        \item Implicit
-                        \item Segment tree of X
-                    \end{itemize}
-                \item Geometry
-                    \begin{itemize}
-                        \item Minkowski sum (of convex sets)
-                        \item Rotating calipers
-                        \item Sweep line (horizontally or vertically?)
-                        \item Sweep angle
-                        \item Convex hull
-                    \end{itemize}
-                \item Fix a parameter (possibly the answer).
-                \item Are there few distinct values?
-                \item Binary search
-                \item Sliding Window (+ Monotonic Queue)
-                \item Computing a Convolution? Fast Fourier Transform
-                \item Computing a 2D Convolution? FFT on each row, and then on each column
-                \item Exact Cover (+ Algorithm X)
-                \item Cycle-Finding
-                \item What is the smallest set of values that identify the solution? The cycle structure of the permutation? The powers of primes in the factorization?
-                \item Look at the complement problem
-                    \begin{itemize}
-                        \item Minimize something instead of maximizing
-                    \end{itemize}
-                \item Immediately enforce necessary conditions. (All values greater than 0? Initialize them all to 1)
-                \item Add large constant to negative numbers to make them positive
-                \item Counting/Bucket sort
-            \end{myitemize}
-
-    \section{Formulas}
-
-        % \item Number of permutations of length $n$ that have no fixed
-        %     points (derangements): $D_0 = 1, D_1 = 0, D_n = (n - 1)(D_{n-1}
-        %     + D_{n-2})$
-        % \item Number of permutations of length $n$ that have exactly $k$
-        %     fixed points: $\binom{n}{k} D_{n-k}$
-
-
-        \begin{itemize}[leftmargin=*]
-            \item \textbf{Legendre symbol:} $\left(\frac{a}{b}\right) = a^{(b-1)/2} \pmod{b}$, $b$ odd prime.
-            \item \textbf{Heron's formula:} A triangle with side lengths
-                $a,b,c$ has area $\sqrt{s(s-a)(s-b)(s-c)}$ where $s =
-                \frac{a+b+c}{2}$.
-            \item \textbf{Pick's theorem:} A polygon on an integer grid
-                strictly containing $i$ lattice points and having $b$ lattice
-                points on the boundary has area $i + \frac{b}{2} - 1$. (Nothing
-                similar in higher dimensions)
-            \item \textbf{Euler's totient:} The number of integers less than
-                $n$ that are coprime to $n$ are $n\prod_{p|n}\left(1 - \frac{1}{p}\right)$
-                where each $p$ is a distinct prime factor of $n$.
-            \item \textbf{König's theorem:} In any bipartite graph $G=(L\cup R,E)$, the number
-                of edges in a maximum matching is equal to the number of
-                vertices in a minimum vertex cover. Let $U$ be the set of
-                unmatched vertices in $L$, and $Z$ be the set of vertices that
-                are either in $U$ or are connected to $U$ by an alternating
-                path. Then $K=(L\setminus Z)\cup(R\cap Z)$ is the minimum
-                vertex cover.
-            \item A minumum Steiner tree for $n$ vertices requires at most $n-2$ additional Steiner vertices.
-            \item The number of vertices of a graph is equal to its minimum
-                vertex cover number plus the size of a maximum independent set.
-            \item \textbf{Lagrange polynomial} through points $(x_0,y_0),\ldots,(x_k,y_k)$ is $L(x) = \sum_{j=0}^k y_j \prod_{\shortstack{$\scriptscriptstyle 0\leq m \leq k$ \\ $\scriptscriptstyle m\neq j$}} \frac{x-x_m}{x_j - x_m}$
-            \item \textbf{Hook length formula:} If $\lambda$ is a Young diagram and $h_{\lambda}(i,j)$ is the hook-length of cell $(i,j)$, then then the number of Young tableux $d_{\lambda} = n!/\prod h_{\lambda}(i,j)$.
-            \item \textbf{Möbius inversion formula:} If $f(n) = \sum_{d|n} g(d)$, then $g(n) = \sum_{d|n} \mu(d) f(n/d)$. If $f(n) = \sum_{m=1}^n g(\lfloor n/m\rfloor)$, then $g(n) = \sum_{m=1}^n \mu(m)f(\lfloor\frac{n}{m}\rfloor)$.
-            \item \#primitive pythagorean triples with hypotenuse $<n$ approx $n/(2\pi)$.
-            \item \textbf{Frobenius Number:} largest number which can't be
-                expressed as a linear combination of numbers $a_1,\ldots,a_n$
-                with non-negative coefficients. $g(a_1,a_2) = a_1a_2-a_1-a_2$,
-                $N(a_1,a_2)=(a_1-1)(a_2-1)/2$. $g(d\cdot a_1,d\cdot a_2,a_3) =
-                d\cdot g(a_1,a_2,a_3) + a_3(d-1)$. An integer $x>\left(\max_i
-                a_i\right)^2$ can be expressed in such a way iff.\ $x\ |\
-                \mathrm{gcd}(a_1,\ldots,a_n)$.
-        \end{itemize}
-
-        \subsection{Physics}
-            \begin{itemize}
-                \item \textbf{Snell's law:} $\frac{\sin\theta_1}{v_1} = \frac{\sin\theta_2}{v_2}$
-            \end{itemize}
-
-        \subsection{Markov Chains}
-            A Markov Chain can be represented as a weighted directed graph of
-            states, where the weight of an edge represents the probability of
-            transitioning over that edge in one timestep. Let $P^{(m)} = (p^{(m)}_{ij})$
-            be the probability matrix of transitioning from state $i$ to state $j$
-            in $m$ timesteps, and note that $P^{(1)}$ is the adjacency matrix of
-            the graph. \textbf{Chapman-Kolmogorov:} $p^{(m+n)}_{ij} = \sum_{k}
-            p^{(m)}_{ik} p^{(n)}_{kj}$. It follows that $P^{(m+n)} =
-            P^{(m)}P^{(n)}$ and $P^{(m)} = P^m$. If $p^{(0)}$ is the initial
-            probability distribution (a vector), then $p^{(0)}P^{(m)}$ is the
-            probability distribution after $m$ timesteps.
-
-            The return times of a state $i$ is $R_i = \{m\ |\ p^{(m)}_{ii} > 0 \}$,
-            and $i$ is \textit{aperiodic} if $\gcd(R_i) = 1$. A MC is aperiodic if
-            any of its vertices is aperiodic. A MC is \textit{irreducible} if the
-            corresponding graph is strongly connected.
-
-            A distribution $\pi$ is stationary if $\pi P = \pi$. If MC is
-            irreducible then $\pi_i = 1/\mathbb{E}[T_i]$, where $T_i$ is the
-            expected time between two visits at $i$. $\pi_j/\pi_i$ is the expected
-            number of visits at $j$ in between two consecutive visits at $i$. A MC
-            is \textit{ergodic} if $\lim_{m\to\infty} p^{(0)} P^{m} = \pi$. A MC is
-            ergodic iff.\ it is irreducible and aperiodic.
-
-            A MC for a random walk in an undirected weighted graph (unweighted
-            graph can be made weighted by adding $1$-weights) has $p_{uv} =
-            w_{uv}/\sum_{x} w_{ux}$. If the graph is connected, then $\pi_u =
-            \sum_{x} w_{ux} / \sum_{v}\sum_{x} w_{vx}$. Such a random walk is
-            aperiodic iff.\ the graph is not bipartite.
-
-            An \textit{absorbing} MC is of the form $P = \left(\begin{matrix} Q & R
-            \\ 0 & I_r \end{matrix}\right)$. Let $N = \sum_{m=0}^\infty Q^m = (I_t
-            - Q)^{-1}$. Then, if starting in state $i$, the expected number of
-            steps till absorption is the $i$-th entry in $N1$. If starting in state
-            $i$, the probability of being absorbed in state $j$ is the $(i,j)$-th
-            entry of $NR$.
-
-            Many problems on MC can be formulated in terms of a system of
-            recurrence relations, and then solved using Gaussian elimination.
-
-        \subsection{Burnside's Lemma}
-            Let $G$ be a finite group that acts on a set $X$. For each $g$ in $G$
-            let $X^g$ denote the set of elements in $X$ that are fixed by $g$. Then
-            the number of orbits \[ |X/G| = \frac{1}{|G|} \sum_{g\in G} |X^g| \]
-
-            \[
-                Z(S_n) = \frac{1}{n} \sum_{l=1}^n a_l Z(S_{n-l})
-            \]
-
-        \subsection{Bézout's identity}
-            If $(x,y)$ is any solution to $ax+by=d$ (e.g.\ found by the Extended
-            Euclidean Algorithm), then all solutions are given by \[
-            \left(x+k\frac{b}{\gcd(a,b)}, y-k\frac{a}{\gcd(a,b)}\right) \]
-
-        \subsection{Misc}
-            \subsubsection{Binomial transform}
-                If $a_n = \sum_{k=0}^{n} \binom{n}{k} b_k$, then $b_n = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} a_k$.
-
-            \subsubsection{Generating functions}
-
-                Ordinary (o.g.f.): $A(x) := \sum_{n=0}^{\infty} a_i x^i$.
-
-                Exponential (e.g.f.): $A(x) := \sum_{n=0}^{\infty} a_i x^i/i!$.
-
-                o.g.f. convolution: $c_n = \sum_{k=0}^{n} a_k b_{n-k}$ (use FFT for $\mathcal{O}(n \log n)$).
-
-                e.g.f. convolution: $c_n = \sum_{k=0}^{n} \binom{n}{k} a_k b_{n-k} = n! \sum_{k=0}^{n} \frac{a_k}{k!} \frac{b_{n-k}}{(n-k)!}$ (use FFT for $\mathcal{O}(n \log n)$).
-
-            \subsubsection{General linear recurrences}
-                
-                If $a_n = \sum_{k=0}^{n-1} a_k b_{n-k}$, then $A(x) = \frac{a_0}{1-B(x)}$.
-                We also can compute all $a_n$ with Divide-and-Conquer algorithm in $\mathcal{O}(n \log^2 n n)$.
-
-            \subsubsection{Inverse polynomial modulo $x^l$}
-                
-                Given $A(x)$, find $B(x)$ such that $A(x)B(x) = 1 + x^l Q(x)$ for some $Q(x)$.
-
-                Step 1: Start with $B_0(x) = 1/a_0$
-
-                Step 2: $B_{k+1}(x) = (-B_k(x)^2 A(x) + 2 B_k(x)) \mod x^{2^{k+1}}$.
-
-            \subsubsection{Fast subset convolution}
-                
-                Given array $a_i$ of size $2^k$ calculate $b_i = \sum_{j \BitAnd i = i} a_j$.
-                \code{math/subset_conv.cpp}
-
-            \subsubsection{Determinants and PM}
-                \begin{align*}
-                    det(A) &= \sum_{\sigma \in S_n}\text{sgn}(\sigma)\prod_{i = 1}^n a_{i,\sigma(i)}\\
-                    perm(A) &= \sum_{\sigma \in S_n} \prod_{i = 1}^n a_{i,\sigma(i)}\\
-                    pf(A) &= \frac{1}{2^nn!}\sum_{\sigma \in S_{2n}} \text{sgn}(\sigma)\prod_{i = 1}^n a_{\sigma(2i-1),\sigma(2i)}\\ &= \sum_{M \in \text{PM}(n)} \text{sgn}(M) \prod_{(i,j) \in M} a_{i,j}
-                \end{align*}
-
-            \subsubsection{BEST Theorem}
-                Count directed Eulerian cycles. Number of OST given by
-                Kirchoff's Theorem (remove r/c with root) $\#\textsc{OST}(G,r)
-                \cdot \prod_{v}(d_v-1)!$
-
-            \subsubsection{Primitive Roots}
-                Only exists when $n$ is $2, 4, p^k, 2p^k$, where $p$ odd prime. Assume
-                $n$ prime. Number of primitive roots $\phi(\phi(n))$
-                Let $g$ be primitive root. All primitive roots are of the form $g^k$
-                where $k,\phi(p)$ are coprime.\\ $k$-roots:
-                $g^{i \cdot \phi(n) / k}$ for $0 \leq i < k$
-
-            \subsubsection{Sum of primes} For any multiplicative $f$:
-                \[
-                    S(n,p) = S(n, p-1) - f(p) \cdot (S(n/p,p-1) - S(p-1,p-1))
-                \]
-
-            \subsubsection{Floor}
-                \begin{align*}
-                    &\left\lfloor \left\lfloor x/y \right\rfloor / z \right\rfloor = \left\lfloor x / (yz) \right\rfloor \\
-                    &x \% y = x - y \left\lfloor x / y \right\rfloor
-                \end{align*}
-
-
-
-    \clearpage
-    \section*{Practice Contest Checklist}
-        \begin{itemize}
-            \item How many operations per second? Compare to local machine.
-            \item What is the stack size?
-            \item How to use printf/scanf with long long/long double?
-            \item Are \texttt{\_{}\_{}int128} and \texttt{\_{}\_{}float128} available?
-            \item Does MLE give RTE or MLE as a verdict? What about stack overflow?
-            \item What is \texttt{RAND\_{}MAX}?
-            \item How does the judge handle extra spaces (or missing newlines) in the output?
-            \item Look at documentation for programming languages.
-            \item Try different programming languages: C++, Java and Python.
-            \item Try the submit script.
-            \item Try local programs: i?python[23], factor.
-            \item Try submitting with \texttt{assert(false)} and \texttt{assert(true)}.
-            \item Return-value from \texttt{main}.
-            \item Look for directory with sample test cases.
-            \item Make sure printing works.
-
-            \item Remove this page from the notebook (optionally).
-        \end{itemize}
-\end{multicols*}
 \end{document}
+
