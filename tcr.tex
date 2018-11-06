@@ -13,12 +13,9 @@
 \usepackage[top=1cm, bottom=1.5cm, left=1cm, right=1cm]{geometry}
 
 \usepackage{minted}
-\newcommand{\code}[1]{\inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,tabsize=2]{cpp}{code/#1}}
-%\newcommand{\code}[1]{\lstinputlisting{code/#1}}
-\newcommand{\bashcode}[1]{\inputminted{bash}{_code/#1}}
-\newcommand{\regcode}[1]{\inputminted{cpp}{code/#1}}
-%\usemintedstyle{manni}
+\newcommand{\mintedstyle}[2]{\inputminted[fontsize=\normalsize,baselinestretch=.9,breaklines,tabsize=2]{#1}{code/#2}}
 
+\newcommand{\code}[1]{\mintedstyle{cpp}{#1}}
 \setlength{\columnseprule}{.5pt}
 
 \newcommand{\subtitle}[1]{%
@@ -29,12 +26,12 @@
 }
 
 % Header/Footer
-% \geometry{includeheadfoot}
-% \fancyhf{}
+%\geometry{includeheadfoot}
+%\fancyhf{}
 \pagestyle{fancy}
 \lhead{Utrecht University}
 \chead{git diff solution}
-\rhead{\thepage}
+\rhead{\thepage/\pageref{LastPage}}
 \cfoot{}
 \setlength{\headheight}{15.2pt}
 \setlength{\droptitle}{-20pt}
@@ -52,10 +49,10 @@
 \DeclareRobustCommand{\stirling}{\genfrac\{\}{0pt}{}}
 
 \newenvironment{myitemize}
-{ \begin{itemize}[leftmargin=.3cm]
-    \setlength{\itemsep}{0pt}
-    \setlength{\parskip}{0pt}
-    \setlength{\parsep}{0pt}     }
+{\begin{itemize}[leftmargin=.3cm]
+	\setlength{\itemsep}{0pt}
+	\setlength{\parskip}{0pt}
+	\setlength{\parsep}{0pt}     }
 { \end{itemize}                  }
 
 % Output Verbosity
@@ -90,10 +87,11 @@
 At the start of a contest, create the following files in the home-dir:
 \end{center}
 
-.vimrc: \inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,linenos,tabsize=2]{vim}{code/.vimrc}
-.bashrc: \inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,linenos,tabsize=2]{bash}{code/.bashrc}
+.vimrc: \mintedstyle{vim}{.vimrc}
+.bashrc: \mintedstyle{bash}{.bashrc}
 \textbf{Test script} (usage: ./test.sh A/B/..)
-\inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,tabsize=2]{bash}{code/test.sh}
+\mintedstyle{bash}{test.sh}
+% \inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,tabsize=2]{bash}{code/test.sh}
 
 \begin{center}
 template.cpp
@@ -173,7 +171,7 @@ A game can be reduced to Nim if it is a finite impartial game. Nim and its varia
 
 \textbf{A useful identity}: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{mod} \, 4]$.
 
-\section{math}
+\section{Mathematics}
 
 \code{math/math.cpp}
 
@@ -235,23 +233,42 @@ let $n = \left\lfloor \frac{c}{a}\right\rfloor$. In any case, it must hold
 that $C-nA \geq 0$. Be very careful about overflows.
 \code{math/floor_sum.cpp}
 
-\subsection{Numbers and Sequences}
-Some random prime numbers: 1031, 32771, 1048583, 8125344, 33554467, 9982451653
-1073741827, 34359738421, 1099511627791, 35184372088891,
-1125899906842679, 36028797018963971.
+\subsection{Misc}
+Prime numbers:
 
-More random prime numbers: $10^3 + \{-9,-3,9,13\}$, $10^6+
-\{-17,3,33\}$, $10^9+ \{7,9,21,33,87\}$.
+1031, 32771, 1048583, 8125344, 33554467, 9982451653, 1073741827, 34359738421, 1099511627791, 35184372088891, 1125899906842679, 36028797018963971.
 
-Some maximal divisor counts:
-\begin{tabular}{rr}
-840 & 32 \\
-720\,720 & 240 \\
-735\,134\,400 & 1\,344 \\
-963\,761\,198\,400 & 6\,720 \\
-866\,421\,317\,361\,600 & 26\,880 \\
-897\,612\,484\,786\,617\,600 & 103\,680 \\
-\end{tabular}
+$10^3 + \{-9,-3,9,13\}$, $10^6 + \{-17,3,33\}$, $10^9+ \{7,9,21,33,87\}$.
+
+\begin{myitemize}
+	\item \textbf{Generating functions}:
+	Ordinary (ogf): $A(x) := \sum_{n=0}^{\infty} a_i x^i$.
+
+	Calculate product $c_n = \sum_{k=0}^{n} a_k b_{n-k}$ with FFT.
+
+	Exponential (e.g.f.): $A(x) := \sum_{n=0}^{\infty} a_i x^i/i!$,
+
+	$c_n = \sum_{k=0}^{n} \binom{n}{k} a_k b_{n-k} = n! \sum_{k=0}^{n} \frac{a_k}{k!} \frac{b_{n-k}}{(n-k)!}$ (use FFT).
+
+\item \textbf{General linear recurrences:}
+	If $a_n = \sum_{k=0}^{n-1} a_k b_{n-k}$, then $A(x) = \frac{a_0}{1-B(x)}$.
+
+\item \textbf{Inverse polynomial modulo $x^l$:}
+	Given $A(x)$, find $B(x)$ such that $A(x)B(x) = 1 + x^l Q(x)$ for some $Q(x)$.
+
+	Step 1: Start with $B_0(x) = 1/a_0$
+
+	Step 2: $B_{k+1}(x) = (-B_k(x)^2 A(x) + 2 B_k(x)) \mod x^{2^{k+1}}$.
+
+\item \textbf{Fast subset convolution:}
+	Given array $a_i$ of size $2^k$ calculate $b_i = \sum_{j \BitAnd i = i} a_j$.
+	\code{math/subset_conv.cpp}
+
+\item \textbf{Primitive Roots:}
+	It only exists when $n$ is $2, 4, p^k, 2p^k$, where $p$ odd prime.
+	If $g$ is a primitive root, all primitive roots are of the form $g^k$
+	where $k,\phi(p)$ are coprime (hence there are $\phi(\phi(p))$ primitive roots).
+\end{myitemize}
 
 \section{Datastructures}
 \subsection{Segment tree $\mathcal{O}(\log n)$}
@@ -432,8 +449,8 @@ edge for the $i$th vertex. The answer for the root is undefined!
 \code{graphs/arborescence.cpp}
 
 \subsection{Blossom algorithm}
-Finds a maximum matching in an arbitrary graph in $O(|V|^4)$ time. Be
-vary of loop edges.
+Finds a maximum matching in an arbitrary graph in $O(|V|^4)$ time.
+Be aware of loop edges.
 \code{graphs/blossom.cpp}
 
 \subsection{Maximum Density Subgraph}
@@ -636,6 +653,13 @@ Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) =
 	\item $a\equiv b \pmod{x,y} \Leftrightarrow a \equiv b \pmod{\mathrm{lcm}(x,y)}$.
 	\item $ac \equiv bc \pmod{m} \Leftrightarrow a \equiv b \pmod{m/\mathrm{gcd}(c,m)}$.
 	\item $\mathrm{gcd}(n^a-1,n^b-1) = \mathrm{gcd}(a,b)-1$.
+	\item \textbf{Möbius inversion formula:} If $f(n) = \sum_{d|n} g(d)$, then $g(n) = \sum_{d|n} \mu(d) f(n/d)$. If $f(n) = \sum_{m=1}^n g(\lfloor n/m\rfloor)$, then $g(n) = \sum_{m=1}^n \mu(m)f(\lfloor\frac{n}{m}\rfloor)$.
+	\item \textbf{Inclusion-Exclusion:} If $g(T) = \sum_{S \subseteq T} f(S)$, then
+	\[
+		f(T) = \sum_{S \subseteq T} (-1)^{\lvert T \setminus S \rvert} g(T).
+	\]
+	Corollary:
+		$b_n = \sum_{k=0}^{n} \binom{n}{k} a_k \Longleftrightarrow a_n = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} b_k$.
 \end{itemize}
 
 \subsection{The Twelvefold Way}
@@ -670,9 +694,6 @@ $\mathrm{p}_k(n) \sum_{i=0}^k \mathrm{p}(n,k)$.
 		strictly containing $i$ lattice points and having $b$ lattice
 		points on the boundary has area $i + \frac{b}{2} - 1$. (Nothing
 		similar in higher dimensions)
-	\item \textbf{Euler's totient:} The number of integers less than
-		$n$ that are coprime to $n$ are $n\prod_{p|n}\left(1 - \frac{1}{p}\right)$
-		where each $p$ is a distinct prime factor of $n$.
 	\item \textbf{König's theorem:} In any bipartite graph $G=(L\cup R,E)$, the number
 		of edges in a maximum matching is equal to the number of
 		vertices in a minimum vertex cover. Let $U$ be the set of
@@ -685,7 +706,6 @@ $\mathrm{p}_k(n) \sum_{i=0}^k \mathrm{p}(n,k)$.
 		vertex cover number plus the size of a maximum independent set.
 	\item \textbf{Lagrange polynomial} through points $(x_0,y_0),\ldots,(x_k,y_k)$ is $L(x) = \sum_{j=0}^k y_j \prod_{\shortstack{$\scriptscriptstyle 0\leq m \leq k$ \\ $\scriptscriptstyle m\neq j$}} \frac{x-x_m}{x_j - x_m}$
 	\item \textbf{Hook length formula:} If $\lambda$ is a Young diagram and $h_{\lambda}(i,j)$ is the hook-length of cell $(i,j)$, then then the number of Young tableux $d_{\lambda} = n!/\prod h_{\lambda}(i,j)$.
-	\item \textbf{Möbius inversion formula:} If $f(n) = \sum_{d|n} g(d)$, then $g(n) = \sum_{d|n} \mu(d) f(n/d)$. If $f(n) = \sum_{m=1}^n g(\lfloor n/m\rfloor)$, then $g(n) = \sum_{m=1}^n \mu(m)f(\lfloor\frac{n}{m}\rfloor)$.
 	\item \#primitive pythagorean triples with hypotenuse $<n$ approx $n/(2\pi)$.
 	\item \textbf{Frobenius Number:} largest number which can't be
 		expressed as a linear combination of numbers $a_1,\ldots,a_n$
@@ -694,10 +714,14 @@ $\mathrm{p}_k(n) \sum_{i=0}^k \mathrm{p}(n,k)$.
 		d\cdot g(a_1,a_2,a_3) + a_3(d-1)$. An integer $x>\left(\max_i
 		a_i\right)^2$ can be expressed in such a way iff.\ $x\ |\
 		\mathrm{gcd}(a_1,\ldots,a_n)$.
+	\item \textbf{Snell's law:} $v_2 \sin\theta_1 = v_1 \sin\theta_2$ gives the shortest path between two media.
+	\item \textbf{BEST theorem:}
+		The number of Eulerian cycles in a \emph{directed} graph $G$ is:
+		\begin{equation*}
+			t_w(G) \prod_{v \in G} (\deg v - 1)!,
+		\end{equation*}
+		where $t_w(G)$ is the number of arborescences (``directed spanning'' tree) rooted at $w$: $t_w(G) = \det\left( q_{ij} \right)_{i,j \neq w}$, with $q_{ij} = [i=j] \mathrm{indeg}(i) - \# \set{(i,j) \in E}$.
 \end{myitemize}
-
-\subsection{Physics}
-\textbf{Snell's law:} $\frac{\sin\theta_1}{v_1} = \frac{\sin\theta_2}{v_2}$.
 
 \subsection{Burnside's Lemma}
 Let a finite group $G$ act on a set $X$.
@@ -709,68 +733,12 @@ Then the number of orbits is:
 \end{equation*}
 
 \subsection{Bézout's identity}
-If $(x,y)$ is any solution to $ax+by=d$ (e.g.\ found by the Extended
-Euclidean Algorithm), then all solutions are given by \[
-\left(x+k\frac{b}{\gcd(a,b)}, y-k\frac{a}{\gcd(a,b)}\right) \]
-
-\subsection{Misc}
-
-\subsubsection{Binomial transform}
-	If $a_n = \sum_{k=0}^{n} \binom{n}{k} b_k$, then $b_n = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} a_k$.
-
-\subsubsection{Generating functions}
-
-Ordinary (o.g.f.):
-
-	$A(x) := \sum_{n=0}^{\infty} a_i x^i$,
-	$c_n = \sum_{k=0}^{n} a_k b_{n-k}$ (use FFT).
-
-Exponential (e.g.f.): $A(x) := \sum_{n=0}^{\infty} a_i x^i/i!$,
-
-	$c_n = \sum_{k=0}^{n} \binom{n}{k} a_k b_{n-k} = n! \sum_{k=0}^{n} \frac{a_k}{k!} \frac{b_{n-k}}{(n-k)!}$ (use FFT).
-
-\subsubsection{General linear recurrences}
-		
-If $a_n = \sum_{k=0}^{n-1} a_k b_{n-k}$, then $A(x) = \frac{a_0}{1-B(x)}$.
-We also can compute all $a_n$ with Divide-and-Conquer algorithm in $\mathcal{O}(n \log^2 n n)$.
-
-\subsubsection{Inverse polynomial modulo $x^l$}
-Given $A(x)$, find $B(x)$ such that $A(x)B(x) = 1 + x^l Q(x)$ for some $Q(x)$.
-
-Step 1: Start with $B_0(x) = 1/a_0$
-
-Step 2: $B_{k+1}(x) = (-B_k(x)^2 A(x) + 2 B_k(x)) \mod x^{2^{k+1}}$.
-
-\subsubsection{Fast subset convolution}
-Given array $a_i$ of size $2^k$ calculate $b_i = \sum_{j \BitAnd i = i} a_j$.
-\code{math/subset_conv.cpp}
-
-\subsubsection{Determinants and PM}
-\begin{align*}
-	\mathrm{det}(A) &= \sum_{\sigma \in S_n}\text{sgn}(\sigma)\prod_{i = 1}^n a_{i,\sigma(i)}\\
-	\mathrm{perm}(A) &= \sum_{\sigma \in S_n} \prod_{i = 1}^n a_{i,\sigma(i)}\\
-	\mathrm{pf}(A) &= \frac{1}{2^nn!}\sum_{\sigma \in S_{2n}} \text{sgn}(\sigma)\prod_{i = 1}^n a_{\sigma(2i-1),\sigma(2i)}\\ &= \sum_{M \in \text{PM}(n)} \text{sgn}(M) \prod_{(i,j) \in M} a_{i,j}
-\end{align*}
-
-\subsubsection{BEST Theorem}
-The number of Eulerian cycles in a \emph{directed} graph $G$ is:
-\begin{equation*}
-	t_w(G) \prod_{v \in G} (\deg v - 1)!,
-\end{equation*}
-where $t_w(G)$ is the number of arborescences (``directed spanning'' tree) rooted at $w$:
-\begin{equation*}
-	t_w(G) = \det\left( q_{ij} \right)_{i,j \neq w}, \text{with }
-		q_{ij} = [i=j] \mathrm{indeg}(i) - \# \set{(i,j) \in E}.
-\end{equation*}
-
-Count directed Eulerian cycles. Number of OST given by
-Kirchoff's Theorem (remove r/c with root) $\#\textsc{OST}(G,r)
-\cdot \prod_{v}(d_v-1)!$
-
-\subsubsection{Primitive Roots}
-It only exists when $n$ is $2, 4, p^k, 2p^k$, where $p$ odd prime.
-If $g$ is a primitive root, all primitive roots are of the form $g^k$
-where $k,\phi(p)$ are coprime (hence there are $\phi(\phi(p))$ primitive roots).
+If $(x,y)$ is a solution to $ax+by=d$ ($x, y$ can be found with EGCD),
+then all solutions are given by
+\[
+	%\left( x + k \frac{b}{\gcd(a,b)}, y - k\frac{a}{\gcd(a,b)} \right), \quad k \in \mathbb{Z}
+	\left( x + k \cdot \mathrm{lcm}(a,b) / a, \, y - k \cdot \mathrm{lcm}(a,b) / b \right), \quad k \in \mathbb{Z}
+\]
 
 \subsection{Debugging Tips}
 \begin{myitemize}
@@ -1002,7 +970,7 @@ where $k,\phi(p)$ are coprime (hence there are $\phi(\phi(p))$ primitive roots).
 
 \vspace{3em}
 \section*{Practice Contest Checklist}
-\begin{itemize}
+\begin{myitemize}
 	\item How many operations per second? Compare to local machine.
 	\item What is the stack size?
 	\item How to use printf/scanf with long long/long double?
@@ -1018,11 +986,9 @@ where $k,\phi(p)$ are coprime (hence there are $\phi(\phi(p))$ primitive roots).
 	\item Omitting \texttt{return 0;} still works?
 	\item Look for directory with sample test cases.
 	\item Make sure printing works.
+\end{myitemize}
 
-	\item Remove this page from the notebook (optionally).
-\end{itemize}
-
-
+\label{LastPage}
 \end{multicols*}
 
 \end{document}
