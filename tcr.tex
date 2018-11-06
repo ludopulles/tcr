@@ -4,6 +4,7 @@
 \usepackage{datetime,enumitem,fancyhdr,float,fullpage,graphicx,latexsym}
 \usepackage{listings,multicol,parcolumns,subcaption,textcomp,titling,upquote}
 \usepackage{verbatim,wrapfig}
+\usepackage{braket} % \set{}
 
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage[T1]{fontenc}
@@ -51,7 +52,7 @@
 \DeclareRobustCommand{\stirling}{\genfrac\{\}{0pt}{}}
 
 \newenvironment{myitemize}
-{ \begin{itemize}[leftmargin=.5cm]
+{ \begin{itemize}[leftmargin=.3cm]
     \setlength{\itemsep}{0pt}
     \setlength{\parskip}{0pt}
     \setlength{\parsep}{0pt}     }
@@ -629,38 +630,27 @@ Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) =
 
 	\item Rooted trees: $n^{n-1}$, unrooted: $n^{n-2}$.
 	\item Forests of $k$ rooted trees: $\binom{n}{k} k \cdot n^{n-k-1}$.
-	\item $1^2 + \dots + n^2 = \frac{n(n+1)(2n+1)}{6}$, $1^3 + \dots + n^3 = \frac{n^2(n+1)^2}{4}$ \\
-	\item $\sum_{i=1}^n \binom{n}{i} F_i = F_{2n}$, $\sum_{i} \binom{n-i}{i} = F_{n+1}$
-
+	\item $1^2 + \dots + n^2 = \frac{n(n+1)(2n+1)}{6}$, \quad $1^3 + \dots + n^3 = \frac{n^2(n+1)^2}{4}$ \\
+	\item $\sum_{i=1}^n \binom{n}{i} F_i = F_{2n}$, \quad $\sum_{i} \binom{n-i}{i} = F_{n+1}$
+	\item $\sum_{k=0}^n \binom{k}{m} = \binom{n+1}{m+1}$, \quad $x^k = \sum_{i=0}^k i!\stirling{k}{i}\binom{x}{i} = \sum_{i=0}^k \left\langle {k \atop i} \right\rangle\binom{x+i}{k}$
+	\item $a\equiv b \pmod{x,y} \Leftrightarrow a \equiv b \pmod{\mathrm{lcm}(x,y)}$.
+	\item $ac \equiv bc \pmod{m} \Leftrightarrow a \equiv b \pmod{m/\mathrm{gcd}(c,m)}$.
+	\item $\mathrm{gcd}(n^a-1,n^b-1) = \mathrm{gcd}(a,b)-1$.
 \end{itemize}
 
-\begin{tabular}{ll}
-	\#labeled rooted trees & $n^{n-1}$ \\
-	\#labeled unrooted trees & $n^{n-2}$ \\
-	\#forests of $k$ rooted trees & $\frac{k}{n}\binom{n}{k}n^{n-k}$ \\
-	% Kirchoff's theorem
-	$\sum_{i=1}^n i^2 = n(n+1)(2n+1)/6$ & $\sum_{i=1}^n i^3 = n^2(n+1)^2/4$ \\
-	$!n = n\times!(n-1)+(-1)^n$ & $!n = (n-1)(!(n-1)+!(n-2))$ \\
-	$\sum_{i=1}^n \binom{n}{i} F_i = F_{2n}$ & $\sum_{i} \binom{n-i}{i} = F_{n+1}$ \\
-	$\sum_{k=0}^n \binom{k}{m} = \binom{n+1}{m+1}$ & $x^k = \sum_{i=0}^k i!\stirling{k}{i}\binom{x}{i} = \sum_{i=0}^k \left\langle {k \atop i} \right\rangle\binom{x+i}{k}$ \\
-
-	$a\equiv b\pmod{x,y} \Rightarrow a\equiv b\pmod{\lcm(x,y)}$ & $\sum_{d|n} \phi(d) = n$ \\
-	$ac\equiv bc\pmod{m} \Rightarrow a\equiv b\pmod{\frac{m}{\gcd(c,m)}}$ & $(\sum_{d|n} \sigma_0(d))^2 = \sum_{d|n} \sigma_0(d)^3$ \\
-	$p$ prime $\Leftrightarrow (p-1)!\equiv -1\pmod{p}$ & $\gcd(n^a-1,n^b-1) = n^{\gcd(a,b)}-1$ \\
-	$\sigma_x(n) = \prod_{i=0}^{r} \frac{p_i^{(a_i + 1)x} - 1}{p_i^x - 1}$ & $\sigma_0(n) = \prod_{i=0}^r (a_i + 1)$ \\
-	$\sum_{k=0}^m (-1)^k \binom{n}{k} = (-1)^m \binom{n-1}{m}$ & \\
-\end{tabular}
-
 \subsection{The Twelvefold Way}
-Putting $n$ balls into $k$ boxes.\\
+Putting $n$ balls into $k$ boxes.
+$\mathrm{p}(n,k)$ is \# partitions of $n$ in $k$ parts, each $>0$.
+$\mathrm{p}_k(n) \sum_{i=0}^k \mathrm{p}(n,k)$.
+
 \begin{tabular}{@{}c|c|c|c|c|l@{}}
-Balls & same & distinct & same & distinct & \\
-Boxes & same & same & distinct & distinct & Remarks\\
-\hline
-	- & $\mathrm{p}_k(n)$ & $\sum_{i=0}^k \stirling{n}{i}$ & $\binom{n+k-1}{k-1}$ & $k^n$ & $\mathrm{p}_k(n)$: \#partitions of $n$ into $\le k$ positive parts \\
-	$\mathrm{size}\ge 1$ & $\mathrm{p}(n,k)$ & $\stirling{n}{k}$ & $\binom{n-1}{k-1}$ & $k!\stirling{n}{k}$ & $\mathrm{p}(n,k)$: \#partitions of $n$ into $k$ positive parts \\
-	$\mathrm{size}\le 1$ & $[n \le k]$ & $[n \le k]$ & $\binom{k}{n}$ & $n!\binom{k}{n}$ & $[cond]$: $1$ if $cond=true$, else $0$\\
-\bottomrule
+	Balls & same & distinct & same & distinct\\
+	Boxes & same & same & distinct & distinct\\
+	\hline
+	- & $\mathrm{p}_k(n)$ & $\sum_{i=0}^k \stirling{n}{i}$ & $\binom{n+k-1}{k-1}$ & $k^n$ \\ 
+	$\mathrm{size}\ge 1$ & $\mathrm{p}(n,k)$ & $\stirling{n}{k}$ & $\binom{n-1}{k-1}$ & $k!\stirling{n}{k}$ \\
+	$\mathrm{size}\le 1$ & $[n \le k]$ & $[n \le k]$ & $\binom{k}{n}$ & $n!\binom{k}{n}$ \\
+	\bottomrule
 \end{tabular}
 
 \section{Formulas}
@@ -671,7 +661,7 @@ Boxes & same & same & distinct & distinct & Remarks\\
 % \item Number of permutations of length $n$ that have exactly $k$
 %     fixed points: $\binom{n}{k} D_{n-k}$
 
-\begin{itemize}[leftmargin=*]
+\begin{myitemize}
 	\item \textbf{Legendre symbol:} $\left(\frac{a}{b}\right) = a^{(b-1)/2} \pmod{b}$, $b$ odd prime.
 	\item \textbf{Heron's formula:} A triangle with side lengths
 		$a,b,c$ has area $\sqrt{s(s-a)(s-b)(s-c)}$ where $s =
@@ -704,19 +694,19 @@ Boxes & same & same & distinct & distinct & Remarks\\
 		d\cdot g(a_1,a_2,a_3) + a_3(d-1)$. An integer $x>\left(\max_i
 		a_i\right)^2$ can be expressed in such a way iff.\ $x\ |\
 		\mathrm{gcd}(a_1,\ldots,a_n)$.
-\end{itemize}
+\end{myitemize}
 
 \subsection{Physics}
 \textbf{Snell's law:} $\frac{\sin\theta_1}{v_1} = \frac{\sin\theta_2}{v_2}$.
 
 \subsection{Burnside's Lemma}
-Let $G$ be a finite group that acts on a set $X$. For each $g$ in $G$
-let $X^g$ denote the set of elements in $X$ that are fixed by $g$. Then
-the number of orbits \[ |X/G| = \frac{1}{|G|} \sum_{g\in G} |X^g| \]
-
-\[
-	Z(S_n) = \frac{1}{n} \sum_{l=1}^n a_l Z(S_{n-l})
-\]
+Let a finite group $G$ act on a set $X$.
+Denote $X^g = \set{ x \in X | gx = x}$.
+For each $g$ in $G$ let $X^g$ denote the set of elements in $X$ that are fixed by $g$.
+Then the number of orbits is:
+\begin{equation*}
+	\lvert X/G \rvert = \frac{1}{\lvert G \rvert} \sum_{g\in G} \lvert X^g \rvert.
+\end{equation*}
 
 \subsection{Bézout's identity}
 If $(x,y)$ is any solution to $ax+by=d$ (e.g.\ found by the Extended
@@ -773,17 +763,6 @@ $n$ prime. Number of primitive roots $\phi(\phi(n))$
 Let $g$ be primitive root. All primitive roots are of the form $g^k$
 where $k,\phi(p)$ are coprime.\\ $k$-roots:
 $g^{i \cdot \phi(n) / k}$ for $0 \leq i < k$
-
-\subsubsection{Sum of primes} For any multiplicative $f$:
-\[
-	S(n,p) = S(n, p-1) - f(p) \cdot (S(n/p,p-1) - S(p-1,p-1)).
-\]
-
-\subsubsection{Floor}
-\begin{align*}
-	&\left\lfloor \left\lfloor x/y \right\rfloor / z \right\rfloor = \left\lfloor x / (yz) \right\rfloor \\
-	&x \% y = x - y \left\lfloor x / y \right\rfloor
-\end{align*}
 
 \subsection{Debugging Tips}
 \begin{myitemize}
@@ -1013,7 +992,7 @@ $g^{i \cdot \phi(n) / k}$ for $0 \leq i < k$
 	\item Counting/Bucket sort
 \end{myitemize}
 
-
+\vspace{3em}
 \section*{Practice Contest Checklist}
 \begin{itemize}
 	\item How many operations per second? Compare to local machine.
