@@ -709,46 +709,6 @@ Boxes & same & same & distinct & distinct & Remarks\\
 \subsection{Physics}
 \textbf{Snell's law:} $\frac{\sin\theta_1}{v_1} = \frac{\sin\theta_2}{v_2}$.
 
-\subsection{Markov Chains}
-A Markov Chain can be represented as a weighted directed graph of
-states, where the weight of an edge represents the probability of
-transitioning over that edge in one timestep. Let $P^{(m)} = (p^{(m)}_{ij})$
-be the probability matrix of transitioning from state $i$ to state $j$
-in $m$ timesteps, and note that $P^{(1)}$ is the adjacency matrix of
-the graph. \textbf{Chapman-Kolmogorov:} $p^{(m+n)}_{ij} = \sum_{k}
-p^{(m)}_{ik} p^{(n)}_{kj}$. It follows that $P^{(m+n)} =
-P^{(m)}P^{(n)}$ and $P^{(m)} = P^m$. If $p^{(0)}$ is the initial
-probability distribution (a vector), then $p^{(0)}P^{(m)}$ is the
-probability distribution after $m$ timesteps.
-
-The return times of a state $i$ is $R_i = \{m\ |\ p^{(m)}_{ii} > 0 \}$,
-and $i$ is \textit{aperiodic} if $\gcd(R_i) = 1$. A MC is aperiodic if
-any of its vertices is aperiodic. A MC is \textit{irreducible} if the
-corresponding graph is strongly connected.
-
-A distribution $\pi$ is stationary if $\pi P = \pi$. If MC is
-irreducible then $\pi_i = 1/\mathbb{E}[T_i]$, where $T_i$ is the
-expected time between two visits at $i$. $\pi_j/\pi_i$ is the expected
-number of visits at $j$ in between two consecutive visits at $i$. A MC
-is \textit{ergodic} if $\lim_{m\to\infty} p^{(0)} P^{m} = \pi$. A MC is
-ergodic iff.\ it is irreducible and aperiodic.
-
-A MC for a random walk in an undirected weighted graph (unweighted
-graph can be made weighted by adding $1$-weights) has $p_{uv} =
-w_{uv}/\sum_{x} w_{ux}$. If the graph is connected, then $\pi_u =
-\sum_{x} w_{ux} / \sum_{v}\sum_{x} w_{vx}$. Such a random walk is
-aperiodic iff.\ the graph is not bipartite.
-
-An \textit{absorbing} MC is of the form $P = \left(\begin{matrix} Q & R
-\\ 0 & I_r \end{matrix}\right)$. Let $N = \sum_{m=0}^\infty Q^m = (I_t
-- Q)^{-1}$. Then, if starting in state $i$, the expected number of
-steps till absorption is the $i$-th entry in $N1$. If starting in state
-$i$, the probability of being absorbed in state $j$ is the $(i,j)$-th
-entry of $NR$.
-
-Many problems on MC can be formulated in terms of a system of
-recurrence relations, and then solved using Gaussian elimination.
-
 \subsection{Burnside's Lemma}
 Let $G$ be a finite group that acts on a set $X$. For each $g$ in $G$
 let $X^g$ denote the set of elements in $X$ that are fixed by $g$. Then
