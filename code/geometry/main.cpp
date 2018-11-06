@@ -5,24 +5,21 @@ typedef pair<NUM, NUM> pt;
 #define x first
 #define y second
 
-pt operator+(pt p, pt q) { return pt(p.x + q.x, p.y + q.y); }
-pt operator-(pt p, pt q) { return pt(p.x - q.x, p.y - q.y); }
+pt operator+(pt p,pt q){return pt(p.x+q.x, p.y+q.y);}
+pt operator-(pt p,pt q){return pt(p.x-q.x, p.y-q.y);}
 
-pt& operator+=(pt &p, pt q) { return p = p + q; }
-pt& operator-=(pt &p, pt q) { return p = p - q; }
+pt& operator+=(pt &p, pt q) { return p = p+q; }
+pt& operator-=(pt &p, pt q) { return p = p-q; }
 
-pt operator*(pt p, NUM l) { return pt(p.x * l, p.y * l); }
-pt operator/(pt p, NUM l) { return pt(p.x / l, p.y / l); }
+pt operator*(pt p,NUM l) { return pt(p.x*l, p.y*l); }
+pt operator/(pt p,NUM l) { return pt(p.x/l, p.y/l); }
 
-NUM operator*(pt p, pt q) { return p.x * q.x + p.y * q.y; }
-NUM operator^(pt p, pt q) { return p.x * q.y - p.y * q.x; }
-
-istream& operator>>(istream &in, pt &p) { return in >> p.x >> p.y; }
-ostream& operator<<(ostream &out, pt p) { return out << '(' << p.x << ", " << p.y << ')'; }
+NUM operator*(pt p, pt q) { return p.x*q.x+p.y*q.y; }
+NUM operator^(pt p, pt q) { return p.x*q.y-p.y*q.x; }
 
 NUM lenSq(pt p) { return p * p; }
 NUM lenSq(pt p, pt q) { return lenSq(p - q); }
-double len(pt p) { return hypot(p.x, p.y); } // more overflow safe
+double len(pt p) { return hypot(p.x, p.y); }
 double len(pt p, pt q) { return len(p - q); }
 
 typedef pt frac;
