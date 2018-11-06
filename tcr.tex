@@ -415,9 +415,9 @@ NOTE: Not sure if it works correctly with disconnected graphs.
 \code{graphs/tsort.cpp}
 
 \subsection{Euler Path}
-Finds an euler path (or circuit) in a directed graph, or reports that none exist.
+Finds an Euler Path (or circuit) in a \emph{directed} graph iff one exists.
 \code{graphs/euler_path.cpp}
-And an undirected version, which finds a cycle.
+Finds an Euler \emph{cycle} in a \emph{undirected} graph:
 \code{graphs/euler_path_undirected.cpp}
 
 \subsection{Heavy-Light Decomposition}
@@ -433,6 +433,8 @@ And an undirected version, which finds a cycle.
 \code{graphs/tarjan_olca.cpp}
 
 \subsection{Misra-Gries $D+1$-edge coloring}
+Finds a $\max_i \deg(i) + 1$-edge coloring where there all incident edges have distinct colors.
+Finding a $D$-edge coloring is NP-hard.
 \code{graphs/MisraGries.cpp}
 
 \subsection{Minimum Mean Weight Cycle}

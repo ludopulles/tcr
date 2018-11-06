@@ -1,5 +1,4 @@
-#define MAXV 1000
-#define MAXE 5000
+const int MAXV = 1000, MAXE = 5000;
 vi adj[MAXV];
 int n, m, indeg[MAXV], outdeg[MAXV], res[MAXE + 1];
 ii start_end() {

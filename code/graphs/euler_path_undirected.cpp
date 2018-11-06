@@ -1,4 +1,5 @@
-multiset<int> adj[1010];
+const int MAXV = 1000;
+multiset<int> adj[MAXV];
 list<int> L;
 list<int>::iterator euler(int at, int to,
     list<int>::iterator it) {
@@ -16,4 +17,4 @@ list<int>::iterator euler(int at, int to,
       it = euler(nxt, to, it);
       to = -1; } }
   return it; }
-// euler(0,-1,L.begin())
+// usage: euler(0,-1,L.begin());
