@@ -6,4 +6,3 @@ ii find_cycle(int x0, int (*f)(int)) {
   h = f(t);
   while (t != h) h = f(h), lam++;
   return ii(mu, lam); }
-// vim: cc=60 ts=2 sts=2 sw=2:

@@ -35,4 +35,3 @@ struct bipartite_graph {
     while(bfs()) rep(i,0,N)
       matching += L[i] == -1 && dfs(i);
     return matching; } };
-// vim: cc=60 ts=2 sts=2 sw=2:

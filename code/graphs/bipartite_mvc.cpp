@@ -12,4 +12,3 @@ vi mvc_bipartite(bipartite_graph &g) {
   rep(i,0,g.N) if (!alt[i]) res.push_back(i);
   rep(i,0,g.M) if (alt[g.N + i]) res.push_back(g.N + i);
   return res; }
-// vim: cc=60 ts=2 sts=2 sw=2:

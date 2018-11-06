@@ -6,4 +6,3 @@ struct hasher { int b = 311, m; vi h, p;
     rep(i,0,size(s)) h[i+1] = ((ll)h[i] * b + s[i]) % m; }
   int hash(int l, int r) {
     return (h[r+1] + m - (ll)h[l] * p[r-l+1] % m) % m; } };
-// vim: cc=60 ts=2 sts=2 sw=2:

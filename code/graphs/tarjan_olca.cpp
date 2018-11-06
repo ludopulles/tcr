@@ -27,4 +27,3 @@ struct tarjan_olca {
       if (colored[v]) {
         answers[queries[u][i].second] = ancestor[uf.find(v)];
       } } } };
-// vim: cc=60 ts=2 sts=2 sw=2:

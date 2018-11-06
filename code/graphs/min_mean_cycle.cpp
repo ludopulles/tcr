@@ -10,4 +10,3 @@ double min_mean_cycle(vector<vector<pair<int,double>>> adj){
     rep(i,0,n) mx = max(mx, (arr[n][i]-arr[k][i])/(n-k));
     mn = min(mn, mx); }
   return mn; }
-// vim: cc=60 ts=2 sts=2 sw=2:

@@ -16,4 +16,3 @@ void intToDate(int jd, int &y, int &m, int &d) {
   x = j / 11;
   m = j + 2 - 12 * x;
   y = 100 * (n - 49) + i + x; }
-// vim: cc=60 ts=2 sts=2 sw=2:

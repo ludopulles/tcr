@@ -17,4 +17,3 @@ void sieve() {
       for (int j = i+i; j < L; j += i)
         mer[j] = 0, mob[j] = (j/i)%i == 0 ? 0 : -mob[j/i]; }
     mer[i] = mob[i] + mer[i-1]; } }
-// vim: cc=60 ts=2 sts=2 sw=2:

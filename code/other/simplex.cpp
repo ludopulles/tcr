@@ -106,4 +106,3 @@ struct LPSolver {
 //   cerr << endl;
 //   return 0;
 // }
-// vim: cc=60 ts=2 sts=2 sw=2:

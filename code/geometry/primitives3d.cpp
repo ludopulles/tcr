@@ -80,4 +80,3 @@ bool plane_plane_intersect(P(A), P(nA), P(B), P(nB),
   P = A + (n * nA) * ((B - A) % nB / (v % nB));
   Q = P + n;
   return true; }
-// vim: cc=60 ts=2 sts=2 sw=2:

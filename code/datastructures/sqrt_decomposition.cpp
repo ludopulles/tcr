@@ -32,4 +32,3 @@ void insert(int at, int v) {
 void erase(int at) {
   int i = split(at); split(at + 1);
   T.erase(T.begin() + i); }
-// vim: cc=60 ts=2 sts=2 sw=2:

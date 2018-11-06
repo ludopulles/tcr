@@ -36,4 +36,3 @@ struct arborescence {
         rest[*it] = par[*it];
       return rest; }
     return par; } };
-// vim: cc=60 ts=2 sts=2 sw=2:

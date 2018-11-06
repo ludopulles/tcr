@@ -16,4 +16,3 @@ void sieve() {
       sp[i] = i-1;
       for (int j = i+i; j < N; j += i) sp[j] -= sp[j] / i; }
     sp[i] += sp[i-1]; } }
-// vim: cc=60 ts=2 sts=2 sw=2:

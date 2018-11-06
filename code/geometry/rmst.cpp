@@ -45,4 +45,3 @@ struct RMST {
           arr[i].x *= -1, arr[i].y *= -1; } }
       rep(i,0,n) arr[i].x *= -1; }
     return es; } };
-// vim: cc=60 ts=2 sts=2 sw=2:

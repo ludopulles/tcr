@@ -46,4 +46,3 @@ struct HLD {
     return f(res, values.query(loc[v] + 1, loc[u]).x); }
   int query(int u, int v) { int l = lca(u, v);
     return f(query_upto(u, l), query_upto(v, l)); } };
-// vim: cc=60 ts=2 sts=2 sw=2:

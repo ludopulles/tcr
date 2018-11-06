@@ -51,4 +51,3 @@ void sqrt(Num x[], Num y[], int l) {
   rep(i,0,l<<1) T2[i] = T1[i] * T2[i];
   ntt(T2, l<<1, true);
   rep(i,0,l) y[i] = (y[i] + T2[i]) * inv2; }
-// vim: cc=60 ts=2 sts=2 sw=2:

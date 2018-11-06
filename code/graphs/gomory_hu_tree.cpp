@@ -31,4 +31,3 @@ int compute_max_flow(int s, int t, const pair<vii, vvi> &gh) {
     cur = min(cur, gh.first[at].second),
     at = gh.first[at].first;
   return min(cur, gh.second[at][t]); }
-// vim: cc=60 ts=2 sts=2 sw=2:

@@ -19,16 +19,16 @@ vi find_augmenting_path(const vector<vi> &adj,const vi &m){
         par[x]=w, root[x]=root[w], height[x]=height[w]+1;
       } else if (height[w] % 2 == 0) {
         if (root[v] != root[w]) {
-          while (v != -1) q.push_back(v), v = par[v];
+          while(v != -1) q.push_back(v), v = par[v];
           reverse(q.begin(), q.end());
-          while (w != -1) q.push_back(w), w = par[w];
+          while(w != -1) q.push_back(w), w = par[w];
           return q;
         } else {
           int c = v;
-          while (c != -1) a.push_back(c), c = par[c];
+          while(c != -1) a.push_back(c), c = par[c];
           c = w;
-          while (c != -1) b.push_back(c), c = par[c];
-          while (!a.empty()&&!b.empty()&&a.back()==b.back())
+          while(c != -1) b.push_back(c), c = par[c];
+          while(!a.empty()&&!b.empty()&&a.back()==b.back())
             c = a.back(), a.pop_back(), b.pop_back();
           memset(marked,0,sizeof(marked));
           fill(par.begin(), par.end(), 0);
@@ -81,4 +81,3 @@ vii max_matching(const vector<vi> &adj) {
   } while (!ap.empty());
   rep(i,0,size(m)) if (i < m[i]) res.emplace_back(i, m[i]);
   return res; }
-// vim: cc=60 ts=2 sts=2 sw=2:

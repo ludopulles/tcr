@@ -13,4 +13,3 @@ vi lis(vi arr) {
   while (at != -1) ans.push_back(at), at = back[at];
   reverse(ans.begin(), ans.end());
   return ans; }
-// vim: cc=60 ts=2 sts=2 sw=2:

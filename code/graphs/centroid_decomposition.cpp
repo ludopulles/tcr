@@ -39,4 +39,3 @@ struct centroid_decomposition {
     rep(h,0,seph[u]+1)
       mn = min(mn, path[u][h] + shortest[jmp[u][h]]);
     return mn; } };
-// vim: cc=60 ts=2 sts=2 sw=2:

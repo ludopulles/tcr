@@ -26,4 +26,3 @@ struct eertree {
       return 1; }
     last = st[p].to[c-BASE];
     return 0; } };
-// vim: cc=60 ts=2 sts=2 sw=2:

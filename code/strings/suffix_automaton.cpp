@@ -60,4 +60,3 @@ struct suffix_automaton {
     for(int i = size(states)-1; i >= 0; --i){
       int v = states[i].second;
       if(link[v] != -1) { occur[link[v]] += occur[v]; }}}};
-// vim: cc=60 ts=2 sts=2 sw=2:
