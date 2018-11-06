@@ -753,16 +753,24 @@ Given array $a_i$ of size $2^k$ calculate $b_i = \sum_{j \BitAnd i = i} a_j$.
 \end{align*}
 
 \subsubsection{BEST Theorem}
+The number of Eulerian cycles in a \emph{directed} graph $G$ is:
+\begin{equation*}
+	t_w(G) \prod_{v \in G} (\deg v - 1)!,
+\end{equation*}
+where $t_w(G)$ is the number of arborescences (``directed spanning'' tree) rooted at $w$:
+\begin{equation*}
+	t_w(G) = \det\left( q_{ij} \right)_{i,j \neq w}, \text{with }
+		q_{ij} = [i=j] \mathrm{indeg}(i) - \# \set{(i,j) \in E}.
+\end{equation*}
+
 Count directed Eulerian cycles. Number of OST given by
 Kirchoff's Theorem (remove r/c with root) $\#\textsc{OST}(G,r)
 \cdot \prod_{v}(d_v-1)!$
 
 \subsubsection{Primitive Roots}
-Only exists when $n$ is $2, 4, p^k, 2p^k$, where $p$ odd prime. Assume
-$n$ prime. Number of primitive roots $\phi(\phi(n))$
-Let $g$ be primitive root. All primitive roots are of the form $g^k$
-where $k,\phi(p)$ are coprime.\\ $k$-roots:
-$g^{i \cdot \phi(n) / k}$ for $0 \leq i < k$
+It only exists when $n$ is $2, 4, p^k, 2p^k$, where $p$ odd prime.
+If $g$ is a primitive root, all primitive roots are of the form $g^k$
+where $k,\phi(p)$ are coprime (hence there are $\phi(\phi(p))$ primitive roots).
 
 \subsection{Debugging Tips}
 \begin{myitemize}
