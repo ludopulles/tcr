@@ -8,7 +8,7 @@
 
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
+\usepackage[utf8x]{inputenc}
 
 \usepackage[top=1cm, bottom=1.5cm, left=1cm, right=1cm]{geometry}
 
@@ -151,23 +151,6 @@ This GNU builtin checks for over- and underflow. Result is in \texttt{res} if su
 	\item[K\"{o}nig's theorem]
 		In any bipartite graph, the number of edges in a maximum matching equals the number of vertices in a minimum vertex cover
 \end{description}
-
-% \begin{comment}
-\subsection{Game theory}
-
-A game can be reduced to Nim if it is a finite impartial game. Nim and its variants include:
-\begin{description}
-	\item[Nim] Let $X = \bigoplus_{i=1}^n x_i$, then $(x_i)_{i=1}^n$ is a winning position iff $X\neq 0$. Find a move by picking $k$ such that $x_k > x_k \oplus X$.
-	\item[Mis\`{e}re Nim] Regular Nim, except that the last player to move \textit{loses}. Play regular Nim until there is only one pile of size larger than $1$, reduce it to $0$ or $1$ such that there is an odd number of piles.
-	\item[Staircase Nim] Stones are moved down a staircase and only removed from the last pile. $(x_i)_{i=1}^n$ is an $L$-position if $(x_{2i-1})_{i=1}^{n/2}$ is (i.e. only look at odd-numbered piles).
-	\item[Moore's Nim$_k$] The player may remove from at most $k$ piles (Nim $=$ Nim$_1$). Expand the piles in base $2$, do a carry-less addition in base $k+1$ (i.e. the number of ones in each column should be divisible by $k+1$).
-	\item[Dim$^+$] The number of removed stones must be a divisor of the pile size. The Sprague-Grundy function is $k+1$ where $2^k$ is the largest power of $2$ dividing the pile size.
-	\item[Aliquot game] Same as above, except the divisor should be proper (hence $1$ is also a terminal state, but watch out for size $0$ piles). Now the Sprague-Grundy function is just $k$.
-	\item[Nim (at most half)] Write $n+1 = 2^my$ with $m$ maximal, then the Sprague-Grundy function of $n$ is $(y - 1) / 2$.
-	\item[Lasker's Nim] Players may alternatively split a pile into two new non-empty piles. $g(4k+1) = 4k+1$, $g(4k+2) = 4k+2$, $g(4k+3) = 4k+4$, $g(4k+4) = 4k+3$ ($k\geq 0$).
-	\item[Hackenbush on trees] A tree with stalks $(x_i)_{i=1}^n$ may be replaced with a single stalk with length $\bigoplus_{i=1}^n x_i$.
-\end{description}
-% \end{comment}
 
 \textbf{A useful identity}: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{mod} \, 4]$.
 
@@ -667,7 +650,7 @@ Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) =
 \subsection{The Twelvefold Way}
 Putting $n$ balls into $k$ boxes.
 $\mathrm{p}(n,k)$ is \# partitions of $n$ in $k$ parts, each $>0$.
-$\mathrm{p}_k(n) \sum_{i=0}^k \mathrm{p}(n,k)$.
+$\mathrm{p}_k(n) = \sum_{i=0}^k \mathrm{p}(n,k)$.
 
 \begin{tabular}{@{}c|c|c|c|c|l@{}}
 	Balls & same & distinct & same & distinct\\
@@ -742,7 +725,22 @@ then all solutions are given by
 	\left( x + k \cdot \mathrm{lcm}(a,b) / a, \, y - k \cdot \mathrm{lcm}(a,b) / b \right), \quad k \in \mathbb{Z}
 \]
 
-\subsection{Debugging Tips}
+\section{Game Theory}
+A game can be reduced to Nim if it is a finite impartial game.
+Nim and its variants include:
+\begin{myitemize}
+	\item \textbf{Nim:} Let $X = \bigoplus_{i=1}^n x_i$, then $(x_i)_{i=1}^n$ is a winning position iff $X\neq 0$. Find a move by picking $k$ such that $x_k > x_k \oplus X$.
+	\item \textbf{Mis\`{e}re Nim:} Regular Nim, except that the last player to move \textit{loses}. Play regular Nim until there is only one pile of size larger than $1$, reduce it to $0$ or $1$ such that there is an odd number of piles. The second player wins $(a_1, \dots, a_n)$ if 1) there is a pile $a_i > 1$ and $\oplus_{i=1}^{n} a_i = 0$ or 2) all $a_i \leq 1$ and $\oplus_{i=1}^{n} a_i = 1$.
+	\item \textbf{Staircase Nim:} Stones are moved down a staircase and only removed from the last pile. $(x_i)_{i=1}^n$ is an $L$-position if $(x_{2i-1})_{i=1}^{n/2}$ is (i.e. only look at odd-numbered piles).
+	\item \textbf{Moore's Nim$_k$:} The player may remove from at most $k$ piles (Nim $=$ Nim$_1$). Expand the piles in base $2$, do a carry-less addition in base $k+1$ (i.e. the number of ones in each column should be divisible by $k+1$).
+	\item \textbf{Dim$^+$:} The number of removed stones must be a divisor of the pile size. The Sprague-Grundy function is $k+1$ where $2^k$ is the largest power of $2$ dividing the pile size.
+	\item \textbf{Aliquot game:} Same as above, except the divisor should be proper (hence $1$ is also a terminal state, but watch out for size $0$ piles). Now the Sprague-Grundy function is just $k$.
+	\item \textbf{Nim (at most half):} Write $n+1 = 2^my$ with $m$ maximal, then the Sprague-Grundy function of $n$ is $(y - 1) / 2$.
+	\item \textbf{Lasker's Nim:} Players may alternatively split a pile into two new non-empty piles. $g(4k+1) = 4k+1$, $g(4k+2) = 4k+2$, $g(4k+3) = 4k+4$, $g(4k+4) = 4k+3$ ($k\geq 0$).
+	\item \textbf{Hackenbush on trees:} A tree with stalks $(x_i)_{i=1}^n$ may be replaced with a single stalk with length $\bigoplus_{i=1}^n x_i$.
+\end{myitemize}
+
+\section{Debugging Tips}
 \begin{myitemize}
 	\item Stack overflow? Recursive DFS on tree that is actually a long path?
 	\item Floating-point numbers
