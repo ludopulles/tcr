@@ -628,7 +628,7 @@ Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) =
 
 	\item Euler 2\textsuperscript{nd} order (nr perms of ${1, 1, 2, 2, \dots, n, n}$ with exactly $k$ ascents):
 
-		$\left \langle {n\atop 0} \right \rangle = \left \langle {n\atop n-1} \right \rangle = 1, \left \langle {n\atop k} \right \rangle = (k+1) \left \langle {n-1\atop {k}} \right \rangle + (n-k)\left \langle {{n-1}\atop {k-1}} \right \rangle$.
+		$\left \langle \!\!\left \langle {n\atop k} \right \rangle \!\! \right \rangle = (k+1) \left \langle \!\! \left \langle {{n-1}\atop {k}} \right \rangle \!\! \right \rangle +(2n-k-1)\left \langle \!\! \left \langle {{n-1}\atop {k-1}} \right \rangle  \!\! \right \rangle$.
 
 	\item Rooted trees: $n^{n-1}$, unrooted: $n^{n-2}$.
 	\item Forests of $k$ rooted trees: $\binom{n}{k} k \cdot n^{n-k-1}$.
