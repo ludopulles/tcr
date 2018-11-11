@@ -10,8 +10,8 @@ template<class TV> using order_set = order_tree<TV, null_type>;
 
 typedef long long ll;
 typedef long double ld;
-typedef pair<int, int> ii;
-typedef vector<int> vi;
+typedef pair<ll, ll> ii;
+typedef vector<ll> vi;
 typedef vector<vi> vvi;
 typedef vector<ii> vii;
 
@@ -28,7 +28,7 @@ typedef vector<ii> vii;
 template<class T> using min_queue = priority_queue<T, vector<T>, greater<T>>;
 template<class T> int size(const T &x) { return x.size(); } // copy the ampersand(&)!
 
-const int INF = 2147483647;
+const ll INF = 2147483647;
 const ll LLINF = ~(1LL<<63); // = 9.223.372.036.854.775.807
 const ld PI = acos(-1.0);
 
