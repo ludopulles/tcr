@@ -1,3 +1,5 @@
+vvi A; // A[i][j] is voor [i,j)
+
 void divco(ll ls,ll rs,ll lt,ll rt,vi &t, vi &s){ // berekent t|_{[lt,rt)}
 	if(lt >= rt)
 		return;

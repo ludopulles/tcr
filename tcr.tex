@@ -25,12 +25,15 @@
     \vskip0.1em\vspace{-1em}}%
 }
 
+%\def\QQ{{$\mathbb{Q}$\nolinebreak[3]\raisebox{.4ex}{\tiny\bf ++}}}
+\newcommand{\QQ}{$\mathbb{Q}$\nolinebreak\hspace{-.05em}\raisebox{.4ex}{\tiny\bf +}\nolinebreak\hspace{-.10em}\raisebox{.4ex}{\tiny\bf +}}
+
 % Header/Footer
 %\geometry{includeheadfoot}
 %\fancyhf{}
 \pagestyle{fancy}
 \lhead{Leiden University}
-\chead{\(\mathbb{Q}++\)}
+\chead{\QQ}
 \rhead{\thepage/\pageref{LastPage}}
 \cfoot{}
 \setlength{\headheight}{15.2pt}
@@ -61,7 +64,7 @@
 % \verbosefalse
 
 \title{TCR}
-\subtitle{\(\mathbb{Q}++\) (Daan van Gent, Onno Berrevoets, Pim Spelier)}
+\subtitle{\QQ (Daan van Gent, Onno Berrevoets, Pim Spelier)}
 
 \begin{document}
 
@@ -279,8 +282,8 @@ Use this if you add things, which depend on $i$:
 \subsection{Disjoint-Set / Union-Find $\mathcal{O}(\alpha (n))$}
 \code{datastructures/dsu.cpp}
 
-\subsection{AVL Tree Balanced Binary Search Tree $\mathcal{O}(\log n) / \mathcal{O}(\log n)$}
-\code{datastructures/avl_tree.cpp}
+%\subsection{AVL Tree Balanced Binary Search Tree $\mathcal{O}(\log n) / \mathcal{O}(\log n)$}
+%\code{datastructures/avl_tree.cpp}
 
 Use this easy implementation for a map:
 \code{datastructures/avl_tree_map.cpp}
@@ -316,13 +319,13 @@ Design principle that supports many operations in amortized $\sqrt{n}$ per opera
 A queue that supports querying for the minimum element. Useful for sliding window algorithms.
 \code{datastructures/monotonic_queue.cpp}
 
-\subsection{Convex Hull Trick}
+\subsection{Convex Hull Trick (replace $O(n^2)$ by respectively $O(n)$ and $O(n\log n)$}
 If converting to integers, look out for division by 0 and $\pm\infty$.
 \code{datastructures/convex_hull_trick.cpp}
 And dynamic variant:
 \code{datastructures/convex_hull_trick_dynamic.cpp}
 
-\subsection{Sparse Table}
+\subsection{Sparse Table $O(\log n)$ per query}
 \code{datastructures/sparse_table.cpp}
 
 \section{Graph Algorithms}
@@ -353,7 +356,7 @@ This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
 
 \subsection{Depth first searches}
 
-\subsubsection{Cut Points and Bridges}
+\subsubsection{Cut Points and Bridges $O(V+E)$}
 \code{graphs/cut_points_and_bridges.cpp}
 
 \subsubsection{Strongly Connected Components $\mathcal{O}(V + E)$}
@@ -374,7 +377,7 @@ Include \texttt{findSCC}.
 % http://www.slideshare.net/KuoE0/acmicpc-dinics-algorithm
 \code{graphs/dinic.cpp}
 
-\subsubsection{Min-cost max-flow}
+\subsubsection{Min-cost max-flow $O(n^2 m^2)$}
 Find the cheapest possible way of sending a certain amount of flow through a flow network.
 \code{graphs/mincostmaxflow.cpp}
 
@@ -393,11 +396,11 @@ NOTE: Not sure if it works correctly with disconnected graphs.
 \subsubsection{Kruskal $\mathcal{O}(E \log V)$}
 \code{graphs/mst_kruskal.cpp}
 
-\subsection{Topological Sort}
+\subsection{Topological Sort $O(V+E)$}
 \subsubsection{Modified Depth-First Search}
 \code{graphs/tsort.cpp}
 
-\subsection{Euler Path}
+\subsection{Euler Path $O(V+E)$ hopefully}
 Finds an Euler Path (or circuit) in a \emph{directed} graph iff one exists.
 \code{graphs/euler_path.cpp}
 Finds an Euler \emph{cycle} in a \emph{undirected} graph:
@@ -805,6 +808,7 @@ Nim and its variants include:
 							\item $O(kn^2)$ to $O(kn\log{n})$
 							\item sufficient: $C[a][c] + C[b][d] \leq C[a][d] + C[b][c]$, $a\leq b\leq c\leq d$ (QI)
 						\end{itemize}
+					\code{divco.cpp}
 					\item Knuth optimization
 						\begin{itemize}
 							\item $\mathrm{dp}[i][j] = \min_{i<k<j}\{\mathrm{dp}[i][k] + \mathrm{dp}[k][j] + C[i][j]\}$
