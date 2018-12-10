@@ -1,18 +1,15 @@
-#define N 10000000
-ll sp[N];
+const int L = 1e7;
+ll sp[L];
 unordered_map<ll,ll> mem;
 ll sumphi(ll n) {
-  if (n < N) return sp[n];
+  if (n < L) return sp[n];
   if (mem.find(n) != mem.end()) return mem[n];
-  ll ans = 0, done = 1;
-  for (ll i = 2; i*i <= n; i++) ans += sumphi(n/i), done = i;
-  for (ll i = 1; i*i <= n; i++)
-    ans += sp[i] * (n/i - max(done, n/(i+1)));
-  return mem[n] = n*(n+1)/2 - ans; }
+  ll r = 0, d;
+  for (d = 2; d * d <= n; d++) r += sumphi(n/d);
+  for (d = n / --d; --d;) r += sp[d]*(n/d-n/(d+1));
+  return mem[n] = n*(n+1)/2 - r; }
 void sieve() {
-  for (int i = 1; i < N; i++) sp[i] = i;
-  for (int i = 2; i < N; i++) {
-    if (sp[i] == i) {
-      sp[i] = i-1;
-      for (int j = i+i; j < N; j += i) sp[j] -= sp[j] / i; }
-    sp[i] += sp[i-1]; } }
+  iota(sp, sp + L, 0);
+  rep(i, 2, L) if (sp[i] == i)
+    for(int j=i; j<L; j+=i) sp[j] -= sp[j]/i;
+  rep(i, 2, L) sp[i] += sp[i-1]; }
