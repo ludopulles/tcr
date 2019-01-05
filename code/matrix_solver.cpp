@@ -33,7 +33,7 @@ int solvemat(int n, int m) {
 	} // now mat is in RREF
 	
 	for (int r = pr; r < n; r++)
-		if (!is0(mat[r][n])) return 0;
+		if (!is0(mat[r][m])) return 0;
 	// F2: return 1;
 	fill_n(hasval, n, false);
 	for (int col = 0, row; col < m; col++) {
