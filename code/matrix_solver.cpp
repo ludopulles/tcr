@@ -42,7 +42,7 @@ int solvemat(int n, int m) {
 		for (int c = col + 1; c < m; c++) {
 			if (!is0(mat[row][c])) hasval[col] = false;
 		}
-		if (hasval[col]) vals[col] = mat[row][n];
+		if (hasval[col]) vals[col] = mat[row][m];
 		row++;
 	}
 	REP(i, n) if (!hasval[i]) return 2;
