@@ -19,14 +19,14 @@ pair<vii, vvi> construct_gh_tree(flow_network &g) {
         par[i].first = s;
     g.reset(); }
   rep(i,0,n) {
-    int mn = INF, cur = i;
+    int mn = INT_MAX, cur = i;
     while (true) {
       cap[cur][i] = mn;
       if (cur == 0) break;
       mn = min(mn, par[cur].second), cur = par[cur].first; } }
   return make_pair(par, cap); }
 int compute_max_flow(int s, int t, const pair<vii, vvi> &gh) {
-  int cur = INF, at = s;
+  int cur = INT_MAX, at = s;
   while (gh.second[at][t] == -1)
     cur = min(cur, gh.first[at].second),
     at = gh.first[at].first;

@@ -35,7 +35,7 @@ struct centroid_decomposition {
       shortest[jmp[u][h]] = min(shortest[jmp[u][h]],
                                 path[u][h]); }
   int closest(int u) {
-    int mn = INF/2;
+    int mn = INT_MAX/2;
     rep(h,0,seph[u]+1)
       mn = min(mn, path[u][h] + shortest[jmp[u][h]]);
     return mn; } };

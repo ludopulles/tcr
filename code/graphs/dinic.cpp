@@ -31,7 +31,7 @@ struct Dinic {
 			}
 			if (!H[t]) return f;
 			fill(all(P), 0);
-			while (ll df = dfs(t, s, LLINF)) f += df;
+			while (ll df = dfs(t, s, LLONG_MAX)) f += df;
 		}
 	}
 };

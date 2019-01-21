@@ -1,4 +1,3 @@
-#define INF 1e9
 #define EPS 1e-9
 #define PI acos(-1.0) // important constant; alternative #define PI (2.0 * acos(0.0))
 

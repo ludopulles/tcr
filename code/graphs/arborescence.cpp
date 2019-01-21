@@ -6,7 +6,7 @@ struct arborescence {
   void add_edge(int a, int b, int c) {
     adj[b].push_back(make_pair(ii(a,b),c)); }
   vii find_min(int r) {
-    vi vis(n,-1), mn(n,INF); vii par(n);
+    vi vis(n,-1), mn(n,INT_MAX); vii par(n);
     rep(i,0,n) {
       if (uf.find(i) != i) continue;
       int at = i;

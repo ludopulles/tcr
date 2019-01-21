@@ -7,7 +7,7 @@ int dfs(int d, int g, int prev) {
   int h = calch();
   if (g + h > d) return g + h;
   if (h == 0) return 0;
-  int mn = INF;
+  int mn = INT_MAX;
   rep(di,-2,3) {
     if (di == 0) continue;
     int nxt = pos + di;
@@ -25,5 +25,5 @@ int idastar() {
   int d = calch();
   while (true) {
     int nd = dfs(d, 0, -1);
-    if (nd == 0 || nd == INF) return d;
+    if (nd == 0 || nd == INT_MAX) return d;
     d = nd; } }

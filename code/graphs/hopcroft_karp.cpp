@@ -9,14 +9,14 @@ struct bipartite_graph {
   bool bfs() {
     int l = 0, r = 0;
     rep(v,0,N) if(L[v] == -1) dist(v) = 0, q[r++] = v;
-      else dist(v) = INF;
-    dist(-1) = INF;
+      else dist(v) = INT_MAX;
+    dist(-1) = INT_MAX;
     while(l < r) {
       int v = q[l++];
       if(dist(v) < dist(-1)) {
-        iter(u, adj[v]) if(dist(R[*u]) == INF)
+        iter(u, adj[v]) if(dist(R[*u]) == INT_MAX)
           dist(R[*u]) = dist(v) + 1, q[r++] = R[*u]; } }
-    return dist(-1) != INF; }
+    return dist(-1) != INT_MAX; }
   bool dfs(int v) {
     if(v != -1) {
       iter(u, adj[v])
@@ -24,7 +24,7 @@ struct bipartite_graph {
           if(dfs(R[*u])) {
             R[*u] = v, L[v] = *u;
             return true; }
-      dist(v) = INF;
+      dist(v) = INT_MAX;
       return false; }
     return true; }
   void add_edge(int i, int j) { adj[i].push_back(j); }

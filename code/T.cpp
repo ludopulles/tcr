@@ -28,8 +28,6 @@ typedef vector<ii> vii;
 template<class T> using min_queue = priority_queue<T, vector<T>, greater<T>>;
 template<class T> int size(const T &x) { return x.size(); } // copy the ampersand(&)!
 
-const int INF = 2147483647;
-const ll LLINF = ~(1LL<<63); // = 9.223.372.036.854.775.807
 const ld PI = acos(-1.0);
 
 void run() {

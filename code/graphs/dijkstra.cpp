@@ -6,7 +6,7 @@ struct cmp {
 pair<int*, int*> dijkstra(int n, int s, vii *adj) {
   dist = new int[n];
   dad = new int[n];
-  rep(i,0,n) dist[i] = INF, dad[i] = -1;
+  rep(i,0,n) dist[i] = INT_MAX, dad[i] = -1;
   set<int, cmp> pq;
   dist[s] = 0, pq.insert(s);
   while (!pq.empty()) {

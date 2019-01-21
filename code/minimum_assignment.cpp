@@ -4,11 +4,11 @@ int minimum_assignment(int n, int m) { // n rows, m columns
 	for (int i = 1; i <= n; i++) {
 		p[0] = i;
 		int j0 = 0;
-		vi minv(m + 1, INF);
+		vi minv(m + 1, INT_MAX);
 		vector<char> used(m + 1, false);
 		do {
 			used[j0] = true;
-			int i0 = p[j0], delta = INF, j1;
+			int i0 = p[j0], delta = INT_MAX, j1;
 			for (int j = 1; j <= m; j++)
 				if (!used[j]) {
 					int cur = a[i0][j] - u[i0] - v[j];
