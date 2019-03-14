@@ -1,12 +1,5 @@
-#include<bits/extc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-using namespace __gnu_pbds;
-
-// BBST + order statistics (if supported by judge)
-// iterator find_by_order(int r) (zero based)
-// int order_of_key(TK v)
-template<class TK, class TM> using order_tree = tree<TK, TM, less<TK>, rb_tree_tag, tree_order_statistics_node_update>;
-template<class TV> using order_set = order_tree<TV, null_type>;
 
 typedef long long ll;
 typedef long double ld;
