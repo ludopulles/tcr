@@ -16,6 +16,6 @@ signed main() {
 	s.resize(n,0);
 	rep(i,0,n) t.insert(ii{0,i});
 	update( 2, 3 );
-	cout << t.find_by_order( 2 ).y << endl;
-	cout << t.order_of_key( s[3] ) << endl;
+	cout << t.find_by_order( 2 )->y << endl;
+	cout << t.order_of_key( ii{s[3],3} ) << endl;
 }
