@@ -1,19 +1,18 @@
-vector< pair<pii, ll> > edges; // ((from, to), weight)
-vector<ll> dist;
-
-// when undirected, add back edges
-bool bellman_ford(int V, int source) {
-	dist.assign(V, 1e18); dist[source] = 0;
-	
-	bool updated = true; int loops = 0;
-	while (updated && loops < n) {
-		updated = false;
-		for (auto e : edges) {
-			int alt = dist[e.x.x] + e.y;
-			if (alt < dist[e.x.y]) {
-				dist[e.x.y] = alt; updated = true;
-			}
-		}
-	}
-	return loops < n; // loops >= n: negative cycles
+#define INFTY (1LL<<61LL)
+// G undirected, (v,w) in G[u] 'n edge van u naar v lengte w
+vi bellman_ford( vector<vii> G, ll s ) {
+	ll n = G.size();
+	vi d(n,INFTY); d[s] = 0; 
+	rep( loops, 0, n )
+		rep( u, 0, n ) if( d[u] != INFTY ) 
+			for( ii e : G[u] )
+				if( d[u] + e.y < d[e.x] )
+					d[e.x] = d[u] + e.y;
+	// detect paths of -INFTY length
+	for( ll change = 1; change--; )
+		rep( u, 0, n ) if( d[u] != INFTY )
+			for( ii e : G[u] ) if( d[e.x] != -INFTY )
+				if( d[u] + e.y < d[e.x] )
+					d[e.x] = -INFTY, change = 1;
+	return d;
 }
