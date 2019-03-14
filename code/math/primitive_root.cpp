@@ -2,8 +2,8 @@ ll primitive_root(ll m) {
 	vector<ll> div;
 	for (ll i = 1; i*i < m; i++) {
 		if ((m-1) % i == 0) {
-			if (i < m) div.pb(i);
-			if (m/i < m) div.pb(m/i); } }
+			if (i < m-1) div.pb(i);
+			if ((m-1)/i < m) div.pb((m-1)/i); } }
 	rep(x,2,m) {
 		bool ok = true;
 		for (ll d : div) 

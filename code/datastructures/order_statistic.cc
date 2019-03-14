@@ -1,6 +1,6 @@
 #include <bits/extc++.h>
 using namespace __gnu_pbds;
-template<class TK,class TM> using order_tree = tree<TK,TM,greater<TK>,rb_tree_tag,tree_order_statistics_node_update>;
+template<class TK,class TM> using order_tree = tree<TK,TM,greater<TK>,rb_tree_tag, tree_order_statistics_node_update>;
 template<class TK> using order_set = order_tree<TK,null_type>;
 
 vi s;
