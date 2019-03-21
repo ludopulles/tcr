@@ -1,14 +1,17 @@
 #include "hopcroft_karp.cpp"
-vector<bool> alt;
-void dfs(bipartite_graph &g, int at) {
-  alt[at] = true;
-  iter(it,g.adj[at]) {
-    alt[*it + g.N] = true;
-    if (g.R[*it] != -1 && !alt[g.R[*it]]) dfs(g, g.R[*it]); } }
-vi mvc_bipartite(bipartite_graph &g) {
-  vi res; g.maximum_matching();
-  alt.assign(g.N + g.M,false);
-  rep(i,0,g.N) if (g.L[i] == -1) dfs(g, i);
-  rep(i,0,g.N) if (!alt[i]) res.push_back(i);
-  rep(i,0,g.M) if (alt[g.N + i]) res.push_back(g.N + i);
-  return res; }
+vi alt;
+void dfs( bi_graph &G, ll v ) {
+	alt[v] = 1;
+	for( ll u : G.adj[v] ) {
+		alt[u+G.n] = 1;
+		if( G.R[u] != G.n && !alt[G.R[u]] ) 
+			dfs(G,G.R[u]); 
+} }
+vi mvc_bipartite( bi_graph &G ) {
+	vi res; G.maximum_matching();
+	alt.assign( G.n + G.m, 0 );
+	rep(i,0,G.n) if( G.L[i] == -1 ) dfs(G,i);
+	rep(i,0,G.n) if( !alt[i] ) res.pb(i);
+	rep(i,0,G.n) if( alt[G.n+i] ) res.pb(G.n+i);
+	return res; 
+}
