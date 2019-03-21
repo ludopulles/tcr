@@ -1,4 +1,5 @@
-* Tabel met getallen + aantal divisors
 * Requirements tcr bekijken
 * Python?
 * Absorptiekansen
+* Stelling van Pick
+* Shoelaceformule
