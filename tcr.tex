@@ -32,8 +32,8 @@
 %\geometry{includeheadfoot}
 %\fancyhf{}
 \pagestyle{fancy}
-\lhead{Leiden University}
-\chead{\QQ}
+\lhead{Leiden University, \QQ}
+\chead{}
 \rhead{\thepage/\pageref{LastPage}}
 \cfoot{}
 \setlength{\headheight}{15.2pt}
@@ -91,10 +91,16 @@
 % \inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,tabsize=2]{bash}{code/test.sh}
 
 \begin{center}
-template.cpp
+template.cc
 \end{center}
 
 \code{T.cpp}
+
+\begin{center}
+template.py
+\end{center}
+
+\mintedstyle{python}{python.py}
 
 \subsection{De winnende aanpak}
 
@@ -675,6 +681,7 @@ $\mathrm{p}_k(n) = \sum_{i=0}^k \mathrm{p}(n,k)$.
 	\item \textbf{Heron's formula:} A triangle with side lengths
 		$a,b,c$ has area $\sqrt{s(s-a)(s-b)(s-c)}$ where $s =
 		\frac{a+b+c}{2}$.
+	\item \textbf{Shoelace formula:} $A = \frac12 |\sum_{i=0}^{n-1} x_iy_{i+1} - x_{i+1}y_i|$.
 	\item \textbf{Pick's theorem:} A polygon on an integer grid
 		strictly containing $i$ lattice points and having $b$ lattice
 		points on the boundary has area $i + \frac{b}{2} - 1$. (Nothing
