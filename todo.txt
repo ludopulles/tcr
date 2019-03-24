@@ -1,5 +1,1 @@
-* Requirements tcr bekijken
-* Python?
 * Absorptiekansen
-* Stelling van Pick
-* Shoelaceformule
