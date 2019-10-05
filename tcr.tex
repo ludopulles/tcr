@@ -205,13 +205,14 @@ that $C-nA \geq 0$. Be very careful about overflows.
 \code{math/floor_sum.cpp}
 
 \subsection{Misc}
-Prime numbers:
-
-1031, 32771, 1048583, 8125344, 33554467, 9982451653, 1073741827, 34359738421, 1099511627791, 35184372088891, 1125899906842679, 36028797018963971.
-
-$10^3 + \{-9,-3,9,13\}$, $10^6 + \{-17,3,33\}$, $10^9+ \{7,9,21,33,87\}$.
 
 \begin{myitemize}
+	\item \textbf{Prime numbers}:
+
+	$1031$, $32771$, $1048583$, $8125344$, $33554467$, $9982451653$, $1073741827$, $34359738421$, $1099511627791$, $35184372088891$, $1125899906842679$, $36028797018963971$.
+
+	$10^3 + \{-9,-3,9,13\}$, $10^6 + \{-17,3,33\}$, $10^9+ \{7,9,21,33,87\}$.
+
 	\item \textbf{Generating functions}:
 	Ordinary (ogf): $A(x) := \sum_{n=0}^{\infty} a_i x^i$.
 
@@ -269,7 +270,7 @@ $10^3 + \{-9,-3,9,13\}$, $10^6 + \{-17,3,33\}$, $10^9+ \{7,9,21,33,87\}$.
 \code{datastructures/lazy_segment_tree.cpp}
 
 % \subsection{Lazy segment tree $\mathcal{O}(\log n)$}
-\textbf{Persistent segment tree}
+\textbf{Persistent segment tree} \\
 \textbf{Be careful}: all intervals are right-closed $[\ell,r]$, including build.
 \code{datastructures/persistent_segment_tree.cpp}
 
@@ -286,9 +287,8 @@ Use this if you add things, which depend on $i$:
 
 %\subsection{AVL Tree Balanced Binary Search Tree $\mathcal{O}(\log n) / \mathcal{O}(\log n)$}
 %\code{datastructures/avl_tree.cpp}
-
-Use this easy implementation for a map:
-\code{datastructures/avl_tree_map.cpp}
+%Use this easy implementation for a map:
+%\code{datastructures/avl_tree_map.cpp}
 
 \subsection{Cartesian tree}
 \code{datastructures/cartesian_tree.cpp}
@@ -339,8 +339,8 @@ And dynamic variant:
 
 \subsubsection{Stable marriage}
 With $n$ men, $m \geq n$ women, $n$ preference lists of women for each men, and
-for every woman $j$ an preference of men defined by \tt{pref[][j]} (lower is better)
-find for every man a women such that no pair of a men and a woman want to run off together
+for every woman $j$ an preference of men defined by \texttt{pref[][j]} (lower is better)
+find for every man a women such that no pair of a men and a woman want to run off together.
 \code{graphs/stable.cpp}
 
 \subsubsection{Floyd-Warshall $\mathcal{O}(V^{3})$}
