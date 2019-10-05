@@ -1,37 +1,40 @@
-#define MAXN 5000
-int dist[MAXN+1], q[MAXN+1];
-#define dist(v) dist[v == -1 ? MAXN : v]
-struct bipartite_graph {
-  int N, M, *L, *R; vi *adj;
-  bipartite_graph(int _N, int _M) : N(_N), M(_M),
-    L(new int[N]), R(new int[M]), adj(new vi[N]) {}
-  ~bipartite_graph() { delete[] adj; delete[] L; delete[] R; }
-  bool bfs() {
-    int l = 0, r = 0;
-    rep(v,0,N) if(L[v] == -1) dist(v) = 0, q[r++] = v;
-      else dist(v) = INT_MAX;
-    dist(-1) = INT_MAX;
-    while(l < r) {
-      int v = q[l++];
-      if(dist(v) < dist(-1)) {
-        iter(u, adj[v]) if(dist(R[*u]) == INT_MAX)
-          dist(R[*u]) = dist(v) + 1, q[r++] = R[*u]; } }
-    return dist(-1) != INT_MAX; }
-  bool dfs(int v) {
-    if(v != -1) {
-      iter(u, adj[v])
-        if(dist(R[*u]) == dist(v) + 1)
-          if(dfs(R[*u])) {
-            R[*u] = v, L[v] = *u;
-            return true; }
-      dist(v) = INT_MAX;
-      return false; }
-    return true; }
-  void add_edge(int i, int j) { adj[i].push_back(j); }
-  int maximum_matching() {
-    int matching = 0;
-    memset(L, -1, sizeof(int) * N);
-    memset(R, -1, sizeof(int) * M);
-    while(bfs()) rep(i,0,N)
-      matching += L[i] == -1 && dfs(i);
-    return matching; } };
+const ll INFTY = (1LL<<61LL);
+
+struct bi_graph {
+	ll n, m;
+	vvi adj;
+	vi L, R, d;
+	queue<ll> q;
+	bi_graph( ll _n, ll _m ) : n(_n), m(_m), 
+		adj(n), L(n,-1), R(m,n), d(n+1) {}
+	ll add_edge( ll a, ll b ) { adj[a].pb(b); }
+	ll bfs() {
+		rep(v,0,n) 
+			if( L[v] == -1 ) d[v] = 0, q.push(v);
+			else d[v] = INFTY;
+		d[n] = INFTY;
+		while( !q.empty() ) {
+			ll v = q.front(); q.pop();
+			if( d[v] < d[n] ) 
+				for( ll u : adj[v] ) if( d[R[u]] == INFTY )
+					d[R[u]] = d[v]+1, q.push(R[u]);
+		}
+		return d[n] != INFTY;
+	}
+	ll dfs( ll v ) {
+		if( v == n ) return true;
+		for( ll u : adj[v] )
+			if( d[R[u]] == d[v] + 1 and dfs(R[u]) ) {
+				R[u] = v; L[v] = u;
+				return true;
+		}
+		d[v] = INFTY;
+		return false;
+	}
+	ll maximum_matching() {
+		ll s = 0;
+		while( bfs() ) rep(i,0,n)
+			s += L[i] == - 1 && dfs( i );
+		return s;
+	} 
+};

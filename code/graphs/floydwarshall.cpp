@@ -1,7 +1,8 @@
-int n = 100; ll d[MAXN][MAXN];
-for (int i = 0; i < n; i++) fill_n(d[i], n, 1e18);
-// set direct distances from i to j in d[i][j] (and d[j][i])
-for (int i = 0; i < n; i++)
-	for (int j = 0; j < n; j++)
-		for (int k = 0; k < n; k++)
-			d[j][k] = min(d[j][k], d[j][i] + d[i][k]);
+#define INFTY (1LL<<61LL)
+void floyd_warshall( vvi& d ) {
+	ll n = d.size();
+	rep(i,0,n) rep(j,0,n) rep(k,0,n) 
+		if( d[j][i] < INFTY and d[i][k] < INFTY ) // !!! neg. edges
+			d[j][k] = max(-INFTY,min(d[j][k],d[j][i]+d[i][k]));
+}
+vvi d(n,vi(n,INFTY)); rep(i,0,n) d[i][i] = 0;

@@ -25,12 +25,15 @@
     \vskip0.1em\vspace{-1em}}%
 }
 
+%\def\QQ{{$\mathbb{Q}$\nolinebreak[3]\raisebox{.4ex}{\tiny\bf ++}}}
+\newcommand{\QQ}{git merge -s octopus solution cup}
+
 % Header/Footer
 %\geometry{includeheadfoot}
 %\fancyhf{}
 \pagestyle{fancy}
-\lhead{Utrecht University}
-\chead{git diff solution}
+\lhead{Leiden University, \QQ}
+\chead{}
 \rhead{\thepage/\pageref{LastPage}}
 \cfoot{}
 \setlength{\headheight}{15.2pt}
@@ -61,7 +64,7 @@
 % \verbosefalse
 
 \title{TCR}
-\subtitle{git diff solution (Jens Heuseveldt, Ludo Pulles, Pim Spelier)}
+\subtitle{\QQ (Ludo Pulles, Reinier Schmiermann, Pim Spelier)}
 
 \begin{document}
 
@@ -83,21 +86,21 @@
 
 \tableofcontents
 
-\begin{center}
-At the start of a contest, create the following files in the home-dir:
-\end{center}
-
-.vimrc: \mintedstyle{vim}{.vimrc}
-.bashrc: \mintedstyle{bash}{.bashrc}
 \textbf{Test script} (usage: ./test.sh A/B/..)
 \mintedstyle{bash}{test.sh}
 % \inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,tabsize=2]{bash}{code/test.sh}
 
 \begin{center}
-template.cpp
+template.cc
 \end{center}
 
 \code{T.cpp}
+
+\begin{center}
+template.py
+\end{center}
+
+\mintedstyle{python}{python.py}
 
 \subsection{De winnende aanpak}
 
@@ -106,11 +109,11 @@ template.cpp
 	\item Slaap goed \& heb een vroeg ritme!
 	\item Drink \& eet genoeg voor \& tijdens de wedstrijd!
 	\item Houd een lijst bij met info over alle problemen.
-	\item Ludo moet {\huge\textbf{ALLE}} opgaves \textbf{goed} lezen!
+	\item Iedereen (incl. Ludo) moet {\huge\textbf{ALLE}} opgaves \textbf{goed} lezen!
 	\item Analyseer de voorbeeld test cases.
 	\item Houd na 2 uur een pauze en overleg waar iedereen mee bezig is.
 	\item Maak zelf (zware) test cases.
-	\item Gebruik \texttt{ll} indien wellicht nodig.
+	\item Gebruik \texttt{ll}.
 \end{itemize}
 
 \subsection{Wrong Answer}
@@ -149,7 +152,7 @@ This GNU builtin checks for over- and underflow. Result is in \texttt{res} if su
 	\item[Maximum Independent Set]
 		A set of vertices in a graph such that no two of them are adjacent.
 	\item[K\"{o}nig's theorem]
-		In any bipartite graph, the number of edges in a maximum matching equals the number of vertices in a minimum vertex cover
+		In any bipartite graph, MCBM = MVC = V - MIS.
 \end{description}
 
 \textbf{A useful identity}: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{mod} \, 4]$.
@@ -158,7 +161,8 @@ This GNU builtin checks for over- and underflow. Result is in \texttt{res} if su
 
 \code{math/math.cpp}
 
-\subsection{Primitive Root}
+\subsection{Primitive Root $O(\sqrt{m})$}
+Returns a generator of $\mathbb{F}_m^*$. If $m$ not prime, replace $m-1$ by totient of $m$.
 \code{math/primitive_root.cpp}
 
 \subsection{Tonelli-Shanks algorithm}
@@ -176,7 +180,7 @@ Numeric integration using Simpson's rule.
 \subsection{Fast Hadamard Transform}
 Computes the Hadamard transform of the given array. Can be used to
 compute the \texttt{XOR}-convolution of arrays, exactly like with FFT.
-For \texttt{AND}-convolution, use $(x+y,y)$ and $(x-y,y)$. For
+For \texttt{AND}-convolution, replace $(x-y,x+y),((x+y)/2,(-x+y)/2)$ with $(x+y,y), (x-y,y)$. For
 \texttt{OR}-convolution, use $(x,x+y)$ and $(x,-x+y)$. \textbf{Note}:
 Size of array must be a power of $2$.
 \code{math/fht.cpp}
@@ -186,22 +190,6 @@ Solves a tridiagonal system of linear equations $a_ix_{i-1} + b_ix_i +
 c_ix_{i+1} = d_i$ where $a_1 = c_n = 0$. Beware of numerical
 instability.
 \code{math/tridiagonal.cpp}
-
-\subsection{Mertens Function}
-        Mertens function is $M(n) = \sum_{i=1}^n \mu(i)$. Let $L\approx
-        (n\log{\log{n}})^{2/3}$ and the algorithm runs in $O(n^{2/3})$.
-        \ifverbose
-        \else
-            Can also be easily changed to compute the summatory $\Phi$.
-        \fi
-        \code{math/mertens.cpp}
-
-\ifverbose
-	\subsection{Summatory Phi}
-	The summatory phi function $\Phi(n) = \sum_{i=1}^n \phi(i)$. Let $L\approx
-	(n\log{\log{n}})^{2/3}$ and the algorithm runs in $O(n^{2/3})$.
-	\code{math/summatory_phi.cpp}
-\fi
 
 \subsection{Josephus problem}
 Last man standing out of $n$ if every $k$th is killed. Zero-based, and
@@ -251,9 +239,24 @@ $10^3 + \{-9,-3,9,13\}$, $10^6 + \{-17,3,33\}$, $10^9+ \{7,9,21,33,87\}$.
 	It only exists when $n$ is $2, 4, p^k, 2p^k$, where $p$ odd prime.
 	If $g$ is a primitive root, all primitive roots are of the form $g^k$
 	where $k,\phi(p)$ are coprime (hence there are $\phi(\phi(p))$ primitive roots).
+	
+\item \begin{tabular}{|l|ccccc|}
+   \hline
+   $\leq N$ & $10^3$ & $10^6$ & $10^9$ & $10^{12}$ & $10^{18}$ \\
+   \hline
+   $m$ & $840$ & $720720$ & $735134400$ & $963761198400$ & \\
+   \hline
+   $d(m)$ & $32$ & $240$ & $1344$ & $6270$ & $103680$ \\
+   \hline
+   \end{tabular}\\
+   For $n = 10^{18}, m = 897612484786617600$.
+
 \end{myitemize}
 
 \section{Datastructures}
+\subsection{Order tree}
+\code{datastructures/order_statistic.cc}
+
 \subsection{Segment tree $\mathcal{O}(\log n)$}
 
 % \subsection{segment tree $\mathcal{O}(\log n)$}
@@ -261,11 +264,13 @@ $10^3 + \{-9,-3,9,13\}$, $10^6 + \{-17,3,33\}$, $10^9+ \{7,9,21,33,87\}$.
 \code{datastructures/segment_tree.cpp}
 
 % \subsection{Lazy segment tree $\mathcal{O}(\log n)$}
-\textbf{Lazy segment tree}
+\textbf{Lazy segment tree}\\
+\textbf{Be careful}: all intervals are right-closed $[\ell,r]$.
 \code{datastructures/lazy_segment_tree.cpp}
 
 % \subsection{Lazy segment tree $\mathcal{O}(\log n)$}
 \textbf{Persistent segment tree}
+\textbf{Be careful}: all intervals are right-closed $[\ell,r]$, including build.
 \code{datastructures/persistent_segment_tree.cpp}
 
 \subsection{Binary Indexed Tree $\mathcal{O}(\log n)$}
@@ -279,8 +284,8 @@ Use this if you add things, which depend on $i$:
 \subsection{Disjoint-Set / Union-Find $\mathcal{O}(\alpha (n))$}
 \code{datastructures/dsu.cpp}
 
-\subsection{AVL Tree Balanced Binary Search Tree $\mathcal{O}(\log n) / \mathcal{O}(\log n)$}
-\code{datastructures/avl_tree.cpp}
+%\subsection{AVL Tree Balanced Binary Search Tree $\mathcal{O}(\log n) / \mathcal{O}(\log n)$}
+%\code{datastructures/avl_tree.cpp}
 
 Use this easy implementation for a map:
 \code{datastructures/avl_tree_map.cpp}
@@ -316,13 +321,13 @@ Design principle that supports many operations in amortized $\sqrt{n}$ per opera
 A queue that supports querying for the minimum element. Useful for sliding window algorithms.
 \code{datastructures/monotonic_queue.cpp}
 
-\subsection{Convex Hull Trick}
+\subsection{Convex Hull Trick (replace $O(n^2)$ by respectively $O(n)$ and $O(n\log n)$}
 If converting to integers, look out for division by 0 and $\pm\infty$.
 \code{datastructures/convex_hull_trick.cpp}
 And dynamic variant:
 \code{datastructures/convex_hull_trick_dynamic.cpp}
 
-\subsection{Sparse Table}
+\subsection{Sparse Table $O(\log n)$ per query}
 \code{datastructures/sparse_table.cpp}
 
 \section{Graph Algorithms}
@@ -333,6 +338,7 @@ And dynamic variant:
 \code{graphs/dijkstra.cpp}
 
 \subsubsection{Floyd-Warshall $\mathcal{O}(V^{3})$}
+Be careful with negative edges! Note: |d[i][j]| can grow exponentially, and INFTY + negative < INFTY.
 \code{graphs/floydwarshall.cpp}
 
 \subsubsection{Bellman Ford $\mathcal{O}(V E)$}
@@ -353,7 +359,7 @@ This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
 
 \subsection{Depth first searches}
 
-\subsubsection{Cut Points and Bridges}
+\subsubsection{Cut Points and Bridges $O(V+E)$}
 \code{graphs/cut_points_and_bridges.cpp}
 
 \subsubsection{Strongly Connected Components $\mathcal{O}(V + E)$}
@@ -374,7 +380,7 @@ Include \texttt{findSCC}.
 % http://www.slideshare.net/KuoE0/acmicpc-dinics-algorithm
 \code{graphs/dinic.cpp}
 
-\subsubsection{Min-cost max-flow}
+\subsubsection{Min-cost max-flow $O(n^2 m^2)$}
 Find the cheapest possible way of sending a certain amount of flow through a flow network.
 \code{graphs/mincostmaxflow.cpp}
 
@@ -393,11 +399,11 @@ NOTE: Not sure if it works correctly with disconnected graphs.
 \subsubsection{Kruskal $\mathcal{O}(E \log V)$}
 \code{graphs/mst_kruskal.cpp}
 
-\subsection{Topological Sort}
+\subsection{Topological Sort $O(V+E)$}
 \subsubsection{Modified Depth-First Search}
 \code{graphs/tsort.cpp}
 
-\subsection{Euler Path}
+\subsection{Euler Path $O(V+E)$ hopefully}
 Finds an Euler Path (or circuit) in a \emph{directed} graph iff one exists.
 \code{graphs/euler_path.cpp}
 Finds an Euler \emph{cycle} in a \emph{undirected} graph:
@@ -487,14 +493,14 @@ This creates an array $P[0], P[1], \dots, P[n-1]$ such that the suffix $S[i \dot
 \code{strings/lcs.cpp}
 
 \subsection{Levenshtein Distance $\mathcal{O}(n^{2})$}
-Also known as the `Edit distance'.
+Minimal number of insertions, removals and edits required to transform one string in the other.
 \code{strings/edit_dist.cpp}
 
 \subsection{Knuth-Morris-Pratt algorithm $\mathcal{O}(N + M)$}
 \code{strings/kmp.cpp}
 
 \subsection{Aho-Corasick Algorithm $\mathcal{O}(N + \sum_{i=1}^{m} |S_i|)$}
-All given P must be unique!
+Dictionary substring matching as automaton. All given P must be unique!
 \code{strings/aho_corasick.cpp}
 
 \subsection{eerTree}
@@ -675,10 +681,12 @@ $\mathrm{p}_k(n) = \sum_{i=0}^k \mathrm{p}(n,k)$.
 	\item \textbf{Heron's formula:} A triangle with side lengths
 		$a,b,c$ has area $\sqrt{s(s-a)(s-b)(s-c)}$ where $s =
 		\frac{a+b+c}{2}$.
+	\item \textbf{Shoelace formula:} $A = \frac12 |\sum_{i=0}^{n-1} x_iy_{i+1} - x_{i+1}y_i|$.
 	\item \textbf{Pick's theorem:} A polygon on an integer grid
 		strictly containing $i$ lattice points and having $b$ lattice
 		points on the boundary has area $i + \frac{b}{2} - 1$. (Nothing
 		similar in higher dimensions)
+	\item \textbf{Absorption probabilities} A random walk on $[0,n]$ with probability $p$ to increase and $q$ to decrease, starting at $k$ has at $n$ absorption probability $\frac{(q/p)^k-1}{(q/p)^n-1}$ if $q \not= p$, and $k/n$ if $q = p$.
 	\item \textbf{König's theorem:} In any bipartite graph $G=(L\cup R,E)$, the number
 		of edges in a maximum matching is equal to the number of
 		vertices in a minimum vertex cover. Let $U$ be the set of
@@ -805,6 +813,7 @@ Nim and its variants include:
 							\item $O(kn^2)$ to $O(kn\log{n})$
 							\item sufficient: $C[a][c] + C[b][d] \leq C[a][d] + C[b][c]$, $a\leq b\leq c\leq d$ (QI)
 						\end{itemize}
+					\code{divco.cpp}
 					\item Knuth optimization
 						\begin{itemize}
 							\item $\mathrm{dp}[i][j] = \min_{i<k<j}\{\mathrm{dp}[i][k] + \mathrm{dp}[k][j] + C[i][j]\}$
