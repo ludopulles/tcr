@@ -25,6 +25,15 @@ template<class T> ostream& operator<<(ostream& os,vector<T>& v) {
 	os << "\n["; for( T& x : v ) os << x << ","; return os << "]";
 }
 
+struct pairhash {
+	public:
+	template<typename T1, typename T2>
+	size_t operator()(const pair<T1, T2> &p) const {
+		size_t lhs = hash<T1>()(p.x), rhs = hash<T2>()(p.y);
+		return lhs ^ (rhs + 0x9e3779b9 + (lhs << 6) + (lhs >> 2));
+	}
+};
+
 const ld PI = acos(-1.0);
 
 void run() {
@@ -32,7 +41,7 @@ void run() {
 }
 
 signed main() {
-	ios_base::sync_with_stdio(false);
+	ios_base::sync_with_stdio(false); // DON'T MIX "scanf" and "cin"!
 	cin.tie(NULL);
 	(cout << fixed).precision(18);
 	run();
