@@ -12,33 +12,33 @@ typedef vector<ii> vii;
 #define y second
 #define pb push_back
 #define eb emplace_back
-#define rep(i,a,b) for(auto i=(a);i!=(b); ++i)
+#define rep(i,a,b) for(auto i=(a); i<(b); ++i)
 #define REP(i,n) rep(i,0,n)
 #define all(v) (v).begin(), (v).end()
 #define rs resize
 #define DBG(x) cerr << __LINE__ << ": " << #x << " = " << (x) << endl
 
+const ld PI = acos(-1.0);
 template<class T> using min_queue = priority_queue<T, vector<T>, greater<T>>;
-template<class T> int size(const T &x) { return x.size(); } // copy the ampersand(&)!
+template<class T> int sz(const T &x) { return (int) x.size(); } // copy the ampersand(&)!
 
-template<class T> ostream& operator<<(ostream& os,vector<T>& v) {
-	os << "\n["; for( T& x : v ) os << x << ","; return os << "]";
+template<class T> ostream& operator<<(ostream &os, vector<T> &v) {
+	os << "\n[";
+	for(T &x : v) os << x << ',';
+	return os << "]\n";
 }
 
 struct pairhash {
-	public:
+public:
 	template<typename T1, typename T2>
 	size_t operator()(const pair<T1, T2> &p) const {
-		size_t lhs = hash<T1>()(p.x), rhs = hash<T2>()(p.y);
-		return lhs ^ (rhs + 0x9e3779b9 + (lhs << 6) + (lhs >> 2));
+		size_t lhs = hash<T1>()(p.x);
+		size_t rhs = hash<T2>()(p.y);
+		return lhs ^ (rhs+0x9e3779b9+(lhs<<6)+(lhs>>2));
 	}
 };
 
-const ld PI = acos(-1.0);
-
-void run() {
-
-}
+void run() {}
 
 signed main() {
 	ios_base::sync_with_stdio(false); // DON'T MIX "scanf" and "cin"!

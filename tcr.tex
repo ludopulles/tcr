@@ -16,7 +16,9 @@
 \newcommand{\mintedstyle}[2]{\inputminted[fontsize=\normalsize,baselinestretch=.9,breaklines,tabsize=2]{#1}{code/#2}}
 
 \newcommand{\code}[1]{\mintedstyle{cpp}{#1}}
-\setlength{\columnseprule}{.5pt}
+\setlength{\columnseprule}{.2pt}
+\setlength{\columnsep}{.5cm}
+\def\columnseprulecolor{\color{gray}}
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -64,7 +66,7 @@
 % \verbosefalse
 
 \title{TCR}
-\subtitle{\QQ (Ludo Pulles, Reinier Schmiermann, Pim Spelier)}
+\subtitle{\textbf{\QQ} \\ \textit{Ludo Pulles, Reinier Schmiermann, Pim Spelier}}
 
 \begin{document}
 
@@ -86,6 +88,20 @@
 
 \tableofcontents
 
+\begin{center}
+\noindent\rule{\columnwidth}{0.4pt}
+\end{center}
+
+\begin{center}
+\textbf{.bashrc}
+\end{center}
+\mintedstyle{bash}{.bashrc}
+
+\begin{center}
+\textbf{.vimrc}
+\end{center}
+\mintedstyle{vim}{.vimrc}
+
 \textbf{Test script} (usage: ./test.sh A/B/..)
 \mintedstyle{bash}{test.sh}
 % \inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,tabsize=2]{bash}{code/test.sh}
@@ -104,8 +120,7 @@ template.py
 
 \subsection{De winnende aanpak}
 
-\begin{itemize}
-	\setlength\itemsep{-.25em}
+\begin{myitemize}
 	\item Slaap goed \& heb een vroeg ritme!
 	\item Drink \& eet genoeg voor \& tijdens de wedstrijd!
 	\item Houd een lijst bij met info over alle problemen.
@@ -114,12 +129,11 @@ template.py
 	\item Houd na 2 uur een pauze en overleg waar iedereen mee bezig is.
 	\item Maak zelf (zware) test cases.
 	\item Gebruik \texttt{ll}.
-\end{itemize}
+\end{myitemize}
 
 \subsection{Wrong Answer}
 
-\begin{enumerate}
-	\setlength\itemsep{-.25em}
+\begin{myitemize}
 	\item Print de oplossing om te debuggen!
 	\item Kijk naar wellicht makkelijkere problemen.
 	\item Bedenk zelf test cases met \textbf{randgevallen}!
@@ -129,9 +143,9 @@ template.py
 	\item Controleer op \textbf{typo\textquotesingle s}.
 	\item Loop de voorbeeld test case accuraat langs.
 	\item Controleer op off-by-one-errors (in indices of lus-grenzen)?
-\end{enumerate}
+\end{myitemize}
 
-\textbf{Detecting overflow}
+\textbf{Detecting overflow:}
 This GNU builtin checks for over- and underflow. Result is in \texttt{res} if successful:
 \code{other/overflow.cpp}
 
@@ -155,9 +169,9 @@ This GNU builtin checks for over- and underflow. Result is in \texttt{res} if su
 		In any bipartite graph, MCBM = MVC = V - MIS.
 \end{description}
 
-\textbf{A useful identity}: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{mod} \, 4]$.
-
 \section{Mathematics}
+
+\textbf{XOR sum}: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{mod} \, 4]$.
 
 \code{math/math.cpp}
 
@@ -487,8 +501,8 @@ shortest synchronizing word is NP-complete.
 \subsection{Z-algorithm $\mathcal{O}(n)$}
 \code{strings/z_function.cpp}
 
-\subsection{Suffix array $\mathcal{O}(n \log^2{n})$}
-This creates an array $P[0], P[1], \dots, P[n-1]$ such that the suffix $S[i \dots n]$ is the $P[i]^\textit{th}$ suffix of $S$ when lexicographically sorted.
+\subsection{Suffix array $\mathcal{O}(n \log{n})$}
+Lexicographically sorts the cyclic shifts of $S$ where $p[0]$ is the index of the smallest string, etc.
 \code{strings/suffixarray.cpp}
 
 \subsection{Longest Common Subsequence $\mathcal{O}(n^{2})$}
