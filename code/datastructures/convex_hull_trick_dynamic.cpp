@@ -16,12 +16,12 @@ struct HullDynamic : public multiset<Line> {
       if (z == end()) return 0;
       return y->m == z->m && y->b <= z->b; }
     auto x = prev(y);
-    if (z == end()) return y->m == x->m && y->b <= x->b;
+    if (z==end()) return y->m == x->m && y->b <= x->b;
     return (x->b - y->b)*(z->m - y->m) >=
            (y->b - z->b)*(y->m - x->m); }
   void insert_line(ll m, ll b) {
     auto y = insert({ m, b });
-    y->succ = [=] { return next(y) == end() ? 0 : &*next(y); };
+    y->succ= [=]{return next(y)==end()?0:&*next(y);};
     if (bad(y)) { erase(y); return; }
     while (next(y) != end() && bad(next(y))) erase(next(y));
     while (y != begin() && bad(prev(y))) erase(prev(y)); }

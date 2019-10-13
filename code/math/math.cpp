@@ -5,7 +5,7 @@ int sign(int x) { return (x > 0) - (x < 0); }
 ll gcd(ll a,ll b){while(b)a%=b,swap(a,b);return a;};
 // least common multiple
 ll lcm(ll a, ll b) { return a/gcd(a, b)*b; }
-ll mod(ll a, ll b) { return (a %= b) < 0 ? a+b : a; }
+ll mod(ll a, ll b) { return (a%=b) < 0 ? a+b : a; }
 
 // ab % m for m <= 4e18 in O(log b)
 ll mod_mul(ll a, ll b, ll m) {
@@ -41,8 +41,8 @@ ll egcd(ll a, ll b, ll &x, ll &y) {
 
 // Chinese Remainder Theorem: returns (u, v) s.t.
 // x=u (mod v) <=> x=a (mod n) and x=b (mod m)
-pair<ll, ll> crt(ll a, ll n, ll b, ll m) { //n,m<=1e9
-	ll s, t, d = egcd(n, m, s, t);
+pair<ll, ll> crt(ll a, ll n, ll b, ll m) {
+	ll s, t, d = egcd(n, m, s, t); //n,m<=1e9
 	if (mod(a - b, d)) return { 0, -1 };
 	return { mod(s*b%m*n + t*a%n*m, n*m)/d, n*m/d };
 }

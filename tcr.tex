@@ -192,17 +192,16 @@ Numeric integration using Simpson's rule.
 \code{math/numeric_integration.cpp}
 
 \subsection{Fast Hadamard Transform}
-Computes the Hadamard transform of the given array. Can be used to
-compute the \texttt{XOR}-convolution of arrays, exactly like with FFT.
-For \texttt{AND}-convolution, replace $(x-y,x+y),((x+y)/2,(-x+y)/2)$ with $(x+y,y), (x-y,y)$. For
-\texttt{OR}-convolution, use $(x,x+y)$ and $(x,-x+y)$. \textbf{Note}:
-Size of array must be a power of $2$.
+Computes \texttt{XOR}-convolutions in $O(k 2^k)$ on $k$ bits. \\
+For \texttt{AND}-convolution, use $\quad  (x + y, \, y), \quad (x-y, \, y)$. \\
+For \texttt{OR}-convolution, use $\quad\,\,\, (x, \, x + y), \quad (x, \, -x + y)$. \\
+\textbf{Note}: The array size must be a power of $2$.
 \code{math/fht.cpp}
 
 \subsection{Tridiagonal Matrix Algorithm}
-Solves a tridiagonal system of linear equations $a_ix_{i-1} + b_ix_i +
-c_ix_{i+1} = d_i$ where $a_1 = c_n = 0$. Beware of numerical
-instability.
+
+Solves a tridiagonal system of linear equations \[ a_i x_{i-1} + b_i x_i + c_i x_{i+1} = d_i \] where $a_1 = c_n = 0$.
+Beware of numerical instability.
 \code{math/tridiagonal.cpp}
 
 \subsection{Josephus problem}
@@ -217,6 +216,11 @@ n$, $0 \leq y$. In other words, evaluate the sum $\sum_{x=0}^n
 let $n = \left\lfloor \frac{c}{a}\right\rfloor$. In any case, it must hold
 that $C-nA \geq 0$. Be very careful about overflows.
 \code{math/floor_sum.cpp}
+
+\subsection{Solving linear recurrences}
+Given some brute-forced sequence $s[0], s[1], \dots, s[2n-1]$, Berlekamp-Massey finds the shortest possible recurrence relation in $\mathcal{O}(n^2)$.
+After that, \texttt{lin\_rec} finds $s[k]$ in $\mathcal{O}(n^2 \log k)$.
+\code{other/berlekamp-massey.cpp}
 
 \subsection{Misc}
 
@@ -382,12 +386,12 @@ This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
 \subsubsection{Strongly Connected Components $\mathcal{O}(V + E)$}
 \code{graphs/scc.cpp}
 
-\subsubsection{Dominator graph}
-\code{graphs/dominator.cpp}
-
 \subsubsection{2-SAT $\mathcal{O}(V+E)$}
 Include \texttt{findSCC}.
 \code{satsolver.cpp}
+
+\subsubsection{Dominator graph}
+\code{graphs/dominator.cpp}
 
 \subsection{Cycle Detection $\mathcal{O}(V + E)$}
 \code{findcycle.cpp}
@@ -435,8 +439,9 @@ Finds an Euler \emph{cycle} in a \emph{undirected} graph:
 \subsection{Least Common Ancestors, Binary Jumping}
 \code{graphs/lca.cpp}
 
-\subsection{Tarjan's Off-line Lowest Common Ancestors Algorithm}
-\code{graphs/tarjan_olca.cpp}
+% Just use the normal LCA algorithm instead.
+%\subsection{Tarjan's Off-line Lowest Common Ancestors Algorithm}
+%\code{graphs/tarjan_olca.cpp}
 
 \subsection{Misra-Gries $D+1$-edge coloring}
 Finds a $\max_i \deg(i) + 1$-edge coloring where there all incident edges have distinct colors.
@@ -456,10 +461,11 @@ vertex. Returns a vector of size $n$, where the $i$th element is the
 edge for the $i$th vertex. The answer for the root is undefined!
 \code{graphs/arborescence.cpp}
 
-\subsection{Blossom algorithm}
-Finds a maximum matching in an arbitrary graph in $O(|V|^4)$ time.
-Be aware of loop edges.
-\code{graphs/blossom.cpp}
+% Way to complicated for a competition:
+%\subsection{Blossom algorithm}
+%Finds a maximum matching in an arbitrary graph in $O(|V|^4)$ time.
+%Be aware of loop edges.
+%\code{graphs/blossom.cpp}
 
 \subsection{Maximum Density Subgraph}
 Given (weighted) undirected graph $G$. Binary search density. If $g$ is
@@ -575,7 +581,7 @@ tree, and then one can use Kruskal's algorithm.
 
 \subsection{Formulas}
 Let $a = (a_x, a_y)$ and $b = (b_x, b_y)$ be two-dimensional vectors.
-\begin{itemize}
+\begin{myitemize}
 	\item $a\cdot b = |a||b|\cos{\theta}$, where $\theta$ is the angle
 		between $a$ and $b$.
 	\item $a\times b = |a||b|\sin{\theta}$, where $\theta$ is the
@@ -589,7 +595,18 @@ Let $a = (a_x, a_y)$ and $b = (b_x, b_y)$ be two-dimensional vectors.
 	\item \textbf{Law of sines:} $\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}$
 	\item \textbf{Law of cosines:} $b^2 = a^2 + c^2 - 2ac\cos B$
 	\item Internal tangents of circles $(c_1,r_1), (c_2,r_2)$ intersect at $(c_1r_2+c_2r_1)/(r_1+r_2)$, external intersect at $(c_1r_2-c_2r_1)/(r_1+r_2)$.
-\end{itemize}
+\end{myitemize}
+
+\section{Geometry (CP3)}
+\subsection{Points and lines}
+\code{geometry/CP/points_lines.cpp}
+\subsection{Polygon}
+\code{geometry/CP/polygon.cpp}
+\subsection{Triangle}
+\code{geometry/CP/triangles.cpp}
+\subsection{Circle}
+\code{geometry/CP/circles.cpp}
+
 
 \section{Miscellaneous}
 \subsection{Binary search $\mathcal{O}(\log (hi - lo))$}
@@ -617,15 +634,6 @@ Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) =
 \subsection{Simplex}
 \code{other/simplex.cpp}
 
-\section{Geometry (CP3)}
-\subsection{Points and lines}
-\code{geometry/CP/points_lines.cpp}
-\subsection{Polygon}
-\code{geometry/CP/polygon.cpp}
-\subsection{Triangle}
-\code{geometry/CP/triangles.cpp}
-\subsection{Circle}
-\code{geometry/CP/circles.cpp}
 
 \section{Combinatorics}
 \begin{itemize}[wide,labelwidth=!,labelindent=0pt]
@@ -679,7 +687,7 @@ $\mathrm{p}_k(n) = \sum_{i=0}^k \mathrm{p}(n,k)$.
 	Balls & same & distinct & same & distinct\\
 	Boxes & same & same & distinct & distinct\\
 	\hline
-	- & $\mathrm{p}_k(n)$ & $\sum_{i=0}^k \stirling{n}{i}$ & $\binom{n+k-1}{k-1}$ & $k^n$ \\ 
+	- & $\mathrm{p}_k(n)$ & $\sum_{i=0}^k \stirling{n}{i}$ & $\binom{n+k-1}{k-1}$ & $k^n$ \\
 	$\mathrm{size}\ge 1$ & $\mathrm{p}(n,k)$ & $\stirling{n}{k}$ & $\binom{n-1}{k-1}$ & $k!\stirling{n}{k}$ \\
 	$\mathrm{size}\le 1$ & $[n \le k]$ & $[n \le k]$ & $\binom{k}{n}$ & $n!\binom{k}{n}$ \\
 	\bottomrule
@@ -711,10 +719,13 @@ $\mathrm{p}_k(n) = \sum_{i=0}^k \mathrm{p}(n,k)$.
 		are either in $U$ or are connected to $U$ by an alternating
 		path. Then $K=(L\setminus Z)\cup(R\cap Z)$ is the minimum
 		vertex cover.
-	\item A minumum Steiner tree for $n$ vertices requires at most $n-2$ additional Steiner vertices.
+	\item A minimum Steiner tree for $n$ vertices requires at most $n-2$ additional Steiner vertices.
 	\item The number of vertices of a graph is equal to its minimum
 		vertex cover number plus the size of a maximum independent set.
-	\item \textbf{Lagrange polynomial} through points $(x_0,y_0),\ldots,(x_k,y_k)$ is $L(x) = \sum_{j=0}^k y_j \prod_{\shortstack{$\scriptscriptstyle 0\leq m \leq k$ \\ $\scriptscriptstyle m\neq j$}} \frac{x-x_m}{x_j - x_m}$
+	\item \textbf{Lagrange polynomial} through points $(x_0,y_0),\ldots,(x_k,y_k)$ is
+	\[
+		L(x) = \sum_{j=0}^k y_j \prod_{\shortstack{$\scriptscriptstyle 0\leq m \leq k$ \\ $\scriptscriptstyle m\neq j$}} \frac{x-x_m}{x_j - x_m}.
+	\]
 	\item \textbf{Hook length formula:} If $\lambda$ is a Young diagram and $h_{\lambda}(i,j)$ is the hook-length of cell $(i,j)$, then then the number of Young tableux $d_{\lambda} = n!/\prod h_{\lambda}(i,j)$.
 	\item \#primitive pythagorean triples with hypotenuse $<n$ approx $n/(2\pi)$.
 	\item \textbf{Frobenius Number:} largest number which can't be

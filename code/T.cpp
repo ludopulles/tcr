@@ -19,8 +19,11 @@ typedef vector<ii> vii;
 #define DBG(x) cerr << __LINE__ << ": " << #x << " = " << (x) << endl
 
 const ld PI = acos(-1.0);
-template<class T> using min_queue = priority_queue<T, vector<T>, greater<T>>;
-template<class T> int sz(const T &x) { return (int) x.size(); } // copy the ampersand(&)!
+template<class T> using min_queue =
+		priority_queue<T, vector<T>, greater<T>>;
+template<class T> int sz(const T &x) {
+	return (int) x.size(); // copy the ampersand(&)!
+}
 
 template<class T> ostream& operator<<(ostream &os, vector<T> &v) {
 	os << "\n[";
@@ -41,7 +44,8 @@ public:
 void run() {}
 
 signed main() {
-	ios_base::sync_with_stdio(false); // DON'T MIX "scanf" and "cin"!
+	// DON'T MIX "scanf" and "cin"!
+	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	(cout << fixed).precision(18);
 	run();

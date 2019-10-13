@@ -1,4 +1,4 @@
-int kmp_search(const string &word, const string &text) {
+int kmp(const string &word, const string &text) {
 	int n = word.size();
 	vi T(n + 1, 0);
 	for (int i = 1, j = 0; i < n; ) {

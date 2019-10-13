@@ -10,11 +10,11 @@ pair<node*,node*> split(node *t, int x) {
   if (!t) return make_pair((node*)NULL,(node*)NULL);
   if (t->x < x) {
     pair<node*,node*> res = split(t->r, x);
-    t->r = res.first; augment(t);
-    return make_pair(t, res.second); }
+    t->r = res.x; augment(t);
+    return make_pair(t, res.y); }
   pair<node*,node*> res = split(t->l, x);
-  t->l = res.second; augment(t);
-  return make_pair(res.first, t); }
+  t->l = res.y; augment(t);
+  return make_pair(res.x, t); }
 node* merge(node *l, node *r) {
   if (!l) return r; if (!r) return l;
   if (l->y > r->y) {
@@ -29,15 +29,17 @@ node* find(node *t, int x) {
 node* insert(node *t, int x, int y) {
   if (find(t, x) != NULL) return t;
   pair<node*,node*> res = split(t, x);
-  return merge(res.first,
-      merge(new node(x, y), res.second)); }
+  return merge(res.x, merge(new node(x, y), res.y));
+}
 node* erase(node *t, int x) {
   if (!t) return NULL;
   if (t->x < x) t->r = erase(t->r, x);
   else if (x < t->x) t->l = erase(t->l, x);
-  else { node *old = t; t = merge(t->l, t->r); delete old; }
-  if (t) augment(t); return t; }
+  else{node *old=t; t=merge(t->l,t->r); delete old; }
+  if (t) augment(t); return t;
+}
 int kth(node *t, int k) {
   if (k < tsize(t->l)) return kth(t->l, k);
   else if (k == tsize(t->l)) return t->x;
-  else return kth(t->r, k - tsize(t->l) - 1); }
+  else return kth(t->r, k - tsize(t->l) - 1);
+}

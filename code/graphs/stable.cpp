@@ -2,8 +2,7 @@
 // voor een man i, is order[i] de prefere
 vi stable(int n, int m, vvi order, vvi pref) {
 	queue<int> q;
-	rep(i,0,n)
-		q.push(i);
+	REP(i, n) q.push(i);
 	vi mas(m,-1), mak(n,-1), p(n,0);
 	while (!q.empty()) {
 		int k = q.front();
@@ -19,7 +18,7 @@ vi stable(int n, int m, vvi order, vvi pref) {
 			q.push(k2);
 		} else {
 			q.push(k);
-		} 
+		}
 		p[k]++;	
 	}
 	return mak;
