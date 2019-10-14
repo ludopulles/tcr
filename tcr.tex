@@ -341,11 +341,15 @@ Design principle that supports many operations in amortized $\sqrt{n}$ per opera
 A queue that supports querying for the minimum element. Useful for sliding window algorithms.
 \code{datastructures/monotonic_queue.cpp}
 
-\subsection{Convex Hull Trick (replace $O(n^2)$ by respectively $O(n)$ and $O(n\log n)$}
-If converting to integers, look out for division by 0 and $\pm\infty$.
-\code{datastructures/convex_hull_trick.cpp}
-And dynamic variant:
-\code{datastructures/convex_hull_trick_dynamic.cpp}
+\subsection{Line container \`{a} la `Convex Hull Trick' $\mathcal{O}(n \log n)$}
+Container where you can add lines of the form $y_i(x) = k_i x + m_i$ and query $\max_{i} y_i(x)$.
+\code{datastructures/LineContainer.cpp}
+
+%\subsection{Convex Hull Trick (replace $O(n^2)$ by respectively $O(n)$ and $O(n\log n)$}
+%If converting to integers, look out for division by 0 and $\pm\infty$.
+%\code{datastructures/convex_hull_trick.cpp}
+%And dynamic variant:
+%\code{datastructures/convex_hull_trick_dynamic.cpp}
 
 \subsection{Sparse Table $O(\log n)$ per query}
 \code{datastructures/sparse_table.cpp}
