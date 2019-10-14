@@ -35,7 +35,7 @@ node* erase(node *t, int x) {
   if (!t) return NULL;
   if (t->x < x) t->r = erase(t->r, x);
   else if (x < t->x) t->l = erase(t->l, x);
-  else{node *old=t; t=merge(t->l,t->r); delete old; }
+  else{node *old=t; t=merge(t->l,t->r); delete old;}
   if (t) augment(t); return t;
 }
 int kth(node *t, int k) {

@@ -3,7 +3,7 @@ const int n = 1 << 20;
 S t[2 * n];
 
 // combine must be an associative function!
-S combine(S l, S r) { return l+r; } //or max(l,r) etc
+S combine(S l, S r){ return l+r; } //or max(l,r) etc
 
 void build() {
 	for (int i = n; --i; )

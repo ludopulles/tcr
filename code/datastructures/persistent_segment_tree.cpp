@@ -30,6 +30,6 @@ int update(int idx, int v, int id) {
 }
 int query(int id, int l, int r) {
 	if (r < S[id].l || S[id].r < l) return 0;
-	if (l <= S[id].l && S[id].r <= r) return S[id].sum;
-	return query(S[id].lid,l,r) + query(S[id].rid,l,r);
+	if (l<=S[id].l && S[id].r<=r) return S[id].sum;
+	return query(S[id].lid,l,r)+query(S[id].rid,l,r);
 }
