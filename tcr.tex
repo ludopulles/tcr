@@ -12,11 +12,15 @@
 
 \usepackage[top=1cm, bottom=1.5cm, left=1cm, right=1cm]{geometry}
 
+% Use the packages minted for syntax highlighting:
 \usepackage{minted}
-\newcommand{\mintedstyle}[2]{\inputminted[fontsize=\normalsize,baselinestretch=.9,breaklines,tabsize=2]{#1}{code/#2}}
-
+\newcommand{\mintedstyle}[2]{\inputminted[fontsize=\normalsize,baselinestretch=.9,breaklines,breakautoindent,tabsize=2]{#1}{code/#2}}
 \newcommand{\code}[1]{\mintedstyle{cpp}{#1}}
-\setlength{\columnseprule}{.5pt}
+\setminted[java]{fontsize=\normalsize,baselinestretch=.9,breaklines,tabsize=2}
+
+\setlength{\columnseprule}{.2pt}
+\setlength{\columnsep}{.5cm}
+\def\columnseprulecolor{\color{gray}}
 
 \newcommand{\subtitle}[1]{%
   \posttitle{%
@@ -40,7 +44,7 @@
 \setlength{\droptitle}{-20pt}
 \posttitle{\par\end{center}}
 \renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0.4pt}
+%\renewcommand{\footrulewidth}{0.4pt}
 
 % Math and bit operators
 \DeclareMathOperator{\lcm}{lcm}
@@ -64,7 +68,7 @@
 % \verbosefalse
 
 \title{TCR}
-\subtitle{\QQ (Ludo Pulles, Reinier Schmiermann, Pim Spelier)}
+\subtitle{\textbf{\QQ} \\ \textit{Ludo Pulles, Reinier Schmiermann, Pim Spelier}}
 
 \begin{document}
 
@@ -86,6 +90,20 @@
 
 \tableofcontents
 
+\begin{center}
+\noindent\rule{\columnwidth}{0.4pt}
+\end{center}
+
+\begin{center}
+\textbf{.bashrc}
+\end{center}
+\mintedstyle{bash}{.bashrc}
+
+\begin{center}
+\textbf{.vimrc}
+\end{center}
+\mintedstyle{vim}{.vimrc}
+
 \textbf{Test script} (usage: ./test.sh A/B/..)
 \mintedstyle{bash}{test.sh}
 % \inputminted[fontsize=\normalsize,baselinestretch=1,breaklines,tabsize=2]{bash}{code/test.sh}
@@ -104,8 +122,7 @@ template.py
 
 \subsection{De winnende aanpak}
 
-\begin{itemize}
-	\setlength\itemsep{-.25em}
+\begin{myitemize}
 	\item Slaap goed \& heb een vroeg ritme!
 	\item Drink \& eet genoeg voor \& tijdens de wedstrijd!
 	\item Houd een lijst bij met info over alle problemen.
@@ -114,12 +131,11 @@ template.py
 	\item Houd na 2 uur een pauze en overleg waar iedereen mee bezig is.
 	\item Maak zelf (zware) test cases.
 	\item Gebruik \texttt{ll}.
-\end{itemize}
+\end{myitemize}
 
 \subsection{Wrong Answer}
 
-\begin{enumerate}
-	\setlength\itemsep{-.25em}
+\begin{myitemize}
 	\item Print de oplossing om te debuggen!
 	\item Kijk naar wellicht makkelijkere problemen.
 	\item Bedenk zelf test cases met \textbf{randgevallen}!
@@ -129,35 +145,15 @@ template.py
 	\item Controleer op \textbf{typo\textquotesingle s}.
 	\item Loop de voorbeeld test case accuraat langs.
 	\item Controleer op off-by-one-errors (in indices of lus-grenzen)?
-\end{enumerate}
+\end{myitemize}
 
-\textbf{Detecting overflow}
+\textbf{Detecting overflow:}
 This GNU builtin checks for over- and underflow. Result is in \texttt{res} if successful:
 \code{other/overflow.cpp}
 
-\subsection{Covering problems}
-
-\begin{center}
-	\emph{Minimum edge cover$\iff$Maximum independent set}
-\end{center}
-
-\begin{description}
-	\setlength\itemsep{-.25em}
-	\item[Matching]
-		A set of edges without common vertices \textit{(Maximum is the \textbf{largest} such set, maximal is a set which you cannot add more edges to without breaking the property)}.
-	\item[Minimum Vertex Cover]
-		A set vertices (cover) such that each edge in the graph is incident to at least one vertex of the set.
-	\item[Minimum Edge Cover]
-		A set of edges (cover) such that every vertex is incident to at least one edge of the set.
-	\item[Maximum Independent Set]
-		A set of vertices in a graph such that no two of them are adjacent.
-	\item[K\"{o}nig's theorem]
-		In any bipartite graph, MCBM = MVC = V - MIS.
-\end{description}
-
-\textbf{A useful identity}: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{mod} \, 4]$.
-
 \section{Mathematics}
+
+\textbf{XOR sum}: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{mod} \, 4]$.
 
 \code{math/math.cpp}
 
@@ -178,23 +174,17 @@ Numeric integration using Simpson's rule.
 \code{math/numeric_integration.cpp}
 
 \subsection{Fast Hadamard Transform}
-Computes the Hadamard transform of the given array. Can be used to
-compute the \texttt{XOR}-convolution of arrays, exactly like with FFT.
-For \texttt{AND}-convolution, replace $(x-y,x+y),((x+y)/2,(-x+y)/2)$ with $(x+y,y), (x-y,y)$. For
-\texttt{OR}-convolution, use $(x,x+y)$ and $(x,-x+y)$. \textbf{Note}:
-Size of array must be a power of $2$.
+Computes \texttt{XOR}-convolutions in $O(k 2^k)$ on $k$ bits. \\
+For \texttt{AND}-convolution, use $\quad  (x + y, \, y), \quad (x-y, \, y)$. \\
+For \texttt{OR}-convolution, use $\quad\,\,\, (x, \, x + y), \quad (x, \, -x + y)$. \\
+\textbf{Note}: The array size must be a power of $2$.
 \code{math/fht.cpp}
 
 \subsection{Tridiagonal Matrix Algorithm}
-Solves a tridiagonal system of linear equations $a_ix_{i-1} + b_ix_i +
-c_ix_{i+1} = d_i$ where $a_1 = c_n = 0$. Beware of numerical
-instability.
-\code{math/tridiagonal.cpp}
 
-\subsection{Josephus problem}
-Last man standing out of $n$ if every $k$th is killed. Zero-based, and
-does not kill $0$ on first pass.
-\code{math/josephus.cpp}
+Solves a tridiagonal system of linear equations \[ a_i x_{i-1} + b_i x_i + c_i x_{i+1} = d_i \] where $a_1 = c_n = 0$.
+Beware of numerical instability.
+\code{math/tridiagonal.cpp}
 
 \subsection{Number of Integer Points under Line}
 Count the number of integer solutions to $Ax+By\leq C$, $0 \leq x \leq
@@ -204,7 +194,17 @@ let $n = \left\lfloor \frac{c}{a}\right\rfloor$. In any case, it must hold
 that $C-nA \geq 0$. Be very careful about overflows.
 \code{math/floor_sum.cpp}
 
+\subsection{Solving linear recurrences}
+Given some brute-forced sequence $s[0], s[1], \dots, s[2n-1]$, Berlekamp-Massey finds the shortest possible recurrence relation in $\mathcal{O}(n^2)$.
+After that, \texttt{lin\_rec} finds $s[k]$ in $\mathcal{O}(n^2 \log k)$.
+\code{other/berlekamp-massey.cpp}
+
 \subsection{Misc}
+
+\subsubsection{Josephus problem}
+Last man standing out of $n$ if every $k$th is killed. Zero-based, and
+does not kill $0$ on first pass.
+\code{math/josephus.cpp}
 
 \begin{myitemize}
 	\item \textbf{Prime numbers}:
@@ -241,19 +241,21 @@ that $C-nA \geq 0$. Be very careful about overflows.
 	If $g$ is a primitive root, all primitive roots are of the form $g^k$
 	where $k,\phi(p)$ are coprime (hence there are $\phi(\phi(p))$ primitive roots).
 	
-\item \begin{tabular}{|l|ccccc|}
+\item \textbf{Maximum number of divisors:} \\
+	\begin{tabular}{|l|ccccc|}
    \hline
    $\leq N$ & $10^3$ & $10^6$ & $10^9$ & $10^{12}$ & $10^{18}$ \\
    \hline
    $m$ & $840$ & $720720$ & $735134400$ & $963761198400$ & \\
    \hline
-   $d(m)$ & $32$ & $240$ & $1344$ & $6270$ & $103680$ \\
+   $\sigma_0(m)$ & $32$ & $240$ & $1344$ & $6270$ & $103680$ \\
    \hline
    \end{tabular}\\
    For $n = 10^{18}, m = 897612484786617600$.
 
 \end{myitemize}
 
+\vfill\null \columnbreak
 \section{Datastructures}
 \subsection{Order tree}
 \code{datastructures/order_statistic.cc}
@@ -261,16 +263,18 @@ that $C-nA \geq 0$. Be very careful about overflows.
 \subsection{Segment tree $\mathcal{O}(\log n)$}
 
 % \subsection{segment tree $\mathcal{O}(\log n)$}
-\textbf{Standard segment tree}
+\subsubsection{Standard segment tree}
 \code{datastructures/segment_tree.cpp}
 
 % \subsection{Lazy segment tree $\mathcal{O}(\log n)$}
-\textbf{Lazy segment tree}\\
+\subsubsection{Lazy segment tree} ~\\
+
 \textbf{Be careful}: all intervals are right-closed $[\ell,r]$.
 \code{datastructures/lazy_segment_tree.cpp}
 
 % \subsection{Lazy segment tree $\mathcal{O}(\log n)$}
-\textbf{Persistent segment tree} \\
+\subsubsection{Persistent segment tree} ~\\
+
 \textbf{Be careful}: all intervals are right-closed $[\ell,r]$, including build.
 \code{datastructures/persistent_segment_tree.cpp}
 
@@ -318,27 +322,26 @@ Design principle that supports many operations in amortized $\sqrt{n}$ per opera
 A queue that supports querying for the minimum element. Useful for sliding window algorithms.
 \code{datastructures/monotonic_queue.cpp}
 
-\subsection{Convex Hull Trick (replace $O(n^2)$ by respectively $O(n)$ and $O(n\log n)$}
-If converting to integers, look out for division by 0 and $\pm\infty$.
-\code{datastructures/convex_hull_trick.cpp}
-And dynamic variant:
-\code{datastructures/convex_hull_trick_dynamic.cpp}
+\subsection{Line container \`{a} la `Convex Hull Trick' $\mathcal{O}(n \log n)$}
+Container where you can add lines of the form $y_i(x) = k_i x + m_i$ and query $\max_{i} y_i(x)$.
+\code{datastructures/LineContainer.cpp}
+
+%\subsection{Convex Hull Trick (replace $O(n^2)$ by respectively $O(n)$ and $O(n\log n)$}
+%If converting to integers, look out for division by 0 and $\pm\infty$.
+%\code{datastructures/convex_hull_trick.cpp}
+%And dynamic variant:
+%\code{datastructures/convex_hull_trick_dynamic.cpp}
 
 \subsection{Sparse Table $O(\log n)$ per query}
 \code{datastructures/sparse_table.cpp}
 
+\vfill\null \columnbreak
 \section{Graph Algorithms}
 
 \subsection{Shortest path}
 
 \subsubsection{Dijkstra $\mathcal{O}(|E|\log{|V|})$}
 \code{graphs/dijkstra.cpp}
-
-\subsubsection{Stable marriage}
-With $n$ men, $m \geq n$ women, $n$ preference lists of women for each men, and
-for every woman $j$ an preference of men defined by \texttt{pref[][j]} (lower is better)
-find for every man a women such that no pair of a men and a woman want to run off together.
-\code{graphs/stable.cpp}
 
 \subsubsection{Floyd-Warshall $\mathcal{O}(V^{3})$}
 Be careful with negative edges! Note: |d[i][j]| can grow exponentially, and INFTY + negative < INFTY.
@@ -351,16 +354,59 @@ This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
 \subsubsection{IDA$^\star$ algorithm}
 \code{graphs/idastar.cpp}
 
-\subsection{Maximum matching $\mathcal{O}(n m)$}
+\subsection{Maximum Matching}
+\begin{description}
+	\setlength\itemsep{-.25em}
+	\item[Matching]
+		A set of edges without common vertices \textit{(Maximum is the \textbf{largest} such set, maximal is a set which you cannot add more edges to without breaking the property)}.
+	\item[Minimum Vertex Cover]
+		A set of vertices such that each edge in the graph is incident to at least one vertex of the set.
+	\item[Minimum Edge Cover]
+		A set of edges such that every vertex is incident to at least one edge of the set.
+	\item[Maximum Independent Set]
+		A set of vertices in a graph such that no two of them are adjacent.
+		\[
+			\text{Minimum edge cover} \iff \text{Maximum independent set}.
+		\]
+	\item[K\"{o}nig's theorem]
+		In any bipartite graph $G=(L\cup R,E)$, the number
+		of edges in a maximum matching equals the number of
+		vertices in a minimum vertex cover. Let $U$ be the set of
+		unmatched vertices in $L$, and $Z$ be the set of vertices that
+		are either in $U$ or are connected to $U$ by an alternating
+		path. Then $K=(L\setminus Z)\cup(R\cap Z)$ is the minimum
+		vertex cover.
+
+		In any bipartite graph,
+		\[
+			\mathrm{maxmatch} = \mathrm{MVC} = V - \mathrm{MIS}.
+		\]
+		See \ref{sec:mvc}.
+
+\end{description}
+\subsubsection{Standard bipartite matching $\mathcal{O}(n m)$}
 \code{graphs/maxmatch.cpp}
 
-\subsection{Hopcroft-Karp bipartite matching $\mathcal{O}(E \sqrt{V})$}
+\subsubsection{Hopcroft-Karp bipartite matching $\mathcal{O}(E \sqrt{V})$}
 \code{graphs/hopcroft_karp.cpp}
 
 \subsubsection{Minimum Vertex Cover in Bipartite Graphs}
+\label{sec:mvc}
 \code{graphs/bipartite_mvc.cpp}
 
+\subsubsection{Stable marriage}
+With $n$ men, $m \geq n$ women, $n$ preference lists of women for each men, and
+for every woman $j$ an preference of men defined by \texttt{pref[][j]} (lower is better)
+find for every man a women such that no pair of a men and a woman want to run off together.
+\code{graphs/stable.cpp}
+
+\subsection{Cycle Detection $\mathcal{O}(V + E)$}
+\code{findcycle.cpp}
+
 \subsection{Depth first searches}
+
+\subsubsection{Topological Sort $O(V+E)$}
+\code{graphs/toposort.cpp}
 
 \subsubsection{Cut Points and Bridges $O(V+E)$}
 \code{graphs/cut_points_and_bridges.cpp}
@@ -368,17 +414,14 @@ This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
 \subsubsection{Strongly Connected Components $\mathcal{O}(V + E)$}
 \code{graphs/scc.cpp}
 
-\subsubsection{Dominator graph}
-\code{graphs/dominator.cpp}
-
 \subsubsection{2-SAT $\mathcal{O}(V+E)$}
 Include \texttt{findSCC}.
 \code{satsolver.cpp}
 
-\subsection{Cycle Detection $\mathcal{O}(V + E)$}
-\code{findcycle.cpp}
+\subsubsection{Dominator graph}
+\code{graphs/dominator.cpp}
 
-\subsection{Maximum Flow Algorithms}
+\subsection{Min Cut / Max Flow}
 \subsubsection{Dinic's Algorithm $\mathcal{O}(V^{2} E)$}
 % http://www.slideshare.net/KuoE0/acmicpc-dinics-algorithm
 \code{graphs/dinic.cpp}
@@ -394,17 +437,12 @@ If Dinic's algorithm is used to calculate the max flow, the running time is $O(|
 NOTE: Not sure if it works correctly with disconnected graphs.
 \code{graphs/gomory_hu_tree.cpp}
 
-\subsection{Minimal Spanning Tree}
+\subsection{Minimal Spanning Tree $\mathcal{O}(E \log V)$}
 % Kruskal is shorter...
 % \subsubsection{Prim $\mathcal{O}((E + V) \log V)$}
 % \code{graphs/mst_prim.cpp}
 
-\subsubsection{Kruskal $\mathcal{O}(E \log V)$}
 \code{graphs/mst_kruskal.cpp}
-
-\subsection{Topological Sort $O(V+E)$}
-\subsubsection{Modified Depth-First Search}
-\code{graphs/tsort.cpp}
 
 \subsection{Euler Path $O(V+E)$ hopefully}
 Finds an Euler Path (or circuit) in a \emph{directed} graph iff one exists.
@@ -421,33 +459,37 @@ Finds an Euler \emph{cycle} in a \emph{undirected} graph:
 \subsection{Least Common Ancestors, Binary Jumping}
 \code{graphs/lca.cpp}
 
-\subsection{Tarjan's Off-line Lowest Common Ancestors Algorithm}
-\code{graphs/tarjan_olca.cpp}
+% Just use the normal LCA algorithm instead.
+%\subsection{Tarjan's Off-line Lowest Common Ancestors Algorithm}
+%\code{graphs/tarjan_olca.cpp}
 
-\subsection{Misra-Gries $D+1$-edge coloring}
+\subsection{Miscellaneous}
+
+\subsubsection{Misra-Gries $D+1$-edge coloring}
 Finds a $\max_i \deg(i) + 1$-edge coloring where there all incident edges have distinct colors.
 Finding a $D$-edge coloring is NP-hard.
 \code{graphs/MisraGries.cpp}
 
-\subsection{Minimum Mean Weight Cycle}
+\subsubsection{Minimum Mean Weight Cycle}
 Given a strongly connected directed graph, finds the cycle of minimum
 mean weight. If you have a graph that is not strongly connected, run
 this on each strongly connected component.
 \code{graphs/min_mean_cycle.cpp}
 
-\subsection{Minimum Arborescence}
+\subsubsection{Minimum Arborescence}
 Given a weighted directed graph, finds a subset of edges of minimum
 total weight so that there is a unique path from the root $r$ to each
 vertex. Returns a vector of size $n$, where the $i$th element is the
 edge for the $i$th vertex. The answer for the root is undefined!
 \code{graphs/arborescence.cpp}
 
-\subsection{Blossom algorithm}
-Finds a maximum matching in an arbitrary graph in $O(|V|^4)$ time.
-Be aware of loop edges.
-\code{graphs/blossom.cpp}
+% Way to complicated for a competition:
+%\subsection{Blossom algorithm}
+%Finds a maximum matching in an arbitrary graph in $O(|V|^4)$ time.
+%Be aware of loop edges.
+%\code{graphs/blossom.cpp}
 
-\subsection{Maximum Density Subgraph}
+\subsubsection{Maximum Density Subgraph}
 Given (weighted) undirected graph $G$. Binary search density. If $g$ is
 current density, construct flow network: $(S, u, m)$, $(u, T,
 m+2g-d_u)$, $(u,v,1)$, where $m$ is a large constant (larger than sum
@@ -458,7 +500,7 @@ case when density is $0$. This also works for weighted graphs by
 replacing $d_u$ by the weighted degree, and doing more iterations (if
 weights are not integers).
 
-\subsection{Maximum-Weight Closure}
+\subsubsection{Maximum-Weight Closure}
 Given a vertex-weighted directed graph $G$. Turn the graph into a flow
 network, adding weight $\infty$ to each edge. Add vertices $S,T$. For
 each vertex $v$ of weight $w$, add edge $(S,v,w)$ if $w\geq 0$, or edge
@@ -467,19 +509,20 @@ the answer. Vertices reachable from $S$ are in the closure. The
 maximum-weight closure is the same as the complement of the
 minimum-weight closure on the graph with edges reversed.
 
-\subsection{Maximum Weighted Independent Set in a Bipartite Graph}
+\subsubsection{Maximum Weighted Independent Set in a Bipartite Graph}
 This is the same as the minimum weighted vertex cover. Solve this by
 constructing a flow network with edges $(S,u,w(u))$ for $u\in L$,
 $(v,T,w(v))$ for $v\in R$ and $(u,v,\infty)$ for $(u,v)\in E$. The
 minimum $S,T$-cut is the answer. Vertices adjacent to a cut edge are
 in the vertex cover.
 
-\subsection{Synchronizing word problem}
+\subsubsection{Synchronizing word problem}
 A DFA has a synchronizing word (an input sequence that moves all states
 to the same state) iff.\ each pair of states has a synchronizing word.
 That can be checked using reverse DFS over pairs of states. Finding the
 shortest synchronizing word is NP-complete.
 
+\vfill\null \columnbreak
 \section{String algorithms}
 \subsection{Trie}
 \code{strings/trie.cpp}
@@ -487,8 +530,8 @@ shortest synchronizing word is NP-complete.
 \subsection{Z-algorithm $\mathcal{O}(n)$}
 \code{strings/z_function.cpp}
 
-\subsection{Suffix array $\mathcal{O}(n \log^2{n})$}
-This creates an array $P[0], P[1], \dots, P[n-1]$ such that the suffix $S[i \dots n]$ is the $P[i]^\textit{th}$ suffix of $S$ when lexicographically sorted.
+\subsection{Suffix array $\mathcal{O}(n \log{n})$}
+Lexicographically sorts the cyclic shifts of $S$ where $p[0]$ is the index of the smallest string, etc.
 \code{strings/suffixarray.cpp}
 
 \subsection{Longest Common Subsequence $\mathcal{O}(n^{2})$}
@@ -523,6 +566,7 @@ Modulus should be a large prime. Can also use multiple instances with
 different moduli to minimize chance of collision.
 \code{strings/hasher.cpp}
 
+\vfill\null \columnbreak
 \section{Geometry}
 \code{geometry/main.cpp}
 
@@ -559,9 +603,19 @@ most $4n$ edges that are a superset of the edges in a minimum spanning
 tree, and then one can use Kruskal's algorithm.
 \code{geometry/rmst.cpp}
 
+\subsection{Points and lines (CP3)}
+\code{geometry/CP/points_lines.cpp}
+\subsection{Polygon (CP3)}
+Polygons have $P_0 = P_{n-1}$ here.
+\code{geometry/CP/polygon.cpp}
+\subsection{Triangle (CP3)}
+\code{geometry/CP/triangles.cpp}
+\subsection{Circle (CP3)}
+\code{geometry/CP/circles.cpp}
+
 \subsection{Formulas}
 Let $a = (a_x, a_y)$ and $b = (b_x, b_y)$ be two-dimensional vectors.
-\begin{itemize}
+\begin{myitemize}
 	\item $a\cdot b = |a||b|\cos{\theta}$, where $\theta$ is the angle
 		between $a$ and $b$.
 	\item $a\times b = |a||b|\sin{\theta}$, where $\theta$ is the
@@ -575,8 +629,9 @@ Let $a = (a_x, a_y)$ and $b = (b_x, b_y)$ be two-dimensional vectors.
 	\item \textbf{Law of sines:} $\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}$
 	\item \textbf{Law of cosines:} $b^2 = a^2 + c^2 - 2ac\cos B$
 	\item Internal tangents of circles $(c_1,r_1), (c_2,r_2)$ intersect at $(c_1r_2+c_2r_1)/(r_1+r_2)$, external intersect at $(c_1r_2-c_2r_1)/(r_1+r_2)$.
-\end{itemize}
+\end{myitemize}
 
+\vfill\null \columnbreak
 \section{Miscellaneous}
 \subsection{Binary search $\mathcal{O}(\log (hi - lo))$}
 \code{binary_search.cpp}
@@ -603,18 +658,9 @@ Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) =
 \subsection{Simplex}
 \code{other/simplex.cpp}
 
-\section{Geometry (CP3)}
-\subsection{Points and lines}
-\code{geometry/CP/points_lines.cpp}
-\subsection{Polygon}
-\code{geometry/CP/polygon.cpp}
-\subsection{Triangle}
-\code{geometry/CP/triangles.cpp}
-\subsection{Circle}
-\code{geometry/CP/circles.cpp}
 
 \section{Combinatorics}
-\begin{itemize}[wide,labelwidth=!,labelindent=0pt]
+\begin{myitemize}
 	\item Catalan numbers (valid bracket seq's of length $2n$):
 
 		$C_0 = 1, C_n = \frac{1}{n+1}\binom{2n}{n} = \sum_{i=0}^{n-1}C_iC_{n-i-1}$.
@@ -654,9 +700,10 @@ Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) =
 	\]
 	Corollary:
 		$b_n = \sum_{k=0}^{n} \binom{n}{k} a_k \Longleftrightarrow a_n = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} b_k$.
-\end{itemize}
+%\end{myitemize}
 
-\subsection{The Twelvefold Way}
+%\subsection{The Twelvefold Way}
+	\item \textbf{The Twelvefold Way:}
 Putting $n$ balls into $k$ boxes.
 $\mathrm{p}(n,k)$ is \# partitions of $n$ in $k$ parts, each $>0$.
 $\mathrm{p}_k(n) = \sum_{i=0}^k \mathrm{p}(n,k)$.
@@ -665,11 +712,13 @@ $\mathrm{p}_k(n) = \sum_{i=0}^k \mathrm{p}(n,k)$.
 	Balls & same & distinct & same & distinct\\
 	Boxes & same & same & distinct & distinct\\
 	\hline
-	- & $\mathrm{p}_k(n)$ & $\sum_{i=0}^k \stirling{n}{i}$ & $\binom{n+k-1}{k-1}$ & $k^n$ \\ 
+	- & $\mathrm{p}_k(n)$ & $\sum_{i=0}^k \stirling{n}{i}$ & $\binom{n+k-1}{k-1}$ & $k^n$ \\
 	$\mathrm{size}\ge 1$ & $\mathrm{p}(n,k)$ & $\stirling{n}{k}$ & $\binom{n-1}{k-1}$ & $k!\stirling{n}{k}$ \\
 	$\mathrm{size}\le 1$ & $[n \le k]$ & $[n \le k]$ & $\binom{k}{n}$ & $n!\binom{k}{n}$ \\
 	\bottomrule
 \end{tabular}
+
+\end{myitemize}
 
 \section{Formulas}
 
@@ -690,17 +739,11 @@ $\mathrm{p}_k(n) = \sum_{i=0}^k \mathrm{p}(n,k)$.
 		points on the boundary has area $i + \frac{b}{2} - 1$. (Nothing
 		similar in higher dimensions)
 	\item \textbf{Absorption probabilities} A random walk on $[0,n]$ with probability $p$ to increase and $q$ to decrease, starting at $k$ has at $n$ absorption probability $\frac{(q/p)^k-1}{(q/p)^n-1}$ if $q \not= p$, and $k/n$ if $q = p$.
-	\item \textbf{König's theorem:} In any bipartite graph $G=(L\cup R,E)$, the number
-		of edges in a maximum matching is equal to the number of
-		vertices in a minimum vertex cover. Let $U$ be the set of
-		unmatched vertices in $L$, and $Z$ be the set of vertices that
-		are either in $U$ or are connected to $U$ by an alternating
-		path. Then $K=(L\setminus Z)\cup(R\cap Z)$ is the minimum
-		vertex cover.
-	\item A minumum Steiner tree for $n$ vertices requires at most $n-2$ additional Steiner vertices.
-	\item The number of vertices of a graph is equal to its minimum
-		vertex cover number plus the size of a maximum independent set.
-	\item \textbf{Lagrange polynomial} through points $(x_0,y_0),\ldots,(x_k,y_k)$ is $L(x) = \sum_{j=0}^k y_j \prod_{\shortstack{$\scriptscriptstyle 0\leq m \leq k$ \\ $\scriptscriptstyle m\neq j$}} \frac{x-x_m}{x_j - x_m}$
+	\item A minimum Steiner tree for $n$ vertices requires at most $n-2$ additional Steiner vertices.
+	\item \textbf{Lagrange polynomial} through points $(x_0,y_0),\ldots,(x_k,y_k)$ is
+	\[
+		L(x) = \sum_{j=0}^k y_j \prod_{\shortstack{$\scriptscriptstyle 0\leq m \leq k$ \\ $\scriptscriptstyle m\neq j$}} \frac{x-x_m}{x_j - x_m}.
+	\]
 	\item \textbf{Hook length formula:} If $\lambda$ is a Young diagram and $h_{\lambda}(i,j)$ is the hook-length of cell $(i,j)$, then then the number of Young tableux $d_{\lambda} = n!/\prod h_{\lambda}(i,j)$.
 	\item \#primitive pythagorean triples with hypotenuse $<n$ approx $n/(2\pi)$.
 	\item \textbf{Frobenius Number:} largest number which can't be
@@ -717,24 +760,24 @@ $\mathrm{p}_k(n) = \sum_{i=0}^k \mathrm{p}(n,k)$.
 			t_w(G) \prod_{v \in G} (\deg v - 1)!,
 		\end{equation*}
 		where $t_w(G)$ is the number of arborescences (``directed spanning'' tree) rooted at $w$: $t_w(G) = \det\left( q_{ij} \right)_{i,j \neq w}$, with $q_{ij} = [i=j] \mathrm{indeg}(i) - \# \set{(i,j) \in E}$.
-\end{myitemize}
 
-\subsection{Burnside's Lemma}
-Let a finite group $G$ act on a set $X$.
-Denote $X^g = \set{ x \in X | gx = x}$.
-For each $g$ in $G$ let $X^g$ denote the set of elements in $X$ that are fixed by $g$.
-Then the number of orbits is:
-\begin{equation*}
-	\lvert X/G \rvert = \frac{1}{\lvert G \rvert} \sum_{g\in G} \lvert X^g \rvert.
-\end{equation*}
+	\item \textbf{Burnside's Lemma:}
+		Let a finite group $G$ act on a set $X$.
+		Denote $X^g = \set{ x \in X | gx = x}$.
+		For each $g$ in $G$ let $X^g$ denote the set of elements in $X$ that are fixed by $g$.
+		Then the number of orbits is:
+		\begin{equation*}
+			\lvert X/G \rvert = \frac{1}{\lvert G \rvert} \sum_{g\in G} \lvert X^g \rvert.
+		\end{equation*}
 
-\subsection{Bézout's identity}
+\item \textbf{Bézout's identity:}
 If $(x,y)$ is a solution to $ax+by=d$ ($x, y$ can be found with EGCD),
 then all solutions are given by
 \[
 	%\left( x + k \frac{b}{\gcd(a,b)}, y - k\frac{a}{\gcd(a,b)} \right), \quad k \in \mathbb{Z}
 	\left( x + k \cdot \mathrm{lcm}(a,b) / a, \, y - k \cdot \mathrm{lcm}(a,b) / b \right), \quad k \in \mathbb{Z}
 \]
+\end{myitemize}
 
 \section{Game Theory}
 A game can be reduced to Nim if it is a finite impartial game.
@@ -751,6 +794,89 @@ Nim and its variants include:
 	\item \textbf{Hackenbush on trees:} A tree with stalks $(x_i)_{i=1}^n$ may be replaced with a single stalk with length $\bigoplus_{i=1}^n x_i$.
 \end{myitemize}
 
+\section{Java essentials}
+\subsection{Round to n decimals}
+\begin{minted}{java}
+DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+dfs.setDecimalSeparator('.');
+DecimalFormat df = new DecimalFormat("#0.00", dfs);
+double x = 12.5093;
+System.out.println(df.format(x));
+\end{minted}
+
+\subsection{Example usage BufferedReader}
+\begin{minted}{java}
+BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+String line = br.readLine();
+String splittedLine = br.readLine().split(" ");
+int N = Integer.parseInt(splittedLine[0]);
+\end{minted}
+
+\subsection{Example usage sort()}
+\begin{minted}{java}
+class ExampleComparator implements Comparator<Integer> {
+    public int compare(Integer n, Integer m) {
+        if (n < m) return -1;
+        else if (n > m) return 1;
+        else return 0;
+    }
+}
+// In some other function:
+Collections.reverse(arr);
+Collections.sort(arr);
+Collections.sort(arr, new ExampleComparator());
+
+ArrayList<String> stringArr = new ArrayList<>();
+stringArr.add("a"); stringArr.add("b"); stringArr.add("C");
+Collections.sort(stringArr); // yields [C, a, b]
+Collections.sort(stringArr, String.CASE_INSENSITIVE_ORDER); // yields [a, b, C]
+
+int[] arr2 = new int[3];
+arr2[0] = 0; arr2[1] = 2; arr2[2] = 1;
+Arrays.sort(arr2); // yields [0,1,2]
+\end{minted}
+
+
+
+\subsection{Shortest path (Dijkstra)}
+\begin{minted}{java}
+// Running time is O((E + V) log V)
+class Node {
+    ArrayList<Edge> adj;
+    int dist; // initially Integer.MAX_VALUE (must initialize!)
+    Node parent;
+}
+
+
+class NodeDist implements Comparable<NodeDist> {
+    int i, d; // node index and distance
+    NodeDist(int index, int dist) {...};
+    public int compareTo(NodeDist other) {
+        return (d - other.d);
+    }
+}
+
+void dijkstra(int source) { // can also be done for multiple sources...
+    PriorityQueue<NodeDist> Q = new PriorityQueue<NodeDist>();
+    V[source].dist = 0; V[source].parent = null;
+    Q.add(new NodeDist(source, 0));
+    while (!Q.isEmpty()) {
+        NodeDist nd = Q.poll();
+        int k = nd.i;
+        int d = nd.d;
+        if (V[k].dist < d) continue;
+        for (Edge e: V[k].adj) {
+            int newDist = d + e.weight; // e.weight cannot be MAX_VALUE!
+            if (newDist < V[e.target].dist) {
+                V[e.target].dist = newDist;
+                V[e.target].parent = V[k];
+                Q.add(new NodeDist(e.target, newDist));
+            }
+        }
+    }
+    // Nodes contain distance and parent info
+}
+\end{minted}
 \section{Debugging Tips}
 \begin{myitemize}
 	\item Stack overflow? Recursive DFS on tree that is actually a long path?

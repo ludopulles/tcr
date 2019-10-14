@@ -22,17 +22,17 @@ struct bi_graph {
 	ll n, m;
 	vvi adj;
 	vi L, R, d, q;
-	bi_graph( ll _n, ll _m ) : n(_n), m(_m), 
+	bi_graph( ll _n, ll _m ) : n(_n), m(_m),
 		adj(n), L(n,-1), R(m,n), d(n+1), q(n) {}
 	ll bfs() {
 		ll l = 0, r = 0;
-		rep(v,0,n) 
+		rep(v,0,n)
 			if( L[v] == -1 ) d[v] = 0, q[r++] = v;
 			else d[v] = INFTY;
 		d[n] = INFTY;
 		while( l < r ) {
 			ll v = q[l++];
-			if( d[v] < d[n] ) 
+			if( d[v] < d[n] )
 				for( ll u : adj[v] ) if( d[R[u]] == INFTY )
 					d[R[u]] = d[v]+1, q[r++] = R[u];
 		}
@@ -55,7 +55,7 @@ struct bi_graph {
 		while( bfs() ) rep(i,0,n)
 			s += L[i] == - 1 && dfs( i );
 		return s;
-	} 
+	}
 };
 
 signed main() {

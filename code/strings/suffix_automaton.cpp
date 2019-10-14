@@ -35,28 +35,29 @@ struct suffix_automaton {
     map<char,int>::iterator i;
     while(!S.empty()){
       ii cur = S.top(); S.pop();
-      if(cur.second){
-        for(i = next[cur.first].begin();
-            i != next[cur.first].end();++i){
-          cnt[cur.first] += cnt[(*i).second]; } }
-      else if(cnt[cur.first] == -1){
-        cnt[cur.first] = 1; S.push(ii(cur.first, 1));
-        for(i = next[cur.first].begin();
-            i != next[cur.first].end();++i){
-          S.push(ii((*i).second, 0)); } } } }
+      if(cur.y){
+        for(i = next[cur.x].begin();
+            i != next[cur.x].end();++i){
+          cnt[cur.x] += cnt[(*i).y]; } }
+      else if(cnt[cur.x] == -1){
+        cnt[cur.x] = 1; S.push(ii(cur.x, 1));
+        for(i = next[cur.x].begin();
+            i != next[cur.x].end();++i){
+          S.push(ii((*i).y, 0)); } } } }
   string lexicok(ll k){
-    int st = 0; string res; map<char,int>::iterator i;
+    int st=0; string res; map<char,int>::iterator i;
     while(k){
       for(i = next[st].begin(); i != next[st].end(); ++i){
-        if(k <= cnt[(*i).second]){ st = (*i).second;
-          res.push_back((*i).first); k--; break;
-        } else { k -= cnt[(*i).second]; } } }
+        if(k <= cnt[(*i).y]){ st = (*i).y;
+          res.push_back((*i).x); k--; break;
+        } else { k -= cnt[(*i).y]; } } }
     return res; }
   void countoccur(){
-    for(int i = 0; i < sz; ++i){ occur[i] = 1 - isclone[i]; }
+    REP(i, sz) occur[i] = 1 - isclone[i];
     vii states(sz);
-    for(int i = 0; i < sz; ++i){ states[i] = ii(len[i],i); }
+    REP(i, sz) states[i] = ii(len[i],i);
     sort(states.begin(), states.end());
     for(int i = size(states)-1; i >= 0; --i){
-      int v = states[i].second;
-      if(link[v] != -1) { occur[link[v]] += occur[v]; }}}};
+      int v = states[i].y;
+      if (link[v] != -1)
+        occur[link[v]] += occur[v]; }}};

@@ -1,8 +1,11 @@
-#define INFTY (1LL<<61LL)
+const ll INF = 1LL << 61;
 void floyd_warshall( vvi& d ) {
 	ll n = d.size();
-	rep(i,0,n) rep(j,0,n) rep(k,0,n) 
-		if( d[j][i] < INFTY and d[i][k] < INFTY ) // !!! neg. edges
-			d[j][k] = max(-INFTY,min(d[j][k],d[j][i]+d[i][k]));
+	REP(i,n) REP(j,n) REP(k,n)
+		if(d[j][i] < INF && d[i][k] < INF) // neg edges!
+			d[j][k] = max(-INF,
+				min(d[j][k], d[j][i] + d[i][k]));
 }
-vvi d(n,vi(n,INFTY)); rep(i,0,n) d[i][i] = 0;
+
+vvi d(n,vi(n,INF));
+REP(i,n) d[i][i] = 0;

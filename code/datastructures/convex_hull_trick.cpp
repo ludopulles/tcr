@@ -14,6 +14,6 @@ struct convex_hull_trick {
     int lo = 0, hi = size(h) - 2, res = -1;
     while (lo <= hi) {
       int mid = lo + (hi - lo) / 2;
-      if (intersect(mid) <= x) res = mid, lo = mid + 1;
+      if (intersect(mid) <= x) res = mid, lo = mid+1;
       else hi = mid - 1; }
     return h[res+1].first * x + h[res+1].second; } };

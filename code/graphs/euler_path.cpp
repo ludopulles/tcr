@@ -3,12 +3,13 @@ vi adj[MAXV];
 int n, m, indeg[MAXV], outdeg[MAXV], res[MAXE + 1];
 ii start_end() {
   int start = -1, end = -1, any = 0, c = 0;
-  rep(i,0,n) {
-    if (outdeg[i] > 0) any = i;
-    if (indeg[i] + 1 == outdeg[i]) start = i, c++;
-    else if (indeg[i] == outdeg[i] + 1) end = i, c++;
-    else if (indeg[i] != outdeg[i]) return ii(-1,-1); }
-  if ((start == -1) != (end == -1) || (c != 2 && c != 0))
+  REP(i, n) {
+    if(outdeg[i] > 0) any = i;
+    if(indeg[i] + 1 == outdeg[i]) start = i, c++;
+    else if(indeg[i] == outdeg[i] + 1) end = i, c++;
+    else if(indeg[i] != outdeg[i]) return ii(-1,-1);
+  }
+  if ((start == -1) != (end == -1) || (c != 2 && c))
     return ii(-1,-1);
   if (start == -1) start = end = any;
   return ii(start, end); }
@@ -22,5 +23,7 @@ bool euler_path() {
       res[--at] = cur;
       if (s.empty()) break;
       cur = s.top(); s.pop();
-    } else s.push(cur), cur = adj[cur][--outdeg[cur]]; }
-  return at == 0; }
+    } else s.push(cur), cur = adj[cur][--outdeg[cur]];
+  }
+  return at == 0;
+}

@@ -19,4 +19,5 @@ struct min_queue {
     if (outp.empty()) return inp.mn();
     return min(inp.mn(), outp.mn()); }
   void pop() { fix(); outp.pop(); }
-  bool empty() { return inp.empty() && outp.empty(); } };
+  bool empty() { return inp.empty()&&outp.empty(); }
+};

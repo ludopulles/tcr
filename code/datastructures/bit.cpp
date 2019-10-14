@@ -27,5 +27,5 @@ struct rangeBIT {
 		b1.update(j+1, v*j);
 		b1.update(i, (1-i)*v);
 	}
-	ll query(int i) {return b1.query(i)+b2.query(i)*i;}
+	ll query(int i){return b1.query(i)+b2.query(i)*i;}
 };

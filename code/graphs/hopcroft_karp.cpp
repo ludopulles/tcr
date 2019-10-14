@@ -5,17 +5,17 @@ struct bi_graph {
 	vvi adj;
 	vi L, R, d;
 	queue<ll> q;
-	bi_graph( ll _n, ll _m ) : n(_n), m(_m), 
+	bi_graph( ll _n, ll _m ) : n(_n), m(_m),
 		adj(n), L(n,-1), R(m,n), d(n+1) {}
 	ll add_edge( ll a, ll b ) { adj[a].pb(b); }
 	ll bfs() {
-		rep(v,0,n) 
+		rep(v,0,n)
 			if( L[v] == -1 ) d[v] = 0, q.push(v);
 			else d[v] = INFTY;
 		d[n] = INFTY;
 		while( !q.empty() ) {
 			ll v = q.front(); q.pop();
-			if( d[v] < d[n] ) 
+			if( d[v] < d[n] )
 				for( ll u : adj[v] ) if( d[R[u]] == INFTY )
 					d[R[u]] = d[v]+1, q.push(R[u]);
 		}
@@ -36,5 +36,5 @@ struct bi_graph {
 		while( bfs() ) rep(i,0,n)
 			s += L[i] == - 1 && dfs( i );
 		return s;
-	} 
+	}
 };

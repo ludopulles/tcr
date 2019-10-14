@@ -1,7 +1,7 @@
 ll legendre(ll a, ll p) {
 	if (a % p == 0) return 0;
-	if (p == 2) return 1;
-	return mod_pow(a, (p-1)/2, p) == 1 ? 1 : -1; }
+	return p == 2 || mod_pow(a, (p-1)/2, p) == 1 ? 1 : -1;
+}
 ll tonelli_shanks(ll n, ll p) {
 	assert(legendre(n,p) == 1);
 	if (p == 2) return 1;
@@ -20,5 +20,7 @@ ll tonelli_shanks(ll n, ll p) {
 		r = (ll)r * b % p;
 		t = (ll)t * b % p * b % p;
 		c = (ll)b * b % p;
-		m = i; }
-	return r; }
+		m = i;
+	}
+	return r;
+}

@@ -26,8 +26,9 @@ struct Dinic {
 			queue<int> q; q.push(s);
 			while (!q.empty()) {
 				int v = q.front(); q.pop();
-				for (int w : E[v]) if (G[w].f < G[w].c && !H[G[w].t])
-					H[G[w].t] = H[v] + 1, q.push(G[w].t);
+				for (int w : E[v])
+					if (G[w].f < G[w].c && !H[G[w].t])
+						H[G[w].t] = H[v] + 1, q.push(G[w].t);
 			}
 			if (!H[t]) return f;
 			fill(all(P), 0);

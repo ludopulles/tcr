@@ -18,7 +18,7 @@ ii closest(int l, int r, vi &ys) {
 		sort(all(ys), byY());
 		return minpt(ii(l, l + 1), minpt(ii(l, l + 2), ii(l + 1, l + 2)));
 	}
-	int m = (l + r) / 2; vi yl, yr; 
+	int m = (l + r) / 2; vi yl, yr;
 	ii delta = minpt(closest(l, m, yl), closest(m, r, yr));
 	NUM ddelta = dist(delta), xm = .5 * (pts[m-1].x + pts[m].x);
 	merge(all(yl), all(yr), back_inserter(ys), byY());

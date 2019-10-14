@@ -2,7 +2,7 @@ from sys import *
 n,m = [ int(x) for x in stdin.readline().rstrip().split() ]
 stdout.write( str(n*m)+"\n" )
 
-from itertools import * 
+from itertools import *
 for (x,y) in product(range(3),repeat=2):
 	stdout.write( str(3*x+y)+" " )
 stdout.write( "\n" )
