@@ -389,6 +389,9 @@ This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
 
 \subsection{Depth first searches}
 
+\subsubsection{Topological Sort $O(V+E)$}
+\code{graphs/toposort.cpp}
+
 \subsubsection{Cut Points and Bridges $O(V+E)$}
 \code{graphs/cut_points_and_bridges.cpp}
 
@@ -428,10 +431,6 @@ NOTE: Not sure if it works correctly with disconnected graphs.
 
 \subsubsection{Kruskal $\mathcal{O}(E \log V)$}
 \code{graphs/mst_kruskal.cpp}
-
-\subsection{Topological Sort $O(V+E)$}
-\subsubsection{Modified Depth-First Search}
-\code{graphs/tsort.cpp}
 
 \subsection{Euler Path $O(V+E)$ hopefully}
 Finds an Euler Path (or circuit) in a \emph{directed} graph iff one exists.
