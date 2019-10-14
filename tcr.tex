@@ -12,10 +12,12 @@
 
 \usepackage[top=1cm, bottom=1.5cm, left=1cm, right=1cm]{geometry}
 
+% Use the packages minted for syntax highlighting:
 \usepackage{minted}
-\newcommand{\mintedstyle}[2]{\inputminted[fontsize=\normalsize,baselinestretch=.9,breaklines,tabsize=2]{#1}{code/#2}}
-
+\newcommand{\mintedstyle}[2]{\inputminted[fontsize=\normalsize,baselinestretch=.9,breaklines,breakautoindent,tabsize=2]{#1}{code/#2}}
 \newcommand{\code}[1]{\mintedstyle{cpp}{#1}}
+\setminted[java]{fontsize=\normalsize,baselinestretch=.9,breaklines,tabsize=2}
+
 \setlength{\columnseprule}{.2pt}
 \setlength{\columnsep}{.5cm}
 \def\columnseprulecolor{\color{gray}}
@@ -42,7 +44,7 @@
 \setlength{\droptitle}{-20pt}
 \posttitle{\par\end{center}}
 \renewcommand{\headrulewidth}{0.4pt}
-\renewcommand{\footrulewidth}{0.4pt}
+%\renewcommand{\footrulewidth}{0.4pt}
 
 % Math and bit operators
 \DeclareMathOperator{\lcm}{lcm}
@@ -204,11 +206,6 @@ Solves a tridiagonal system of linear equations \[ a_i x_{i-1} + b_i x_i + c_i x
 Beware of numerical instability.
 \code{math/tridiagonal.cpp}
 
-\subsection{Josephus problem}
-Last man standing out of $n$ if every $k$th is killed. Zero-based, and
-does not kill $0$ on first pass.
-\code{math/josephus.cpp}
-
 \subsection{Number of Integer Points under Line}
 Count the number of integer solutions to $Ax+By\leq C$, $0 \leq x \leq
 n$, $0 \leq y$. In other words, evaluate the sum $\sum_{x=0}^n
@@ -223,6 +220,11 @@ After that, \texttt{lin\_rec} finds $s[k]$ in $\mathcal{O}(n^2 \log k)$.
 \code{other/berlekamp-massey.cpp}
 
 \subsection{Misc}
+
+\subsubsection{Josephus problem}
+Last man standing out of $n$ if every $k$th is killed. Zero-based, and
+does not kill $0$ on first pass.
+\code{math/josephus.cpp}
 
 \begin{myitemize}
 	\item \textbf{Prime numbers}:
@@ -259,13 +261,14 @@ After that, \texttt{lin\_rec} finds $s[k]$ in $\mathcal{O}(n^2 \log k)$.
 	If $g$ is a primitive root, all primitive roots are of the form $g^k$
 	where $k,\phi(p)$ are coprime (hence there are $\phi(\phi(p))$ primitive roots).
 	
-\item \begin{tabular}{|l|ccccc|}
+\item \textbf{Maximum number of divisors:} \\
+	\begin{tabular}{|l|ccccc|}
    \hline
    $\leq N$ & $10^3$ & $10^6$ & $10^9$ & $10^{12}$ & $10^{18}$ \\
    \hline
    $m$ & $840$ & $720720$ & $735134400$ & $963761198400$ & \\
    \hline
-   $d(m)$ & $32$ & $240$ & $1344$ & $6270$ & $103680$ \\
+   $\sigma_0(m)$ & $32$ & $240$ & $1344$ & $6270$ & $103680$ \\
    \hline
    \end{tabular}\\
    For $n = 10^{18}, m = 897612484786617600$.
@@ -279,16 +282,18 @@ After that, \texttt{lin\_rec} finds $s[k]$ in $\mathcal{O}(n^2 \log k)$.
 \subsection{Segment tree $\mathcal{O}(\log n)$}
 
 % \subsection{segment tree $\mathcal{O}(\log n)$}
-\textbf{Standard segment tree}
+\subsubsection{Standard segment tree}
 \code{datastructures/segment_tree.cpp}
 
 % \subsection{Lazy segment tree $\mathcal{O}(\log n)$}
-\textbf{Lazy segment tree}\\
+\subsubsection{Lazy segment tree} ~\\
+
 \textbf{Be careful}: all intervals are right-closed $[\ell,r]$.
 \code{datastructures/lazy_segment_tree.cpp}
 
 % \subsection{Lazy segment tree $\mathcal{O}(\log n)$}
-\textbf{Persistent segment tree} \\
+\subsubsection{Persistent segment tree} ~\\
+
 \textbf{Be careful}: all intervals are right-closed $[\ell,r]$, including build.
 \code{datastructures/persistent_segment_tree.cpp}
 
@@ -776,6 +781,89 @@ Nim and its variants include:
 	\item \textbf{Hackenbush on trees:} A tree with stalks $(x_i)_{i=1}^n$ may be replaced with a single stalk with length $\bigoplus_{i=1}^n x_i$.
 \end{myitemize}
 
+\section{Java essentials}
+\subsection{Round to n decimals}
+\begin{minted}{java}
+DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+dfs.setDecimalSeparator('.');
+DecimalFormat df = new DecimalFormat("#0.00", dfs);
+double x = 12.5093;
+System.out.println(df.format(x));
+\end{minted}
+
+\subsection{Example usage BufferedReader}
+\begin{minted}{java}
+BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+String line = br.readLine();
+String splittedLine = br.readLine().split(" ");
+int N = Integer.parseInt(splittedLine[0]);
+\end{minted}
+
+\subsection{Example usage sort()}
+\begin{minted}{java}
+class ExampleComparator implements Comparator<Integer> {
+    public int compare(Integer n, Integer m) {
+        if (n < m) return -1;
+        else if (n > m) return 1;
+        else return 0;
+    }
+}
+// In some other function:
+Collections.reverse(arr);
+Collections.sort(arr);
+Collections.sort(arr, new ExampleComparator());
+
+ArrayList<String> stringArr = new ArrayList<>();
+stringArr.add("a"); stringArr.add("b"); stringArr.add("C");
+Collections.sort(stringArr); // yields [C, a, b]
+Collections.sort(stringArr, String.CASE_INSENSITIVE_ORDER); // yields [a, b, C]
+
+int[] arr2 = new int[3];
+arr2[0] = 0; arr2[1] = 2; arr2[2] = 1;
+Arrays.sort(arr2); // yields [0,1,2]
+\end{minted}
+
+
+
+\subsection{Shortest path (Dijkstra)}
+\begin{minted}{java}
+// Running time is O((E + V) log V)
+class Node {
+    ArrayList<Edge> adj;
+    int dist; // initially Integer.MAX_VALUE (must initialize!)
+    Node parent;
+}
+
+
+class NodeDist implements Comparable<NodeDist> {
+    int i, d; // node index and distance
+    NodeDist(int index, int dist) {...};
+    public int compareTo(NodeDist other) {
+        return (d - other.d);
+    }
+}
+
+void dijkstra(int source) { // can also be done for multiple sources...
+    PriorityQueue<NodeDist> Q = new PriorityQueue<NodeDist>();
+    V[source].dist = 0; V[source].parent = null;
+    Q.add(new NodeDist(source, 0));
+    while (!Q.isEmpty()) {
+        NodeDist nd = Q.poll();
+        int k = nd.i;
+        int d = nd.d;
+        if (V[k].dist < d) continue;
+        for (Edge e: V[k].adj) {
+            int newDist = d + e.weight; // e.weight cannot be MAX_VALUE!
+            if (newDist < V[e.target].dist) {
+                V[e.target].dist = newDist;
+                V[e.target].parent = V[k];
+                Q.add(new NodeDist(e.target, newDist));
+            }
+        }
+    }
+    // Nodes contain distance and parent info
+}
+\end{minted}
 \section{Debugging Tips}
 \begin{myitemize}
 	\item Stack overflow? Recursive DFS on tree that is actually a long path?
