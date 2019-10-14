@@ -656,7 +656,7 @@ Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) =
 
 
 \section{Combinatorics}
-\begin{itemize}[wide,labelwidth=!,labelindent=0pt]
+\begin{myitemize}
 	\item Catalan numbers (valid bracket seq's of length $2n$):
 
 		$C_0 = 1, C_n = \frac{1}{n+1}\binom{2n}{n} = \sum_{i=0}^{n-1}C_iC_{n-i-1}$.
@@ -696,9 +696,10 @@ Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) =
 	\]
 	Corollary:
 		$b_n = \sum_{k=0}^{n} \binom{n}{k} a_k \Longleftrightarrow a_n = \sum_{k=0}^{n} (-1)^{n-k} \binom{n}{k} b_k$.
-\end{itemize}
+%\end{myitemize}
 
-\subsection{The Twelvefold Way}
+%\subsection{The Twelvefold Way}
+	\item \textbf{The Twelvefold Way:}
 Putting $n$ balls into $k$ boxes.
 $\mathrm{p}(n,k)$ is \# partitions of $n$ in $k$ parts, each $>0$.
 $\mathrm{p}_k(n) = \sum_{i=0}^k \mathrm{p}(n,k)$.
@@ -712,6 +713,8 @@ $\mathrm{p}_k(n) = \sum_{i=0}^k \mathrm{p}(n,k)$.
 	$\mathrm{size}\le 1$ & $[n \le k]$ & $[n \le k]$ & $\binom{k}{n}$ & $n!\binom{k}{n}$ \\
 	\bottomrule
 \end{tabular}
+
+\end{myitemize}
 
 \section{Formulas}
 
@@ -753,24 +756,24 @@ $\mathrm{p}_k(n) = \sum_{i=0}^k \mathrm{p}(n,k)$.
 			t_w(G) \prod_{v \in G} (\deg v - 1)!,
 		\end{equation*}
 		where $t_w(G)$ is the number of arborescences (``directed spanning'' tree) rooted at $w$: $t_w(G) = \det\left( q_{ij} \right)_{i,j \neq w}$, with $q_{ij} = [i=j] \mathrm{indeg}(i) - \# \set{(i,j) \in E}$.
-\end{myitemize}
 
-\subsection{Burnside's Lemma}
-Let a finite group $G$ act on a set $X$.
-Denote $X^g = \set{ x \in X | gx = x}$.
-For each $g$ in $G$ let $X^g$ denote the set of elements in $X$ that are fixed by $g$.
-Then the number of orbits is:
-\begin{equation*}
-	\lvert X/G \rvert = \frac{1}{\lvert G \rvert} \sum_{g\in G} \lvert X^g \rvert.
-\end{equation*}
+	\item \textbf{Burnside's Lemma:}
+		Let a finite group $G$ act on a set $X$.
+		Denote $X^g = \set{ x \in X | gx = x}$.
+		For each $g$ in $G$ let $X^g$ denote the set of elements in $X$ that are fixed by $g$.
+		Then the number of orbits is:
+		\begin{equation*}
+			\lvert X/G \rvert = \frac{1}{\lvert G \rvert} \sum_{g\in G} \lvert X^g \rvert.
+		\end{equation*}
 
-\subsection{Bézout's identity}
+\item \textbf{Bézout's identity:}
 If $(x,y)$ is a solution to $ax+by=d$ ($x, y$ can be found with EGCD),
 then all solutions are given by
 \[
 	%\left( x + k \frac{b}{\gcd(a,b)}, y - k\frac{a}{\gcd(a,b)} \right), \quad k \in \mathbb{Z}
 	\left( x + k \cdot \mathrm{lcm}(a,b) / a, \, y - k \cdot \mathrm{lcm}(a,b) / b \right), \quad k \in \mathbb{Z}
 \]
+\end{myitemize}
 
 \section{Game Theory}
 A game can be reduced to Nim if it is a finite impartial game.
