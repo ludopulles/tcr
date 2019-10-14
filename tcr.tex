@@ -151,26 +151,6 @@ template.py
 This GNU builtin checks for over- and underflow. Result is in \texttt{res} if successful:
 \code{other/overflow.cpp}
 
-\subsection{Covering problems}
-
-\begin{center}
-	\emph{Minimum edge cover$\iff$Maximum independent set}
-\end{center}
-
-\begin{description}
-	\setlength\itemsep{-.25em}
-	\item[Matching]
-		A set of edges without common vertices \textit{(Maximum is the \textbf{largest} such set, maximal is a set which you cannot add more edges to without breaking the property)}.
-	\item[Minimum Vertex Cover]
-		A set vertices (cover) such that each edge in the graph is incident to at least one vertex of the set.
-	\item[Minimum Edge Cover]
-		A set of edges (cover) such that every vertex is incident to at least one edge of the set.
-	\item[Maximum Independent Set]
-		A set of vertices in a graph such that no two of them are adjacent.
-	\item[K\"{o}nig's theorem]
-		In any bipartite graph, MCBM = MVC = V - MIS.
-\end{description}
-
 \section{Mathematics}
 
 \textbf{XOR sum}: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{mod} \, 4]$.
@@ -361,12 +341,6 @@ Container where you can add lines of the form $y_i(x) = k_i x + m_i$ and query $
 \subsubsection{Dijkstra $\mathcal{O}(|E|\log{|V|})$}
 \code{graphs/dijkstra.cpp}
 
-\subsubsection{Stable marriage}
-With $n$ men, $m \geq n$ women, $n$ preference lists of women for each men, and
-for every woman $j$ an preference of men defined by \texttt{pref[][j]} (lower is better)
-find for every man a women such that no pair of a men and a woman want to run off together.
-\code{graphs/stable.cpp}
-
 \subsubsection{Floyd-Warshall $\mathcal{O}(V^{3})$}
 Be careful with negative edges! Note: |d[i][j]| can grow exponentially, and INFTY + negative < INFTY.
 \code{graphs/floydwarshall.cpp}
@@ -378,14 +352,54 @@ This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
 \subsubsection{IDA$^\star$ algorithm}
 \code{graphs/idastar.cpp}
 
-\subsection{Maximum matching $\mathcal{O}(n m)$}
+\subsection{Maximum Matching}
+\begin{description}
+	\setlength\itemsep{-.25em}
+	\item[Matching]
+		A set of edges without common vertices \textit{(Maximum is the \textbf{largest} such set, maximal is a set which you cannot add more edges to without breaking the property)}.
+	\item[Minimum Vertex Cover]
+		A set of vertices such that each edge in the graph is incident to at least one vertex of the set.
+	\item[Minimum Edge Cover]
+		A set of edges such that every vertex is incident to at least one edge of the set.
+	\item[Maximum Independent Set]
+		A set of vertices in a graph such that no two of them are adjacent.
+		\[
+			\text{Minimum edge cover} \iff \text{Maximum independent set}.
+		\]
+	\item[K\"{o}nig's theorem]
+		In any bipartite graph $G=(L\cup R,E)$, the number
+		of edges in a maximum matching equals the number of
+		vertices in a minimum vertex cover. Let $U$ be the set of
+		unmatched vertices in $L$, and $Z$ be the set of vertices that
+		are either in $U$ or are connected to $U$ by an alternating
+		path. Then $K=(L\setminus Z)\cup(R\cap Z)$ is the minimum
+		vertex cover.
+
+		In any bipartite graph,
+		\[
+			\mathrm{maxmatch} = \mathrm{MVC} = V - \mathrm{MIS}.
+		\]
+		See \ref{sec:mvc}.
+
+\end{description}
+\subsubsection{Standard bipartite matching $\mathcal{O}(n m)$}
 \code{graphs/maxmatch.cpp}
 
-\subsection{Hopcroft-Karp bipartite matching $\mathcal{O}(E \sqrt{V})$}
+\subsubsection{Hopcroft-Karp bipartite matching $\mathcal{O}(E \sqrt{V})$}
 \code{graphs/hopcroft_karp.cpp}
 
 \subsubsection{Minimum Vertex Cover in Bipartite Graphs}
+\label{sec:mvc}
 \code{graphs/bipartite_mvc.cpp}
+
+\subsubsection{Stable marriage}
+With $n$ men, $m \geq n$ women, $n$ preference lists of women for each men, and
+for every woman $j$ an preference of men defined by \texttt{pref[][j]} (lower is better)
+find for every man a women such that no pair of a men and a woman want to run off together.
+\code{graphs/stable.cpp}
+
+\subsection{Cycle Detection $\mathcal{O}(V + E)$}
+\code{findcycle.cpp}
 
 \subsection{Depth first searches}
 
@@ -405,10 +419,7 @@ Include \texttt{findSCC}.
 \subsubsection{Dominator graph}
 \code{graphs/dominator.cpp}
 
-\subsection{Cycle Detection $\mathcal{O}(V + E)$}
-\code{findcycle.cpp}
-
-\subsection{Maximum Flow Algorithms}
+\subsection{Min Cut / Max Flow}
 \subsubsection{Dinic's Algorithm $\mathcal{O}(V^{2} E)$}
 % http://www.slideshare.net/KuoE0/acmicpc-dinics-algorithm
 \code{graphs/dinic.cpp}
@@ -424,12 +435,11 @@ If Dinic's algorithm is used to calculate the max flow, the running time is $O(|
 NOTE: Not sure if it works correctly with disconnected graphs.
 \code{graphs/gomory_hu_tree.cpp}
 
-\subsection{Minimal Spanning Tree}
+\subsection{Minimal Spanning Tree $\mathcal{O}(E \log V)$}
 % Kruskal is shorter...
 % \subsubsection{Prim $\mathcal{O}((E + V) \log V)$}
 % \code{graphs/mst_prim.cpp}
 
-\subsubsection{Kruskal $\mathcal{O}(E \log V)$}
 \code{graphs/mst_kruskal.cpp}
 
 \subsection{Euler Path $O(V+E)$ hopefully}
@@ -451,18 +461,20 @@ Finds an Euler \emph{cycle} in a \emph{undirected} graph:
 %\subsection{Tarjan's Off-line Lowest Common Ancestors Algorithm}
 %\code{graphs/tarjan_olca.cpp}
 
-\subsection{Misra-Gries $D+1$-edge coloring}
+\subsection{Miscellaneous}
+
+\subsubsection{Misra-Gries $D+1$-edge coloring}
 Finds a $\max_i \deg(i) + 1$-edge coloring where there all incident edges have distinct colors.
 Finding a $D$-edge coloring is NP-hard.
 \code{graphs/MisraGries.cpp}
 
-\subsection{Minimum Mean Weight Cycle}
+\subsubsection{Minimum Mean Weight Cycle}
 Given a strongly connected directed graph, finds the cycle of minimum
 mean weight. If you have a graph that is not strongly connected, run
 this on each strongly connected component.
 \code{graphs/min_mean_cycle.cpp}
 
-\subsection{Minimum Arborescence}
+\subsubsection{Minimum Arborescence}
 Given a weighted directed graph, finds a subset of edges of minimum
 total weight so that there is a unique path from the root $r$ to each
 vertex. Returns a vector of size $n$, where the $i$th element is the
@@ -475,7 +487,7 @@ edge for the $i$th vertex. The answer for the root is undefined!
 %Be aware of loop edges.
 %\code{graphs/blossom.cpp}
 
-\subsection{Maximum Density Subgraph}
+\subsubsection{Maximum Density Subgraph}
 Given (weighted) undirected graph $G$. Binary search density. If $g$ is
 current density, construct flow network: $(S, u, m)$, $(u, T,
 m+2g-d_u)$, $(u,v,1)$, where $m$ is a large constant (larger than sum
@@ -486,7 +498,7 @@ case when density is $0$. This also works for weighted graphs by
 replacing $d_u$ by the weighted degree, and doing more iterations (if
 weights are not integers).
 
-\subsection{Maximum-Weight Closure}
+\subsubsection{Maximum-Weight Closure}
 Given a vertex-weighted directed graph $G$. Turn the graph into a flow
 network, adding weight $\infty$ to each edge. Add vertices $S,T$. For
 each vertex $v$ of weight $w$, add edge $(S,v,w)$ if $w\geq 0$, or edge
@@ -495,14 +507,14 @@ the answer. Vertices reachable from $S$ are in the closure. The
 maximum-weight closure is the same as the complement of the
 minimum-weight closure on the graph with edges reversed.
 
-\subsection{Maximum Weighted Independent Set in a Bipartite Graph}
+\subsubsection{Maximum Weighted Independent Set in a Bipartite Graph}
 This is the same as the minimum weighted vertex cover. Solve this by
 constructing a flow network with edges $(S,u,w(u))$ for $u\in L$,
 $(v,T,w(v))$ for $v\in R$ and $(u,v,\infty)$ for $(u,v)\in E$. The
 minimum $S,T$-cut is the answer. Vertices adjacent to a cut edge are
 in the vertex cover.
 
-\subsection{Synchronizing word problem}
+\subsubsection{Synchronizing word problem}
 A DFA has a synchronizing word (an input sequence that moves all states
 to the same state) iff.\ each pair of states has a synchronizing word.
 That can be checked using reverse DFS over pairs of states. Finding the
@@ -720,16 +732,7 @@ $\mathrm{p}_k(n) = \sum_{i=0}^k \mathrm{p}(n,k)$.
 		points on the boundary has area $i + \frac{b}{2} - 1$. (Nothing
 		similar in higher dimensions)
 	\item \textbf{Absorption probabilities} A random walk on $[0,n]$ with probability $p$ to increase and $q$ to decrease, starting at $k$ has at $n$ absorption probability $\frac{(q/p)^k-1}{(q/p)^n-1}$ if $q \not= p$, and $k/n$ if $q = p$.
-	\item \textbf{König's theorem:} In any bipartite graph $G=(L\cup R,E)$, the number
-		of edges in a maximum matching is equal to the number of
-		vertices in a minimum vertex cover. Let $U$ be the set of
-		unmatched vertices in $L$, and $Z$ be the set of vertices that
-		are either in $U$ or are connected to $U$ by an alternating
-		path. Then $K=(L\setminus Z)\cup(R\cap Z)$ is the minimum
-		vertex cover.
 	\item A minimum Steiner tree for $n$ vertices requires at most $n-2$ additional Steiner vertices.
-	\item The number of vertices of a graph is equal to its minimum
-		vertex cover number plus the size of a maximum independent set.
 	\item \textbf{Lagrange polynomial} through points $(x_0,y_0),\ldots,(x_k,y_k)$ is
 	\[
 		L(x) = \sum_{j=0}^k y_j \prod_{\shortstack{$\scriptscriptstyle 0\leq m \leq k$ \\ $\scriptscriptstyle m\neq j$}} \frac{x-x_m}{x_j - x_m}.
