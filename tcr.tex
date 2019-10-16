@@ -1,4 +1,4 @@
-\documentclass[8pt,a4paper,landscape,oneside]{amsart}
+\documentclass[9pt,a4paper,landscape,oneside]{amsart}
 
 \usepackage{amsmath, amsthm, amssymb, amsfonts,booktabs,caption,color,courier}
 \usepackage{datetime,enumitem,fancyhdr,float,fullpage,graphicx,latexsym}
@@ -12,16 +12,23 @@
 
 \usepackage[top=1cm, bottom=1.5cm, left=1cm, right=1cm]{geometry}
 
+% --------------------------------------------------------------------------------
 % Use the packages minted for syntax highlighting:
 \usepackage{minted}
-\newcommand{\mintedstyle}[2]{\inputminted[fontsize=\normalsize,baselinestretch=.9,breaklines,breakautoindent,tabsize=2]{#1}{code/#2}}
-\newcommand{\code}[1]{\mintedstyle{cpp}{#1}}
-\setminted[java]{fontsize=\normalsize,baselinestretch=.9,breaklines,tabsize=2}
 
+% General settings:
+\setminted{fontsize=\small, baselinestretch=0.9, breaklines, tabsize=2}
+% Referencing files:
+\newcommand{\mintedstyle}[2]{\inputminted{#1}{code/#2}}
+\newcommand{\code}[1]{\mintedstyle{cpp}{#1}}
+
+% --------------------------------------------------------------------------------
+% Multicolumn styling:
 \setlength{\columnseprule}{.2pt}
 \setlength{\columnsep}{.5cm}
 \def\columnseprulecolor{\color{gray}}
 
+% --------------------------------------------------------------------------------
 \newcommand{\subtitle}[1]{%
   \posttitle{%
     \par\end{center}
@@ -90,9 +97,10 @@
 
 \tableofcontents
 
-\begin{center}
-\noindent\rule{\columnwidth}{0.4pt}
-\end{center}
+%\begin{center}
+%\noindent\rule{\columnwidth}{0.4pt}
+%\end{center}
+\vfill\null \columnbreak
 
 \begin{center}
 \textbf{.bashrc}
@@ -151,6 +159,7 @@ template.py
 This GNU builtin checks for over- and underflow. Result is in \texttt{res} if successful:
 \code{other/overflow.cpp}
 
+\vfill\null \columnbreak
 \section{Mathematics}
 
 \textbf{XOR sum}: $\bigoplus_{x=0}^{a - 1} x = \{0, a - 1, 1, a\}[a \, \mathrm{mod} \, 4]$.
@@ -242,6 +251,7 @@ does not kill $0$ on first pass.
 	where $k,\phi(p)$ are coprime (hence there are $\phi(\phi(p))$ primitive roots).
 	
 \item \textbf{Maximum number of divisors:} \\
+\\
 	\begin{tabular}{|l|ccccc|}
    \hline
    $\leq N$ & $10^3$ & $10^6$ & $10^9$ & $10^{12}$ & $10^{18}$ \\
@@ -664,6 +674,7 @@ Given two polynomials $A(x) = a_0 + a_1 x + \dots + a_{n/2} x^{n/2}$ and $B(x) =
 \code{other/simplex.cpp}
 
 
+\vfill\null \columnbreak
 \section{Combinatorics}
 \begin{myitemize}
 	\item Catalan numbers (valid bracket seq's of length $2n$):
@@ -925,98 +936,98 @@ void dijkstra(int source) { // can also be done for multiple sources...
 \subsection{Solution Ideas}
 \begin{myitemize}
 	\item Dynamic Programming
-		\begin{itemize}
+		\begin{myitemize}
 			\item Parsing CFGs: CYK Algorithm
 			\item Drop a parameter, recover from others
 			\item Swap answer and a parameter
 			\item When grouping: try splitting in two
 			\item $2^k$ trick
 			\item When optimizing
-				\begin{itemize}
+				\begin{myitemize}
 					\item Convex hull optimization
-						\begin{itemize}
+						\begin{myitemize}
 							\item $\mathrm{dp}[i] = \min_{j<i}\{\mathrm{dp}[j] + b[j] \times a[i]\}$
 							\item $b[j] \geq b[j+1]$
 							\item optionally $a[i] \leq a[i+1]$
 							\item $O(n^2)$ to $O(n)$
-						\end{itemize}
+						\end{myitemize}
 					\item Divide and conquer optimization
-						\begin{itemize}
+						\begin{myitemize}
 							\item $\mathrm{dp}[i][j] = \min_{k<j}\{\mathrm{dp}[i-1][k] + C[k][j]\}$
 							\item $A[i][j] \leq A[i][j+1]$
 							\item $O(kn^2)$ to $O(kn\log{n})$
 							\item sufficient: $C[a][c] + C[b][d] \leq C[a][d] + C[b][c]$, $a\leq b\leq c\leq d$ (QI)
-						\end{itemize}
-					\code{divco.cpp}
+						\end{myitemize}
+\code{divco.cpp}
 					\item Knuth optimization
-						\begin{itemize}
+						\begin{myitemize}
 							\item $\mathrm{dp}[i][j] = \min_{i<k<j}\{\mathrm{dp}[i][k] + \mathrm{dp}[k][j] + C[i][j]\}$
 							\item $A[i][j-1] \leq A[i][j] \leq A[i+1][j]$
 							\item $O(n^3)$ to $O(n^2)$
 							\item sufficient: QI and $C[b][c] \leq C[a][d]$, $a\leq b\leq c\leq d$
-						\end{itemize}
-				\end{itemize}
-		\end{itemize}
+						\end{myitemize}
+				\end{myitemize}
+		\end{myitemize}
 	\item Greedy
 	\item Randomized
 	\item Optimizations
-		\begin{itemize}
+		\begin{myitemize}
 			\item Use bitset (/64)
 			\item Switch order of loops (cache locality)
-		\end{itemize}
+		\end{myitemize}
 	\item Process queries offline
-		\begin{itemize}
+		\begin{myitemize}
 			\item Mo's algorithm
-		\end{itemize}
+		\end{myitemize}
 	\item Square-root decomposition
 	\item Precomputation
 	\item Efficient simulation
-		\begin{itemize}
+		\begin{myitemize}
 			\item Mo's algorithm
 			\item Sqrt decomposition
 			\item Store $2^k$ jump pointers
-		\end{itemize}
+		\end{myitemize}
 	\item Data structure techniques
-		\begin{itemize}
+		\begin{myitemize}
 			\item Sqrt buckets
 			\item Store $2^k$ jump pointers
 			\item $2^k$ merging trick
-		\end{itemize}
+		\end{myitemize}
 	\item Counting
-		\begin{itemize}
+		\begin{myitemize}
 			\item Inclusion-exclusion principle
 			\item Generating functions
-		\end{itemize}
+		\end{myitemize}
 	\item Graphs
-		\begin{itemize}
+		\begin{myitemize}
 			\item Can we model the problem as a graph?
 			\item Can we use any properties of the graph?
 			\item Strongly connected components
 			\item Cycles (or odd cycles)
 			\item Bipartite (no odd cycles)
-				\begin{itemize}
+				\begin{myitemize}
 					\item Bipartite matching
 					\item Hall's marriage theorem
 					\item Stable Marriage
-				\end{itemize}
+				\end{myitemize}
 			\item Cut vertex/bridge
 			\item Biconnected components
 			\item Degrees of vertices (odd/even)
 			\item Trees
-				\begin{itemize}
+				\begin{myitemize}
 					\item Heavy-light decomposition
 					\item Centroid decomposition
 					\item Least common ancestor
 					\item Centers of the tree
-				\end{itemize}
+				\end{myitemize}
 			\item Eulerian path/circuit
 			\item Chinese postman problem
 			\item Topological sort
 			\item (Min-Cost) Max Flow
 			\item Min Cut
-				\begin{itemize}
+				\begin{myitemize}
 					\item Maximum Density Subgraph
-				\end{itemize}
+				\end{myitemize}
 			\item Huffman Coding
 			\item Min-Cost Arborescence
 			\item Steiner Tree
@@ -1025,74 +1036,74 @@ void dijkstra(int source) { // can also be done for multiple sources...
 			\item Lov\'asz Toggle
 			\item Look at the DFS tree (which has no cross-edges)
 			\item Is the graph a DFA or NFA?
-				\begin{itemize}
+				\begin{myitemize}
 					\item Is it the Synchronizing word problem?
-				\end{itemize}
-		\end{itemize}
+				\end{myitemize}
+		\end{myitemize}
 	\item math
-		\begin{itemize}
+		\begin{myitemize}
 			\item Is the function multiplicative?
 			\item Look for a pattern
 			\item Permutations
-				\begin{itemize}
+				\begin{myitemize}
 					\item Consider the cycles of the permutation
-				\end{itemize}
+				\end{myitemize}
 			\item Functions
-				\begin{itemize}
+				\begin{myitemize}
 					\item Sum of piecewise-linear functions is a piecewise-linear function
 					\item Sum of convex (concave) functions is convex (concave)
-				\end{itemize}
+				\end{myitemize}
 			\item Modular arithmetic
-				\begin{itemize}
+				\begin{myitemize}
 					\item Chinese Remainder Theorem
 					\item Linear Congruence
-				\end{itemize}
+				\end{myitemize}
 			\item Sieve
 			\item System of linear equations
 			\item Values too big to represent?
-				\begin{itemize}
+				\begin{myitemize}
 					\item Compute using the logarithm
 					\item Divide everything by some large value
-				\end{itemize}
+				\end{myitemize}
 			\item Linear programming
-				\begin{itemize}
+				\begin{myitemize}
 					\item Is the dual problem easier to solve?
-				\end{itemize}
+				\end{myitemize}
 			\item Can the problem be modeled as a different combinatorial problem? Does that simplify calculations?
-		\end{itemize}
+		\end{myitemize}
 	\item Logic
-		\begin{itemize}
+		\begin{myitemize}
 			\item 2-SAT
 			\item XOR-SAT (Gauss elimination or Bipartite matching)
-		\end{itemize}
+		\end{myitemize}
 	\item Meet in the middle
 	\item Only work with the smaller half ($\log(n)$)
 	\item Strings
-		\begin{itemize}
+		\begin{myitemize}
 			\item Trie (maybe over something weird, like bits)
 			\item Suffix array
 			\item Suffix automaton (+DP?)
 			\item Aho-Corasick
 			\item eerTree
 			\item Work with $S+S$
-		\end{itemize}
+		\end{myitemize}
 	\item Hashing
 	\item Euler tour, tree to array
 	\item Segment trees
-		\begin{itemize}
+		\begin{myitemize}
 			\item Lazy propagation
 			\item Persistent
 			\item Implicit
 			\item Segment tree of X
-		\end{itemize}
+		\end{myitemize}
 	\item Geometry
-		\begin{itemize}
+		\begin{myitemize}
 			\item Minkowski sum (of convex sets)
 			\item Rotating calipers
 			\item Sweep line (horizontally or vertically?)
 			\item Sweep angle
 			\item Convex hull
-		\end{itemize}
+		\end{myitemize}
 	\item Fix a parameter (possibly the answer).
 	\item Are there few distinct values?
 	\item Binary search
@@ -1103,9 +1114,9 @@ void dijkstra(int source) { // can also be done for multiple sources...
 	\item Cycle-Finding
 	\item What is the smallest set of values that identify the solution? The cycle structure of the permutation? The powers of primes in the factorization?
 	\item Look at the complement problem
-		\begin{itemize}
+		\begin{myitemize}
 			\item Minimize something instead of maximizing
-		\end{itemize}
+		\end{myitemize}
 	\item Immediately enforce necessary conditions. (All values greater than 0? Initialize them all to 1)
 	\item Add large constant to negative numbers to make them positive
 	\item Counting/Bucket sort
