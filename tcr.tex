@@ -481,7 +481,12 @@ Given a weighted directed graph, finds a subset of edges of minimum
 total weight so that there is a unique path from the root $r$ to each
 vertex. Returns a vector of size $n$, where the $i$th element is the
 edge for the $i$th vertex. The answer for the root is undefined!
+
+\textbf{$\mathcal{O}(EV)$ runtime and $\mathcal{O}(E)$ memory:}
 \code{graphs/arborescence.cpp}
+
+\textbf{$\mathcal{O}(V^2 \log V)$ runtime and $\mathcal{O}(E)$ memory:}
+\code{graphs/arborescence-v2.cpp}
 
 % Way to complicated for a competition:
 %\subsection{Blossom algorithm}

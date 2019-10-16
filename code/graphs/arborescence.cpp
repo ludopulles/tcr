@@ -1,38 +1,43 @@
-#include "../data-structures/union_find.cpp"
+#include "../datastructures/union_find.cpp"
 struct arborescence {
   int n; union_find uf;
   vector<vector<pair<ii,int> > > adj;
   arborescence(int _n) : n(_n), uf(n), adj(n) { }
   void add_edge(int a, int b, int c) {
-    adj[b].push_back(make_pair(ii(a,b),c)); }
+    adj[b].eb(ii(a,b),c); }
   vii find_min(int r) {
     vi vis(n,-1), mn(n,INT_MAX); vii par(n);
-    rep(i,0,n) {
+    REP(i, n) {
       if (uf.find(i) != i) continue;
       int at = i;
       while (at != r && vis[at] == -1) {
         vis[at] = i;
-        iter(it,adj[at]) if (it->second < mn[at] &&
-            uf.find(it->first.first) != at)
-          mn[at] = it->second, par[at] = it->first;
+        for (auto it : adj[at])
+          if (it.y < mn[at] && uf.find(it.x.x) != at)
+            mn[at] = it.y, par[at] = it.x;
         if (par[at] == ii(0,0)) return vii();
-        at = uf.find(par[at].first); }
+        at = uf.find(par[at].x);
+      }
       if (at == r || vis[at] != i) continue;
-      union_find tmp = uf; vi seq;
-      do { seq.push_back(at); at = uf.find(par[at].first);
-      } while (at != seq.front());
-      iter(it,seq) uf.unite(*it,seq[0]);
+      union_find tmp = uf;
+      vi seq;
+      do seq.pb(at), at = uf.find(par[at].x);
+      while (at != seq.front());
       int c = uf.find(seq[0]);
-      vector<pair<ii,int> > nw;
-      iter(it,seq) iter(jt,adj[*it])
-        nw.push_back(make_pair(jt->first,
-              jt->second - mn[*it]));
-      adj[c] = nw;
+      for (auto it : seq) uf.unite(it, c);
+      for (auto &jt : adj[c]) jt.y -= mn[c];
+      for (auto it : seq) {
+        if (it == c) continue;
+        for (auto jt : adj[it])
+          adj[c].eb(jt.x, jt.y - mn[it]);
+        adj[it].clear();
+      }
       vii rest = find_min(r);
-      if (size(rest) == 0) return rest;
+      if (rest.empty()) return rest;
       ii use = rest[c];
-      rest[at = tmp.find(use.second)] = use;
-      iter(it,seq) if (*it != at)
-        rest[*it] = par[*it];
-      return rest; }
+      rest[at = tmp.find(use.y)] = use;
+      for (int it : seq) if (it != at)
+        rest[it] = par[it];
+      return rest;
+    }
     return par; } };
