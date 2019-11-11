@@ -810,6 +810,24 @@ Nim and its variants include:
 	\item \textbf{Hackenbush on trees:} A tree with stalks $(x_i)_{i=1}^n$ may be replaced with a single stalk with length $\bigoplus_{i=1}^n x_i$.
 \end{myitemize}
 
+\section{Scheduling Theory}
+Let $p_j$ be the time task $j$ takes on a machine, $d_j$ the deadline, $C_j$ the time it is completed, $L_j = C_j - d_j$ the lateness, $T_j = \max(L_j,0)$ the tardiness, $U_j = 1$ iff $T_j > 0$ and else $0$.
+\begin{myitemize}
+	\item One machine, minimise $L_{\max}$: do the tasks in increasing deadline
+	\item One machine, minimise $\sum_j w_j C_j$: do the task increasing in $p_j/w_j$
+	\item One machine, minimise $\sum_{j=1}^n C_j$ under the condition that all tasks can be done on time:
+		\begin{enumerate}
+			\item Initialise $k = n, \tau = \sum_j p_j, J = [n]$
+			\item Take $i_k \in J$ with $d_{i_k} \geq \tau$ and $p_{i_k} \geq p_\ell$ for $\ell\in J$ with $d_\ell \geq \tau$
+			\item $\tau := \tau - p_{i_k}, k := k-1, J := J- \{i_k\}$. If $k\not = 0$, go to step 2.
+			\item The optimale schedule is $i_1,...,i_n$.
+		\end{enumerate} 
+	\item One machine, minimise $\sum_j U_j$. Add all tasks in order of increasing deadline; if adding a task makes it contrary with its deadline, remove the processed task with the highest processing time.
+	\item Two machines (all tasks have to be done on both machines, in any order), minimise $C_{\max}$: a greedy algorithm, when a machine is free it picks a task that hasn't been done yet on either machine and has longest processing time on the other machine.
+	\item Two machines (all tasks have to be done first on machine 1, then machine 2), minimise $C_{\max}$. There is an optimal schedule with on both machines the same order of tasks. Take $X = \{j : p_{1j} \leq p_{2j}\}$ and $Y$ the complement. Sort $X$ increasing in $p_{1j}$ and $Y$ decreasing in $p_{2j}$. Then $X,Y$ is an optimal schedule.
+	\item Two machines (all tasks have to be done first on machine 1, then on 2, or vice versa), minimise $C_{\max}$: let $J_{12}$ be the tasks that have to be done first on machine $1$, then on $2$ and similar $J_{21}$. Use the above algorithm to find $S_{12},S_{21}$ optimal for $J_{12},J_{21}$. Then optimal is $S_{12},S_{21}$ for M1 and $S_{21},S_{12}$ for M2. (If there are tasks that have to be done on only one machine, do them in the middle.)
+\end{myitemize}
+
 \section{Java essentials}
 \subsection{Round to n decimals}
 \begin{minted}{java}
