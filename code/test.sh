@@ -1,4 +1,4 @@
-g++ -g -Wall -fsanitize=address,undefined -Wfatal-error -std=c++17 $1.cc || exit
+g++ -g -Wall -fsanitize=address,undefined -Wfatal-errors -std=c++17 $1.cc || exit
 for i in $1/*.in
 do
 	j="${i/.in/.ans}"

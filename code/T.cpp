@@ -47,7 +47,7 @@ signed main() {
 	// DON'T MIX "scanf" and "cin"!
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-	(cout << fixed).precision(18);
+	cout << fixed << setprecision(20);
 	run();
 	return 0;
 }
