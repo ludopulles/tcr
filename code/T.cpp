@@ -25,7 +25,7 @@ template<class T> int sz(const T &x) {
 	return (int) x.size(); // copy the ampersand(&)!
 }
 
-template<class T> ostream& operator<<(ostream &os, vector<T> &v) {
+template<class T> ostream& operator<<(ostream &os, vector<T> v) {
 	os << "\n[";
 	for(T &x : v) os << x << ',';
 	return os << "]\n";
