@@ -1,4 +1,4 @@
-// TODO: Add longest common subsring
+// TODO: Add longest common substring
 const int MAXL = 100000;
 struct suffix_automaton {
   vi  len, link, occur, cnt;

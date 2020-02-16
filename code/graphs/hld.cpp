@@ -1,48 +1,39 @@
-#include "../data-structures/segment_tree.cpp"
-const int ID = 0;
-int f(int a, int b) { return a + b; }
 struct HLD {
-  int n, curhead, curloc;
-  vi sz, head, parent, loc;
-  vvi adj; segment_tree values;
-  HLD(int _n) : n(_n), sz(n, 1), head(n),
-                parent(n, -1), loc(n), adj(n) {
-    vector<ll> tmp(n, ID); values = segment_tree(tmp); }
-  void add_edge(int u, int v) {
-    adj[u].push_back(v); adj[v].push_back(u); }
-  void update_cost(int u, int v, int c) {
-    if (parent[v] == u) swap(u, v); assert(parent[u] == v);
-    values.update(loc[u], c); }
-  int csz(int u) {
-    rep(i,0,size(adj[u])) if (adj[u][i] != parent[u])
-      sz[u] += csz(adj[parent[adj[u][i]] = u][i]);
-    return sz[u]; }
-  void part(int u) {
-    head[u] = curhead; loc[u] = curloc++;
-    int best = -1;
-    rep(i,0,size(adj[u]))
-      if (adj[u][i] != parent[u] &&
-          (best == -1 || sz[adj[u][i]] > sz[best]))
-        best = adj[u][i];
-    if (best != -1) part(best);
-    rep(i,0,size(adj[u]))
-      if (adj[u][i] != parent[u] && adj[u][i] != best)
-        part(curhead = adj[u][i]); }
-  void build(int r = 0) {
-    curloc = 0, csz(curhead = r), part(r); }
-  int lca(int u, int v) {
-    vi uat, vat; int res = -1;
-    while (u != -1) uat.push_back(u), u = parent[head[u]];
-    while (v != -1) vat.push_back(v), v = parent[head[v]];
-    u = size(uat) - 1, v = size(vat) - 1;
-    while (u >= 0 && v >= 0 && head[uat[u]] == head[vat[v]])
-      res = (loc[uat[u]] < loc[vat[v]] ? uat[u] : vat[v]),
-      u--, v--;
-    return res; }
-  int query_upto(int u, int v) { int res = ID;
-    while (head[u] != head[v])
-      res = f(res, values.query(loc[head[u]], loc[u]).x),
-      u = parent[head[u]];
-    return f(res, values.query(loc[v] + 1, loc[u]).x); }
-  int query(int u, int v) { int l = lca(u, v);
-    return f(query_upto(u, l), query_upto(v, l)); } };
+	vvi adj; int cur_pos = 0;
+	vi par, dep, hvy, head, pos;
+
+	HLD(int n, const vvi &A) : adj(all(A)), par(n),
+			dep(n), hvy(n,-1), head(n), pos(n) {
+		cur_pos = 0; dfs(0); decomp(0, 0);
+	}
+
+	int dfs(int v) { // determine parent/depth/sizes
+		int wei = 1, mw = 0;
+		for (int c : adj[v]) if (c != par[v]) {
+			par[c] = v, dep[c] = dep[v]+1;
+			int w = dfs(c);
+			wei += w;
+			if (w > mw) mw = w, hvy[v] = c;
+		}
+		return wei;
+	}
+
+	// pos: index in SegmentTree, head: root of path
+	void decomp(int v, int h) {
+		head[v] = h, pos[v] = cur_pos++;
+		if (hvy[v] != -1) decomp(hvy[v], h);
+		for (int c : adj[v])
+			if (c != par[v] && c != hvy[v]) decomp(c, c);
+	}
+
+	// requires queryST(a, b) = max{A[i] | a≤i<b }.
+	int query(int a, int b) {
+		int res = 0;
+		for (; head[a] != head[b]; b = par[head[b]]) {
+			if (dep[head[a]] > dep[head[b]]) swap(a, b);
+			res= max(res, queryST(pos[head[b]],pos[b]+1));
+		}
+		if (dep[a] > dep[b]) swap(a, b);
+		return max(res, queryST(pos[a], pos[b]+1));
+	}
+};
