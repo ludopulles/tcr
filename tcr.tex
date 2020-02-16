@@ -331,6 +331,7 @@ A queue that supports querying for the minimum element. Useful for sliding windo
 \code{datastructures/monotonic_queue.cpp}
 
 \subsection{Line container \`{a} la `Convex Hull Trick' $\mathcal{O}(n \log n)$}
+\label{sect:cht}
 Container where you can add lines of the form $y_i(x) = k_i x + m_i$ and query $\max_{i} y_i(x)$.
 \code{datastructures/LineContainer.cpp}
 
@@ -408,7 +409,7 @@ find for every man a women such that no pair of a men and a woman want to run of
 \code{graphs/stable.cpp}
 
 \subsection{Cycle Detection $\mathcal{O}(V + E)$}
-\code{findcycle.cpp}
+\code{graphs/findcycle.cpp}
 
 \subsection{Depth first searches}
 
@@ -426,6 +427,12 @@ Include \texttt{findSCC}.
 \code{satsolver.cpp}
 
 \subsubsection{Dominator graph}
+\begin{myitemize}
+\item
+	A node $d$ dominates a node $n$ if every path from the entry node to $n$ must go through $d$.	
+\item
+	The immediate dominator (idom) of a node $n$ is the unique node that strictly dominates $n$ but does not strictly dominate any other node that strictly dominates $n$.
+\end{myitemize}
 \code{graphs/dominator.cpp}
 
 \subsection{Min Cut / Max Flow}
@@ -864,6 +871,33 @@ Let $p_j$ be the time task $j$ takes on a machine, $d_j$ the deadline, $C_j$ the
 		\end{itemize}
 \end{myitemize}
 
+\subsection{Dynamic programming optimizations}
+\begin{myitemize}
+	\item Convex Hull
+		\begin{myitemize}
+			\item $\mathrm{dp}[i] = \min_{j<i}\{\mathrm{dp}[j] + b[j] \times a[i]\}$
+			\item $b[j] \geq b[j+1]$
+			\item optionally $a[i] \leq a[i+1]$
+			\item $O(n^2)$ to $O(n)$ (see \ref{sect:cht}).
+		\end{myitemize}
+	\item Divide \& Conquer
+		\begin{myitemize}
+			\item $\mathrm{dp}[i][j] = \min_{k<j}\{\mathrm{dp}[i-1][k] + C[k][j]\}$
+			\item $A[i][j] \leq A[i][j+1]$
+			\item sufficient:
+				\[ C[a][c] + C[b][d] \leq C[a][d] + C[b][c], (a\leq b\leq c\leq d) \quad (\text{QI}) \]
+			\item $O(kn^2)$ to $O(kn\log{n})$
+		\end{myitemize}
+		\code{divco.cpp}
+	\item Knuth
+		\begin{myitemize}
+			\item $\mathrm{dp}[i][j] = \min_{i<k<j}\{\mathrm{dp}[i][k] + \mathrm{dp}[k][j] + C[i][j]\}$
+			\item $A[i][j-1] \leq A[i][j] \leq A[i+1][j]$
+			\item $O(n^3)$ to $O(n^2)$
+			\item sufficient: QI and $C[b][c] \leq C[a][d]$, $a\leq b\leq c\leq d$
+		\end{myitemize}
+\end{myitemize}
+
 \subsection{Solution Ideas}
 \begin{myitemize}
 	\item Dynamic Programming
@@ -873,31 +907,6 @@ Let $p_j$ be the time task $j$ takes on a machine, $d_j$ the deadline, $C_j$ the
 			\item Swap answer and a parameter
 			\item When grouping: try splitting in two
 			\item $2^k$ trick
-			\item When optimizing
-				\begin{myitemize}
-					\item Convex hull optimization
-						\begin{myitemize}
-							\item $\mathrm{dp}[i] = \min_{j<i}\{\mathrm{dp}[j] + b[j] \times a[i]\}$
-							\item $b[j] \geq b[j+1]$
-							\item optionally $a[i] \leq a[i+1]$
-							\item $O(n^2)$ to $O(n)$
-						\end{myitemize}
-					\item Divide and conquer optimization
-						\begin{myitemize}
-							\item $\mathrm{dp}[i][j] = \min_{k<j}\{\mathrm{dp}[i-1][k] + C[k][j]\}$
-							\item $A[i][j] \leq A[i][j+1]$
-							\item $O(kn^2)$ to $O(kn\log{n})$
-							\item sufficient: $C[a][c] + C[b][d] \leq C[a][d] + C[b][c]$, $a\leq b\leq c\leq d$ (QI)
-						\end{myitemize}
-\code{divco.cpp}
-					\item Knuth optimization
-						\begin{myitemize}
-							\item $\mathrm{dp}[i][j] = \min_{i<k<j}\{\mathrm{dp}[i][k] + \mathrm{dp}[k][j] + C[i][j]\}$
-							\item $A[i][j-1] \leq A[i][j] \leq A[i+1][j]$
-							\item $O(n^3)$ to $O(n^2)$
-							\item sufficient: QI and $C[b][c] \leq C[a][d]$, $a\leq b\leq c\leq d$
-						\end{myitemize}
-				\end{myitemize}
 		\end{myitemize}
 	\item Greedy
 	\item Randomized

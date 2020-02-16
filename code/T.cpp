@@ -15,15 +15,11 @@ typedef vector<ii> vii;
 #define rep(i,a,b) for(auto i=(a); i<(b); ++i)
 #define REP(i,n) rep(i,0,n)
 #define all(v) (v).begin(), (v).end()
+#define sz(v) ((int) (v).size())
 #define rs resize
 #define DBG(x) cerr << __LINE__ << ": " << #x << " = " << (x) << endl
 
 const ld PI = acos(-1.0);
-template<class T> using min_queue =
-		priority_queue<T, vector<T>, greater<T>>;
-template<class T> int sz(const T &x) {
-	return (int) x.size(); // copy the ampersand(&)!
-}
 
 template<class T> ostream& operator<<(ostream &os, vector<T> v) {
 	os << "\n[";
@@ -41,7 +37,9 @@ public:
 	}
 };
 
-void run() {}
+void run() {
+	
+}
 
 signed main() {
 	// DON'T MIX "scanf" and "cin"!

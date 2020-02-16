@@ -4,7 +4,7 @@ int minimum_assignment(int n, int m) { // n rows, m columns
 	for (int i = 1; i <= n; i++) {
 		p[0] = i;
 		int j0 = 0;
-		vi minv(m + 1, INT_MAX);
+		vi mv(m + 1, INT_MAX);
 		vector<char> used(m + 1, false);
 		do {
 			used[j0] = true;
@@ -12,12 +12,12 @@ int minimum_assignment(int n, int m) { // n rows, m columns
 			for (int j = 1; j <= m; j++)
 				if (!used[j]) {
 					int cur = a[i0][j] - u[i0] - v[j];
-					if (cur < minv[j]) minv[j] = cur, way[j] = j0;
-					if (minv[j] < delta) delta = minv[j], j1 = j;
+					if (cur < mv[j]) mv[j] = cur, way[j] = j0;
+					if (mv[j] < delta) delta = mv[j], j1 = j;
 				}
 			for (int j = 0; j <= m; j++) {
 				if(used[j]) u[p[j]] += delta, v[j] -= delta;
-				else minv[j] -= delta;
+				else mv[j] -= delta;
 			}
 			j0 = j1;
 		} while (p[j0] != 0);

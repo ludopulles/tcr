@@ -4,10 +4,13 @@ vector<bool> vis;
 int age, ncomps;
 
 void tarjan(int v) {
-	tidx[v] = lnk[v] = ++age; vis[v] = true; st.pb(v);
+	tidx[v] = lnk[v] = ++age;
+	vis[v] = true; st.pb(v);
 	for (int w : adj[v]) {
-		if(!tidx[w]) tarjan(w),lnk[v]=min(lnk[v],lnk[w]);
-		else if(vis[w]) lnk[v] = min(lnk[v], tidx[w]);
+		if (!tidx[w])
+			tarjan(w), lnk[v] = min(lnk[v], lnk[w]);
+		else if (vis[w])
+			lnk[v] = min(lnk[v], tidx[w]);
 	}
 	if (lnk[v] != tidx[v]) return;
 	comps.pb(vi());
@@ -25,6 +28,5 @@ void findSCC(int n) {
 	vis.assign(n, false);
 	tidx.assign(n, 0);
 	lnk.resize(n); cnr.resize(n); comps.clear();
-	for (int i = 0; i < n; i++)
-		if (tidx[i] == 0) tarjan(i);
+	REP(i, n) if (tidx[i] == 0) tarjan(i);
 }
