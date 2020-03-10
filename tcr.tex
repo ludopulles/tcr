@@ -392,15 +392,15 @@ This is only useful if there are edges with weight $w_{i j} < 0$ in the graph.
 		See \ref{sec:mvc}.
 
 \end{description}
-\subsubsection{Standard bipartite matching $\mathcal{O}(n m)$}
+\subsubsection{Standard bipartite matching $\mathcal{O}(\lvert L \rvert \cdot \lvert R \rvert)$}
 \code{graphs/maxmatch.cpp}
 
 \subsubsection{Hopcroft-Karp bipartite matching $\mathcal{O}(E \sqrt{V})$}
+\label{sec:mvc}
 \code{graphs/hopcroft_karp.cpp}
 
-\subsubsection{Minimum Vertex Cover in Bipartite Graphs}
-\label{sec:mvc}
-\code{graphs/bipartite_mvc.cpp}
+% \subsubsection{Minimum Vertex Cover in Bipartite Graphs}
+% \code{graphs/bipartite_mvc.cpp}
 
 \subsubsection{Stable marriage}
 With $n$ men, $m \geq n$ women, $n$ preference lists of women for each men, and
@@ -831,6 +831,7 @@ Let $p_j$ be the time task $j$ takes on a machine, $d_j$ the deadline, $C_j$ the
 	\item Two machines (all tasks have to be done first on machine 1, then on 2, or vice versa), minimise $C_{\max}$: let $J_{12}$ be the tasks that have to be done first on machine $1$, then on $2$ and similar $J_{21}$. Use the above algorithm to find $S_{12},S_{21}$ optimal for $J_{12},J_{21}$. Then optimal is $S_{12},S_{21}$ for M1 and $S_{21},S_{12}$ for M2. (If there are tasks that have to be done on only one machine, do them in the middle.)
 \end{myitemize}
 
+\columnbreak
 \section{Debugging Tips}
 \begin{myitemize}
 	\item Stack overflow? Recursive DFS on tree that is actually a long path?
@@ -1062,7 +1063,7 @@ Let $p_j$ be the time task $j$ takes on a machine, $d_j$ the deadline, $C_j$ the
 	\item Counting/Bucket sort
 \end{myitemize}
 
-\vspace{3em}
+\columnbreak
 \section*{Practice Contest Checklist}
 \begin{myitemize}
 	\item How many operations per second? Compare to local machine.
