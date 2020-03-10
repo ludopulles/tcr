@@ -14,26 +14,24 @@ typedef vector<ii> vii;
 #define eb emplace_back
 #define rep(i,a,b) for(auto i=(a); i<(b); ++i)
 #define REP(i,n) rep(i,0,n)
-#define all(v) (v).begin(), (v).end()
+#define all(v) begin(v), end(v)
 #define sz(v) ((int) (v).size())
 #define rs resize
-#define DBG(x) cerr << __LINE__ << ": " << #x << " = " << (x) << endl
+#define DBG(x) cerr << __LINE__ << ": " \
+		<< #x<< " = " << (x) << endl
 
-const ld PI = acos(-1.0);
-
-template<class T> ostream& operator<<(ostream &os, vector<T> v) {
+template<class T> ostream& operator<<(ostream &os,
+		const vector<T> &v) {
 	os << "\n[";
-	for(T &x : v) os << x << ',';
+	for(const T &x : v) os << x << ',';
 	return os << "]\n";
 }
 
-struct pairhash {
-public:
-	template<typename T1, typename T2>
-	size_t operator()(const pair<T1, T2> &p) const {
-		size_t lhs = hash<T1>()(p.x);
-		size_t rhs = hash<T2>()(p.y);
-		return lhs ^ (rhs+0x9e3779b9+(lhs<<6)+(lhs>>2));
+template<class T1, class T2>
+struct hash<pair<T1,T2>> { public:
+	size_t operator()(const pair<T1,T2> &p) const {
+		size_t x = hash<T1>()(p.x), y = hash<T2>()(p.y);
+		return x ^ (y + 0x9e3779b9 + (x<<6) + (x>>2));
 	}
 };
 

@@ -15,6 +15,7 @@ void fft(cpx *A) {
 }
 
 void multiply() { // a = convolution of a * b
+	const ld PI = acos(-1.0);
 	rev[0] = 0; rt[1] = cpx(1, 0);
 	REP(i, MAXN) rev[i] = (rev[i/2] | (i&1)<<LOGN)/2;
 	for (int k = 2; k < MAXN; k *= 2) {
