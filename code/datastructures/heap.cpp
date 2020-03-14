@@ -1,77 +1,42 @@
-#define RESIZE
-#define SWP(x,y) tmp = x, x = y, y = tmp
-struct int_less {
-	int_less() { }
-	bool operator ()(const int &a, const int &b) {
-		return a < b;
-	}
-};
-template <class Compare = int_less> struct heap {
-	int cap, len, *q, *loc, tmp;
-	Compare _cmp;
-	inline bool cmp(int i, int j) {
-		return _cmp(q[i], q[j]);
-	}
-	inline void swp(int i, int j) {
-		SWP(q[i], q[j]), SWP(loc[q[i]], loc[q[j]]);
+template <class Comp = less<int>> struct heap {
+	vi q, loc; Comp op;
+	heap() : op(Comp()) {}
+	bool cmp(int i, int j) { return op(q[i], q[j]); }
+	void swp(int i, int j) {
+		swap(q[i], q[j]), swap(loc[q[i]], loc[q[j]]);
 	}
 	void swim(int i) {
-		while (i > 0) {
-			int p = (i - 1) / 2;
-			if (!cmp(i, p)) break;
-			swp(i, p), i = p;
-		}
+		for (int p; i; swp(i, p), i = p)
+			if (!cmp(i, p=(i-1)/2)) break;
 	}
 	void sink(int i) {
-		while (true) {
-			int l = 2*i + 1, r = l + 1;
-			if (l >= len) break;
-			int m = r >= len || cmp(l, r) ? l : r;
-			if (!cmp(m, i)) break;
-			swp(m, i), i = m;
+		for (int j; (j=2*i+1)<sz(q); swp(j, i), i=j) {
+			if (j+1 < sz(q) && cmp(j+1, j)) ++j;
+			if (!cmp(j, i)) break;
 		}
 	}
-	heap(int C=128) : len(0), cap(C), _cmp(Compare()) {
-		q = new int[C]; loc = new int[C];
-		memset(loc, 255, cap << 2);
-	}
-	~heap() {
-		delete[] q; delete[] loc;
-	}
-	void push(int n, bool fix = true) {
-		if (cap == len || n >= cap) {
-#ifdef RESIZE
-			int newcap = 2 * cap;
-			while (n >= newcap) newcap *= 2;
-			int *newq = new int[newcap], *newloc = new int[newcap];
-			REP(i,cap) newq[i] = q[i], newloc[i]=loc[i];
-			memset(newloc+cap, 255, (newcap-cap) << 2);
-			delete[] q, delete[] loc;
-			loc = newloc, q = newq, cap = newcap;
-#else
-			assert(false);
-#endif
-		}
+	void push(int n) {
+		while (n >= sz(loc)) loc.pb(-1);
 		assert(loc[n] == -1);
-		loc[n] = len, q[len++] = n;
-		if (fix) swim(len-1);
+		loc[n] = sz(q), q.pb(n);
+		swim(sz(q) - 1);
 	}
-	void pop(bool fix = true) {
-		assert(len > 0);
-		loc[q[0]] = -1, q[0] = q[--len], loc[q[0]]=0;
-		if (fix) sink(0);
+	int top() { assert(!empty()); return q[0]; }
+	int pop() {
+		int res = top();
+		q[0] = q.back(), q.pop_back();
+		loc[q[0]]=0, loc[res] = -1;
+		sink(0); return res;
 	}
-	int top() { assert(len > 0); return q[0]; }
 	void heapify() {
-		for (int i = len - 1; i > 0; i--)
+		for (int i=sz(q); --i; )
 			if (cmp(i, (i-1)/2)) swp(i, (i-1)/2);
 	}
 	void update_key(int n) {
-		assert(loc[n]!=-1); swim(loc[n]); sink(loc[n]);
+		assert(loc[n] != -1);
+		swim(loc[n]), sink(loc[n]);
 	}
-	bool empty() { return len == 0; }
-	int size() { return len; }
-	void clear() {
-		len = 0; memset(loc, 255, cap << 2);
-	}
+	int size() { return sz(q); }
+	bool empty() { return !size(); }
+	void clear() { q.clear(), loc.clear(); }
 };
