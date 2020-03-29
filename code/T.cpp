@@ -27,13 +27,13 @@ template<class T> ostream& operator<<(ostream &os,
 	return os << "]\n";
 }
 
-template<class T1, class T2>
+namespace std { template<class T1, class T2>
 struct hash<pair<T1,T2>> { public:
 	size_t operator()(const pair<T1,T2> &p) const {
 		size_t x = hash<T1>()(p.x), y = hash<T2>()(p.y);
 		return x ^ (y + 0x9e3779b9 + (x<<6) + (x>>2));
 	}
-};
+}; }
 
 void run() {
 	
