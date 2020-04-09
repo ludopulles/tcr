@@ -1,16 +1,16 @@
-const ll INFTY = -1;
-vi dijkstra( vector<vii> G, ll s ) {
-	vi d( G.size(), INFTY );
-	priority_queue<ii,vector<ii>,greater<ii>> Q;
-	Q.emplace(0,s);
-	while(!Q.empty()){
-		ll c = Q.top().x, a = Q.top().y;
-		Q.pop();
-		if(d[a] != INFTY)
-			continue;
-		d[a] = c;
-		for(ii e : G[a])
-			Q.emplace(d[a] + e.y, e.x);
+// (dist, prev)
+pair<vi,vi> dijkstra(const vector<vii> &G, int s) {
+	vi d(sz(G), LLONG_MAX), p(sz(G), -1);
+	set<ii> Q{ ii{ d[s] = 0, s } }; // (dist[v], v)
+	while (!Q.empty()) {
+		int v = Q.begin()->y;
+		Q.erase(Q.begin());
+		for(ii e : G[v]) if (d[v] + e.y < d[e.x]) {
+			Q.erase(ii(d[e.x], e.x));
+			Q.emplace(d[e.x] = d[v] + e.y, e.x);
+			p[e.x] = v;
+		}
 	}
-	return d;
+	return {d, p};
 }
+

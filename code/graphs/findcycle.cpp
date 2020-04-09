@@ -1,14 +1,17 @@
-bool cycle_detection(const vvi &adj) {
-	int n = sz(adj); // undirected graph
-	stack<int> s;
-	vector<bool> vis(n, false); vi par(n, -1);
-	s.push(0); vis[0] = true;
+// returns cycle in a connected undirected graph,
+vi find_cycle(const vvi &G, int v0) { // if exists
+	vi p(sz(G), -1), h(sz(G), 0), s{v0}; h[v0] = 1;
 	while (!s.empty()) {
-		int cur = s.top(); s.pop();
-		for (int i : adj[cur]) {
-			if (vis[i] && par[cur] != i) return true;
-			s.push(i); par[i] = cur; vis[i] = true;
-		}
+		int v = s.back(); s.pop_back();
+		for (int w : G[v])
+			if (!h[w]) s.pb(w), p[w] = v, h[w] = h[v]+1;
+			else if (w != p[v]) {
+				deque<int> cyc{v};
+				while (v != w)
+					if (h[v] > h[w]) cyc.pb(v = p[v]);
+					else cyc.push_front(w), w = p[v];
+				return vi(all(cyc));
+			}
 	}
-	return false;
+	return {};
 }
