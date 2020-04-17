@@ -572,6 +572,12 @@ Constructs an eerTree in $O(n)$, one character at a time.
 \code{strings/eertree.cpp}
 % http://arxiv.org/pdf/1506.04862v1.pdf
 
+\subsection{Suffix Tree}
+Compressed suffix trie with $\leq 2n$ vertices.
+Works with characters in ASCII range $[64, 128)$.
+% Tested on https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=1620
+\code{strings/suffix_tree.cpp}
+
 \subsection{Suffix Automaton}
 Minimum automata that accepts all suffixes of a string with $O(n)$
 construction. The automata itself is a DAG therefore suitable for DP,
