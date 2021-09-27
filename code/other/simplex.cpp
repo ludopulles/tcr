@@ -1,3 +1,12 @@
+/* 2-phase simplex solves linear system:
+    maximize     c^T x
+    subject to   Ax <= b, x >= 0
+INPUT: A -- an m x n matrix
+       b -- an m-dimensional vector
+       c -- an n-dimensional vector
+       x -- optimal solution (by reference)
+OUTPUT: c^T x or inf. if unbounded above,
+       nan if infeasible */
 typedef vector<ld> VD;
 typedef vector<VD> VVD;
 const ld EPS = 1e-9;
@@ -32,9 +41,8 @@ struct LPSolver {
    int r = -1;
    REP(i, m) {
     if (D[i][s] < EPS) continue;
-    if (r == -1 || D[i][n + 1] / D[i][s] < D[r][n + 1] /
-        D[r][s] || (D[i][n + 1] / D[i][s]) == (D[r][n + 1] /
-        D[r][s]) && B[i] < B[r]) r = i; }
+    if (r == -1 || D[i][n+1] / D[i][s] < D[r][n+1] /
+        D[r][s] || D[i][n+1]/D[i][s] == D[r][n+1] / D[r][s] && B[i] < B[r]) r = i; }
    if (r == -1) return false;
    Pivot(r, s); } }
  ld Solve(VD &x) {
@@ -52,30 +60,8 @@ struct LPSolver {
        s = j;
     Pivot(i, s); }
   }
-  if (!Simplex(2)) return numeric_limits<ld>::infinity();
+  if (!Simplex(2))
+    return numeric_limits<ld>::infinity();
   x = VD(n);
-  for (int i = 0; i < m; i++) if (B[i] < n)
-    x[B[i]] = D[i][n + 1];
+  REP(i, m) if (B[i] < n) x[B[i]] = D[i][n+1];
   return D[m][n + 1]; } };
-// 2-phase simplex solves linear system:
-//     maximize     c^T x
-//     subject to   Ax <= b, x >= 0
-// INPUT: A -- an m x n matrix
-//        b -- an m-dimensional vector
-//        c -- an n-dimensional vector
-//        x -- optimal solution (by reference)
-// OUTPUT: c^T x (inf. if unbounded above, nan if infeasible)
-// *** Example ***
-// const int m = 4, n = 3;
-// ld _A[m][n] = {{6,-1,0}, {-1,-5,0},
-//    {1,5,1}, {-1,-5,-1}};
-// ld _b[m] = {10,-4,5,-5}, _c[n]= {1,-1,0};
-// VVD A(m);
-// VD b(_b, _b + m), c(_c, _c + n), x;
-// REP(i, m) A[i] = VD(_A[i], _A[i] + n);
-// LPSolver solver(A, b, c);
-// ld value = solver.Solve(x);
-// cerr << "VALUE: " << value << endl; // 1.29032
-// cerr << "SOLUTION:"; // 1.74194 0.451613 1
-// REP(i, sz(x)) cerr << " " << x[i];
-// cerr << endl;
